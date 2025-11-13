@@ -1,0 +1,11 @@
+user_api_controllers:
+    resource:
+        path: ../src/BoundedContext/User/Presentation/Api/Controller/
+        namespace: App\BoundedContext\User\Presentation\Api\Controller
+    type: attribute
+
+shared_kernel_controllers:
+    resource:
+        path: ../src/SharedKernel/Presentation/
+        namespace: App\SharedKernel\Presentation
+    type: attribute

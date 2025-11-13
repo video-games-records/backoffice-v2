@@ -1,0 +1,7 @@
+# This directory contains Specifications
+# Specifications encapsulate business rules and validation logic
+# Example: UserCanBeCreatedSpecification, ValidEmailSpecification, etc.
+# They help express complex business rules in a readable way
+
+# Keep this directory in git
+!.gitignore

@@ -1,0 +1,39 @@
+# config/packages/test/rate_limiter.yaml
+# Configuration rate limiting pour les tests - limites très permissives
+framework:
+  rate_limiter:
+    # API rate limiting - très permissif pour les tests
+    api:
+      policy: 'sliding_window'
+      limit: 100000
+      interval: '1 hour'
+
+    # Login attempts - très permissif pour les tests
+    login:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 minute'
+
+    # Admin actions - très permissif pour les tests
+    admin:
+      policy: 'sliding_window'
+      limit: 100000
+      interval: '1 hour'
+
+    # Global rate limiting - très permissif pour les tests
+    global:
+      policy: 'sliding_window'
+      limit: 100000
+      interval: '1 hour'
+
+    # API burst limiting - très permissif pour les tests
+    api_burst:
+      policy: 'sliding_window'
+      limit: 10000
+      interval: '1 minute'
+
+    # API anonymous - très permissif pour les tests
+    api_anonymous:
+      policy: 'sliding_window'
+      limit: 100000
+      interval: '1 hour'

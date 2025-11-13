@@ -1,0 +1,7 @@
+# This directory contains Repository interfaces
+# Repository interfaces define contracts for data access (DDD Repository pattern)
+# Example: UserRepositoryInterface, GroupRepositoryInterface, etc.
+# Note: Implementation goes in Infrastructure layer
+
+# Keep this directory in git
+!.gitignore

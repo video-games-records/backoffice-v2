@@ -1,0 +1,80 @@
+doctrine:
+    dbal:
+        connections:
+            default:
+                driver: pdo_mysql
+                url: '%env(resolve:DATABASE_URL)%'
+                charset: UTF8MB4
+                use_savepoints: true
+                mapping_types:
+                    enum: string
+            audit:
+                driver: pdo_mysql
+                url: '%env(resolve:DATABASE_URL_AUDIT)%'
+                charset: UTF8
+                use_savepoints: true
+                mapping_types:
+                    enum: string
+    orm:
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                report_fields_where_declared: true
+                validate_xml_mapping: true
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                identity_generation_preferences:
+                    Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
+                auto_mapping: true
+                mappings:
+                    UserDomain:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/User/Domain'
+                        prefix: 'App\BoundedContext\User\Domain'
+                        alias: UserDomain
+                    SharedKernel:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/SharedKernel'
+                        prefix: 'App\SharedKernel'
+                        alias: SharedKernel
+            audit:
+                connection: audit
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        resolve_target_entities: ~
+
+when@test:
+    doctrine:
+        dbal:
+            connections:
+                default:
+                    driver: pdo_sqlite
+                    url: 'sqlite:///%kernel.project_dir%/var/test.db'
+                    charset: utf8
+                audit:
+                    driver: pdo_sqlite  
+                    url: 'sqlite:///%kernel.project_dir%/var/test_audit.db'
+                    charset: utf8
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            proxy_dir: '%kernel.build_dir%/doctrine/orm/Proxies'
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system

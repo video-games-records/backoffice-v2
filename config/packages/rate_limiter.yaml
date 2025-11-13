@@ -1,0 +1,51 @@
+# config/packages/rate_limiter.yaml
+framework:
+  rate_limiter:
+    # API rate limiting - 10,000 requests per hour per IP (realistic for API usage)
+    api:
+      policy: 'sliding_window'
+      limit: 10000
+      interval: '1 hour'
+
+    # Login attempts - 5 attempts per 15 minutes per IP (security focused)
+    login:
+      policy: 'sliding_window'
+      limit: 5
+      interval: '15 minutes'
+
+    # Admin actions - 1000 requests per hour per user (admin interface)
+    admin:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 hour'
+
+    # Global rate limiting - 50,000 requests per hour per IP (very permissive)
+    global:
+      policy: 'sliding_window'
+      limit: 50000
+      interval: '1 hour'
+
+    # API burst limiting - 100 requests per minute (prevent abuse)
+    api_burst:
+      policy: 'sliding_window'
+      limit: 100
+      interval: '1 minute'
+
+    # Strict API limiting for unauthenticated users
+    api_anonymous:
+      policy: 'sliding_window'
+      limit: 1000
+      interval: '1 hour'
+
+# Production environment with Redis storage
+when@prod:
+  framework:
+    rate_limiter:
+      api:
+        storage_service: 'cache.rate_limiter'
+      login:
+        storage_service: 'cache.rate_limiter'
+      admin:
+        storage_service: 'cache.rate_limiter'
+      global:
+        storage_service: 'cache.rate_limiter'

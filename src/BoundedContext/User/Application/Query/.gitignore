@@ -1,0 +1,6 @@
+# This directory contains Queries
+# Queries represent read operations in CQRS pattern
+# Example: GetUserQuery, SearchUsersQuery, etc.
+
+# Keep this directory in git
+!.gitignore

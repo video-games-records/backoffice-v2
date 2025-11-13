@@ -1,0 +1,7 @@
+# This directory contains Domain Services
+# Domain Services contain business logic that doesn't naturally fit in Entities
+# Example: UserDomainService, PasswordValidationService, etc.
+# They operate on domain objects and enforce business rules
+
+# Keep this directory in git
+!.gitignore

@@ -1,0 +1,7 @@
+# This directory contains Event Infrastructure
+# Event listeners, subscribers for domain events and Symfony events
+# Bridge between domain events and infrastructure concerns
+# Example: UserEventListener, AuthenticationSuccessListener, etc.
+
+# Keep this directory in git
+!.gitignore

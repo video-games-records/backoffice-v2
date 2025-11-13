@@ -1,0 +1,8 @@
+# This directory contains Domain Exceptions
+# Business-specific exceptions that represent domain rule violations
+# They express business constraints and validation failures
+# Example: UserNotFoundException, InvalidPasswordException, etc.
+# Help maintain domain integrity and express business rules clearly
+
+# Keep this directory in git
+!.gitignore
