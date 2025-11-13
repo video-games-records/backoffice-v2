@@ -1,0 +1,7 @@
+# This directory contains Specific Event Listeners
+# Listeners for user-related Symfony and domain events
+# Example: UserEventListener, LoginListener, RefreshTokenListener, etc.
+# They handle side effects and cross-cutting concerns
+
+# Keep this directory in git
+!.gitignore

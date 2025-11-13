@@ -1,0 +1,8 @@
+doctrine:
+    dbal:
+        # Use MySQL for tests with a dedicated test database
+        url: '%env(resolve:DATABASE_URL)%'
+        charset: UTF8MB4
+    orm:
+        # Ensure auto_generate_proxy_classes is false in test env
+        auto_generate_proxy_classes: false

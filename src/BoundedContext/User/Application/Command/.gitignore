@@ -1,0 +1,6 @@
+# This directory contains Commands
+# Commands represent write operations in CQRS pattern
+# Example: CreateUserCommand, ChangePasswordCommand, etc.
+
+# Keep this directory in git
+!.gitignore

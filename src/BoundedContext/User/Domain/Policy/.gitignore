@@ -1,0 +1,7 @@
+# This directory contains Domain Policies
+# Policies define business strategies and rules
+# Example: PasswordPolicy, UserAccessPolicy, etc.
+# They encapsulate complex business decisions and algorithms
+
+# Keep this directory in git
+!.gitignore

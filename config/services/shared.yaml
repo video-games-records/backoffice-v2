@@ -1,0 +1,48 @@
+services:
+    # Shared Domain Services
+    App\SharedKernel\Domain\:
+        resource: '../../src/SharedKernel/Domain/*'
+        exclude: '../../src/SharedKernel/Domain/{Entity,ValueObject,Exception,Event,Security}'
+
+    # Shared Application Services
+    App\Shared\:
+        resource: '../../src/Shared/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Event Services
+    App\BoundedContext\User\Infrastructure\Event\:
+        resource: '../../src/BoundedContext/User/Infrastructure/Event/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Doctrine Services
+    App\BoundedContext\User\Infrastructure\Doctrine\:
+        resource: '../../src/BoundedContext/User/Infrastructure/Doctrine/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Security Services  
+    App\BoundedContext\User\Infrastructure\Security\:
+        resource: '../../src/BoundedContext/User/Infrastructure/Security/*'
+        autowire: true
+        autoconfigure: true
+
+    # Event Dispatcher interface binding
+    App\SharedKernel\Domain\Interface\EventDispatcherInterface:
+        alias: App\SharedKernel\Infrastructure\SymfonyEventDispatcher
+
+    # JWT Event Listeners
+    App\BoundedContext\User\Infrastructure\Event\Listener\AuthenticationSuccessListener:
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    App\BoundedContext\User\Infrastructure\Event\Listener\LoginListener:
+        autowire: true
+        tags:
+            - { name: kernel.event_subscriber }
+
+    App\BoundedContext\User\Infrastructure\Event\Listener\RefreshTokenListener:
+        autowire: true
+        tags:
+            - { name: kernel.event_listener, event: gesdinet.refresh_token, method: onRefreshToken }

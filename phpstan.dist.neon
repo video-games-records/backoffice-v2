@@ -1,0 +1,21 @@
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-symfony/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - src
+    
+    # Ignore patterns
+    ignoreErrors:
+        # Ignore traits that are not directly used but imported
+        - '#Trait .* is used zero times and is not analysed#'
+        # Ignore Sonata Admin Bundle generic type issues
+        - '#extends generic class.*but does not specify its types#'
+        - '#has parameter.*with generic class.*but does not specify its types#'
+    
+    excludePaths:
+        - tests/bootstrap.php
+        - var/
+        - vendor/

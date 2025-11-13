@@ -1,0 +1,44 @@
+services:
+    # User Domain Services
+    App\BoundedContext\User\Domain\:
+        resource: '../../src/BoundedContext/User/Domain/*'
+        exclude: '../../src/BoundedContext/User/Domain/{Entity,ValueObject,Event,Exception}'
+
+    # Application Layer
+    App\BoundedContext\User\Application\:
+        resource: '../../src/BoundedContext/User/Application/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Layer
+    App\BoundedContext\User\Infrastructure\Persistence\:
+        resource: '../../src/BoundedContext/User/Infrastructure/Persistence/*'
+        autowire: true
+        autoconfigure: true
+    
+    App\BoundedContext\User\Infrastructure\Event\:
+        resource: '../../src/BoundedContext/User/Infrastructure/Event/*'
+        autowire: true
+        autoconfigure: true
+
+    # Presentation Layer
+    App\BoundedContext\User\Presentation\Api\Controller\:
+        resource: '../../src/BoundedContext/User/Presentation/Api/Controller/*'
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+
+    # Specific service definitions
+    App\BoundedContext\User\Infrastructure\Security\UserProvider:
+        autowire: true
+
+    App\BoundedContext\User\Application\Service\UserManager:
+        autowire: true
+
+    App\BoundedContext\User\Infrastructure\Persistence\Doctrine\UserRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+    
+    App\BoundedContext\User\Infrastructure\Doctrine\Listener\UserEntityListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']

@@ -1,0 +1,54 @@
+api_platform:
+    title: Hello API Platform
+    version: 1.0.0
+    use_symfony_listeners: true
+    resource_class_directories:
+        - '%kernel.project_dir%/src/BoundedContext/User/Domain'
+        - '%kernel.project_dir%/src/SharedKernel/Domain'
+    # Enable GraphQL
+    graphql:
+        enabled: true
+        #graphiql:
+        #    enabled: true  # GraphiQL interface for development
+        #graphql_playground:
+        #    enabled: true  # GraphQL Playground for development
+
+        # Cursor-based pagination (Relay style)
+        default_ide: 'graphiql'
+
+        # Enable introspection (needed for codegen)
+        introspection: true
+
+        # Maximum query depth to prevent abuse
+        #query_depth_limit: 15
+
+        # Maximum query complexity
+        #query_complexity_limit: 1000
+    formats:
+        jsonld: [ 'application/ld+json' ]
+        json: [ 'application/json' ]
+    patch_formats:
+        json: [ 'application/merge-patch+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+    docs_formats:
+        jsonld: [ 'application/ld+json' ]
+        jsonopenapi: [ 'application/vnd.openapi+json' ]
+        html: [ 'text/html' ]
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        extra_properties:
+            standard_put: false
+            rfc_7807_compliant_errors: true
+        normalization_context:
+            skip_null_values: false
+        pagination_client_enabled: true
+        pagination_client_items_per_page: true
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+    serializer:
+        hydra_prefix: true

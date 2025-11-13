@@ -1,0 +1,6 @@
+# This directory contains External service integrations
+# Adapters for external APIs and services
+# Example: EmailServiceAdapter, SocialLoginAdapter, etc.
+
+# Keep this directory in git
+!.gitignore

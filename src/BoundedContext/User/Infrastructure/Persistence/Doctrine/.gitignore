@@ -1,0 +1,7 @@
+# This directory contains Doctrine Repository implementations
+# Concrete implementations of Domain Repository interfaces using Doctrine ORM
+# Custom queries, DQL, query builders specific to User domain
+# Example: UserRepository, GroupRepository, SecurityEventRepository, etc.
+
+# Keep this directory in git
+!.gitignore

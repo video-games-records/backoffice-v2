@@ -1,0 +1,6 @@
+# This directory contains Data Transfer Objects
+# DTOs are used for data transport between layers
+# Example: UserCreateDTO, UserSearchDTO, etc.
+
+# Keep this directory in git
+!.gitignore

@@ -1,0 +1,27 @@
+# Full configuration reference available at:
+# https://damienharper.github.io/auditor-docs/docs/auditor-bundle/configuration/reference.html
+dh_auditor:
+    enabled: true
+    providers:
+        doctrine:
+            table_prefix: null
+            table_suffix: '_audit'
+            ignored_columns:
+                - createdAt
+                - updatedAt
+            entities:
+                App\BoundedContext\User\Domain\Entity\User:
+                    ignored_columns:
+                        - password
+                        - lastLogin
+                        - confirmationToken
+                        - nbConnexion
+                        - extraData
+                        - avatar
+
+
+            storage_services:
+                - '@doctrine.orm.audit_entity_manager'
+            auditing_services:
+                - '@doctrine.orm.default_entity_manager'
+            viewer: true

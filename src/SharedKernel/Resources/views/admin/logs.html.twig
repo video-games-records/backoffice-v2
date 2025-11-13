@@ -1,0 +1,273 @@
+{# templates/admin/logs.html.twig #}
+{# Alternative version extending your custom admin layout #}
+{% extends '@SharedKernel/admin/layout.html.twig' %}
+
+{% block title %}Logs - {{ logType|title }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Main log container with dark theme suitable for log viewing */
+        .log-container {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 70vh;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Individual log line styling with color coding */
+        .log-line {
+            margin-bottom: 2px;
+            border-left: 3px solid transparent;
+            padding-left: 8px;
+        }
+
+        /* Error log lines - red color scheme */
+        .log-line.error {
+            color: #f48771;
+            border-left-color: #f48771;
+        }
+
+        /* Warning log lines - yellow color scheme */
+        .log-line.warning {
+            color: #dcdcaa;
+            border-left-color: #dcdcaa;
+        }
+
+        /* Info log lines - blue color scheme */
+        .log-line.info {
+            color: #9cdcfe;
+            border-left-color: #9cdcfe;
+        }
+
+        /* Debug log lines - gray color scheme */
+        .log-line.debug {
+            color: #808080;
+            border-left-color: #808080;
+        }
+
+        /* Control panel styling */
+        .log-controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        /* Information bar with file details */
+        .log-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+        }
+
+        /* Refresh button styling */
+        .refresh-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .refresh-btn:hover {
+            background: #218838;
+            text-decoration: none;
+        }
+
+        /* Download button styling */
+        .download-btn {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+
+        .download-btn:hover {
+            background: #138496;
+            text-decoration: none;
+        }
+    </style>
+{% endblock %}
+
+{# Check what block your admin layout uses - common options: #}
+{# - content #}
+{# - body #}
+{# - sonata_admin_content #}
+{# - main #}
+
+{% block content %}
+    <div class="container-fluid">
+        <h1>
+            <i class="fa fa-file-text-o"></i>
+            Logs Viewer - {{ logType|title }}
+        </h1>
+
+        {# Control panel for log type, line count, and search #}
+        <div class="log-controls">
+            <div class="row">
+                {# Log type selector #}
+                <div class="col-md-3">
+                    <label for="logType">Log Type:</label>
+                    <select id="logType" class="form-control" onchange="changeLogType()">
+                        {% for logKey in availableLogs %}
+                            <option value="{{ logKey }}" {% if logKey == logType %}selected{% endif %}>
+                                {{ logKey|title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {# Number of lines selector #}
+                <div class="col-md-2">
+                    <label for="lineCount">Number of Lines:</label>
+                    <select id="lineCount" class="form-control" onchange="changeLineCount()">
+                        <option value="50" {% if lines == 50 %}selected{% endif %}>50</option>
+                        <option value="100" {% if lines == 100 %}selected{% endif %}>100</option>
+                        <option value="200" {% if lines == 200 %}selected{% endif %}>200</option>
+                        <option value="500" {% if lines == 500 %}selected{% endif %}>500</option>
+                        <option value="1000" {% if lines == 1000 %}selected{% endif %}>1000</option>
+                    </select>
+                </div>
+
+                {# Search box for filtering logs #}
+                <div class="col-md-3">
+                    <label>&nbsp;</label><br>
+                    <input type="text" id="searchBox" class="form-control" placeholder="Search..." onkeyup="filterLogs()">
+                </div>
+
+                {# Action buttons #}
+                <div class="col-md-4">
+                    <label>&nbsp;</label><br>
+                    <a href="{{ path('admin_logs', {lines: lines, type: logType}) }}" class="refresh-btn">
+                        <i class="fa fa-refresh"></i> Refresh
+                    </a>
+                    <a href="{{ path('admin_logs_download', {type: logType}) }}" class="download-btn">
+                        <i class="fa fa-download"></i> Download
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Information bar showing file details and navigation controls #}
+        <div class="log-info">
+            <div>
+                <strong>{{ lines }}</strong> last lines
+                • Size: <strong>{{ fileSize }}</strong>
+                • Modified: <strong>{{ lastModified|date('d/m/Y H:i:s') }}</strong>
+            </div>
+            <div>
+                <button onclick="scrollToBottom()" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-arrow-down"></i> Bottom
+                </button>
+                <button onclick="scrollToTop()" class="btn btn-sm btn-secondary">
+                    <i class="fa fa-arrow-up"></i> Top
+                </button>
+            </div>
+        </div>
+
+        {# Main log content container with syntax highlighting #}
+        <div class="log-container" id="logContainer">
+            {% for line in logContent %}
+                {# Determine log level based on content for color coding #}
+                {% set logLevel = 'debug' %}
+                {% if 'ERROR' in line %}
+                    {% set logLevel = 'error' %}
+                {% elseif 'WARNING' in line %}
+                    {% set logLevel = 'warning' %}
+                {% elseif 'INFO' in line %}
+                    {% set logLevel = 'info' %}
+                {% endif %}
+
+                <div class="log-line {{ logLevel }}">{{ line }}</div>
+            {% else %}
+                <div class="log-line">No content in log file</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+      /**
+       * Change log type and reload page with new parameters
+       */
+      function changeLogType() {
+        const logType = document.getElementById('logType').value;
+        const lines = document.getElementById('lineCount').value;
+        window.location = `{{ path('admin_logs') }}/${lines}?type=${logType}`;
+      }
+
+      /**
+       * Change number of lines to display and reload page
+       */
+      function changeLineCount() {
+        const logType = document.getElementById('logType').value;
+        const lines = document.getElementById('lineCount').value;
+        window.location = `{{ path('admin_logs') }}/${lines}?type=${logType}`;
+      }
+
+      /**
+       * Filter log lines based on search term
+       * Hides lines that don't contain the search term
+       */
+      function filterLogs() {
+        const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+        const logLines = document.querySelectorAll('.log-line');
+
+        logLines.forEach(line => {
+          if (searchTerm === '' || line.textContent.toLowerCase().includes(searchTerm)) {
+            line.style.display = 'block';
+          } else {
+            line.style.display = 'none';
+          }
+        });
+      }
+
+      /**
+       * Scroll to bottom of log container
+       * Useful for viewing most recent log entries
+       */
+      function scrollToBottom() {
+        const container = document.getElementById('logContainer');
+        container.scrollTop = container.scrollHeight;
+      }
+
+      /**
+       * Scroll to top of log container
+       * Useful for viewing oldest displayed log entries
+       */
+      function scrollToTop() {
+        const container = document.getElementById('logContainer');
+        container.scrollTop = 0;
+      }
+
+      // Auto-scroll to bottom on page load to show most recent entries
+      document.addEventListener('DOMContentLoaded', function() {
+        scrollToBottom();
+      });
+
+      // Optional: Auto-refresh every 30 seconds to show new log entries
+      // Uncomment the following lines if you want automatic page refresh
+      // setInterval(() => {
+      //     location.reload();
+      // }, 30000);
+    </script>
+{% endblock %}
