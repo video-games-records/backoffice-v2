@@ -3,6 +3,7 @@ twig:
     paths:
         '%kernel.project_dir%/src/SharedKernel/Resources/views': 'SharedKernel'
         '%kernel.project_dir%/src/BoundedContext/User/Resources/views': 'User'
+        '%kernel.project_dir%/src/BoundedContext/Article/Presentation/Resources/views': 'Article'
 
 when@test:
     twig:

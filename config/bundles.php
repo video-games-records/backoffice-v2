@@ -31,4 +31,6 @@ return [
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
     Zenstruck\Foundry\ZenstruckFoundryBundle::class => ['dev' => true, 'test' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    A2lix\AutoFormBundle\A2lixAutoFormBundle::class => ['all' => true],
+    A2lix\TranslationFormBundle\A2lixTranslationFormBundle::class => ['all' => true],
 ];

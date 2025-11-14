@@ -9,11 +9,11 @@ parameters:
     
     # Ignore patterns
     ignoreErrors:
-        # Ignore traits that are not directly used but imported
-        - '#Trait .* is used zero times and is not analysed#'
         # Ignore Sonata Admin Bundle generic type issues
         - '#extends generic class.*but does not specify its types#'
         - '#has parameter.*with generic class.*but does not specify its types#'
+        # Ignore Sonata Admin ProxyQueryInterface method issues
+        - '#Call to an undefined method Sonata\\AdminBundle\\Datagrid\\ProxyQueryInterface.*#'
     
     excludePaths:
         - tests/bootstrap.php

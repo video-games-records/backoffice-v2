@@ -17,8 +17,8 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use App\SharedKernel\Domain\Entity\TimestampableTrait;
 use App\BoundedContext\User\Infrastructure\Persistence\Doctrine\UserRepository;
 use App\BoundedContext\User\Infrastructure\Doctrine\Listener\UserEntityListener;
 use App\BoundedContext\User\Presentation\Api\Controller\Autocomplete;
@@ -31,6 +31,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'pnu_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\EntityListeners([UserEntityListener::class])]
 #[DoctrineAssert\UniqueEntity(["email"])]
 #[DoctrineAssert\UniqueEntity(["username"])]
@@ -71,6 +72,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_USER") and (object == user)',
             validationContext: ['groups' => ['Default', 'user:update']]
         ),
+        new Get(),
         new Get(
             uriTemplate: '/users/me',
             controller: GetMe::class,
@@ -85,7 +87,6 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => ['user:read', 'user:read:email']],
             read: false,
         ),
-        new Get(),
     ],
     normalizationContext: ['groups' => ['user:read']]
 )]
@@ -93,7 +94,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiFilter(OrderFilter::class, properties: ['id', 'username'], arguments: ['orderParameterName' => 'order'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use TimestampableEntity;
+    use TimestampableTrait;
 
     #[Groups(['user:read', 'user:read:minimal'])]
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
