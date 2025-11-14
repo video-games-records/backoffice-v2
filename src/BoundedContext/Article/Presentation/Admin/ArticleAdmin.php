@@ -43,14 +43,14 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
-        
+
         // Cast to Doctrine QueryBuilder for type safety
         $qb = $query->getQueryBuilder();
         if ($qb instanceof \Doctrine\ORM\QueryBuilder) {
             $qb->leftJoin($qb->getRootAliases()[0] . '.translations', 't')
                ->addSelect('t');
         }
-        
+
         return $query;
     }
 

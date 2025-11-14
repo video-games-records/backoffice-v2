@@ -5,8 +5,10 @@ imports:
     - { resource: services/shared.yaml }
     - { resource: services/user.yaml }
     - { resource: services/article.yaml }
+    - { resource: services/message.yaml }
     - { resource: admin/user.yml }
     - { resource: admin/article.yml }
+    - { resource: admin/message.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
