@@ -1,0 +1,66 @@
+services:
+  # Admin classes
+  sonata.admin.article.article:
+    class: App\BoundedContext\Article\Presentation\Admin\ArticleAdmin
+    tags:
+      - name: sonata.admin
+        model_class: 'App\BoundedContext\Article\Domain\Entity\Article'
+        manager_type: orm
+        group: "group.articles"
+        label: "article.label"
+        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+    calls:
+      - [ setTranslationDomain, [ 'Article' ] ]
+
+  sonata.admin.article.comment:
+    class: App\BoundedContext\Article\Presentation\Admin\CommentAdmin
+    tags:
+      - name: sonata.admin
+        model_class: 'App\BoundedContext\Article\Domain\Entity\Comment'
+        manager_type: orm
+        group: "group.articles"
+        label: "comment.label"
+        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+    calls:
+      - [ setTranslationDomain, [ 'Article' ] ]
+
+  # Application Services
+  App\BoundedContext\Article\Application\Service\ArticleAnalyticsService:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+
+  App\BoundedContext\Article\Application\Service\ViewCounterService:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@request_stack'
+      - '@cache.app'
+
+  App\BoundedContext\Article\Application\Service\LocaleResolver:
+    arguments:
+      - ['en', 'fr', 'de', 'es', 'it', 'ja', 'pt', 'zh']
+      - 'en'
+
+  # Block Service for statistics
+  App\BoundedContext\Article\Infrastructure\Block\Service\ArticleViewsStatsBlockService:
+    arguments:
+      - '@twig'
+      - '@App\BoundedContext\Article\Application\Service\ArticleAnalyticsService'
+    tags:
+      - { name: sonata.block }
+
+  # Event Listeners (via autowiring)
+
+  # Event Subscriber
+  App\BoundedContext\Article\Infrastructure\Event\Subscriber\ArticleViewSubscriber:
+    arguments:
+      - '@App\BoundedContext\Article\Application\Service\ViewCounterService'
+    tags:
+      - { name: kernel.event_subscriber }
+
+  # Filters
+  App\BoundedContext\Article\Infrastructure\Filter\TranslationSearchFilter:
+    arguments:
+      - '@request_stack'
+      - '@App\BoundedContext\Article\Application\Service\LocaleResolver'
+    tags:
+      - { name: api_platform.filter, id: app.article_translation_search_filter }

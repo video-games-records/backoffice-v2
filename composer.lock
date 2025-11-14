@@ -4,8 +4,174 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5c5421b924e4cf62fa8d2554fc5a861",
+    "content-hash": "51d4a36836eb646997d5a6e07a36a1a6",
     "packages": [
+        {
+            "name": "a2lix/auto-form-bundle",
+            "version": "0.4.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/a2lix/AutoFormBundle.git",
+                "reference": "2f954ec9086e11eac559ff5aab843a39dcf4326c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/a2lix/AutoFormBundle/zipball/2f954ec9086e11eac559ff5aab843a39dcf4326c",
+                "reference": "2f954ec9086e11eac559ff5aab843a39dcf4326c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/persistence": "^2.0|^3.0|^4.0",
+                "php": "^8.1",
+                "symfony/config": "^5.4.30|^6.3|^7.0",
+                "symfony/dependency-injection": "^5.4.30|^6.3|^7.0",
+                "symfony/doctrine-bridge": "^5.4.30|^6.3|^7.0",
+                "symfony/form": "^5.4.30|^6.3|^7.0",
+                "symfony/http-kernel": "^5.4.30|^6.3|^7.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "^2.15|^3.0",
+                "friendsofphp/php-cs-fixer": "^3.45",
+                "kubawerlos/php-cs-fixer-custom-fixers": "^3.18",
+                "phpstan/phpstan": "^1.10",
+                "rector/rector": "^0.18",
+                "symfony/cache": "^5.4.30|^6.3|^7.0",
+                "symfony/phpunit-bridge": "^5.4.30|^6.3|^7.0",
+                "symfony/validator": "^5.4.30|^6.3|^7.0",
+                "vimeo/psalm": "^5.18"
+            },
+            "suggest": {
+                "a2lix/translation-form-bundle": "For translation form"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "A2lix\\AutoFormBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David ALLIX",
+                    "homepage": "http://a2lix.fr"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/a2lix/AutoFormBundle/contributors"
+                }
+            ],
+            "description": "Automate form building",
+            "homepage": "https://github.com/a2lix/AutoFormBundle",
+            "keywords": [
+                "automate",
+                "automation",
+                "building",
+                "field",
+                "form",
+                "magic",
+                "symfony"
+            ],
+            "support": {
+                "issues": "https://github.com/a2lix/AutoFormBundle/issues",
+                "source": "https://github.com/a2lix/AutoFormBundle/tree/0.4.8"
+            },
+            "time": "2025-04-08T09:01:34+00:00"
+        },
+        {
+            "name": "a2lix/translation-form-bundle",
+            "version": "3.2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/a2lix/TranslationFormBundle.git",
+                "reference": "7c0a3a12b029db0d4cef3ad6a69b4f6321958384"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/a2lix/TranslationFormBundle/zipball/7c0a3a12b029db0d4cef3ad6a69b4f6321958384",
+                "reference": "7c0a3a12b029db0d4cef3ad6a69b4f6321958384",
+                "shasum": ""
+            },
+            "require": {
+                "a2lix/auto-form-bundle": "^0.4",
+                "php": "^8.1",
+                "symfony/config": "^5.4.30|^6.3|^7.0",
+                "symfony/dependency-injection": "^5.4.30|^6.3|^7.0",
+                "symfony/doctrine-bridge": "^5.4.30|^6.3|^7.0",
+                "symfony/event-dispatcher": "^5.4.30|^6.3|^7.0",
+                "symfony/form": "^5.4.30|^6.3|^7.0",
+                "symfony/http-foundation": "^5.4.30|^6.3|^7.0",
+                "symfony/http-kernel": "^5.4.30|^6.3|^7.0",
+                "symfony/options-resolver": "^5.4.30|^6.3|^7.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "^2.15",
+                "friendsofphp/php-cs-fixer": "^3.45",
+                "knplabs/doctrine-behaviors": "^2.3",
+                "kubawerlos/php-cs-fixer-custom-fixers": "^3.18",
+                "matthiasnoback/symfony-dependency-injection-test": "^5.0",
+                "phpstan/phpstan": "^1.10",
+                "rector/rector": "^0.18",
+                "symfony/cache": "^5.4.30|^6.3|^7.0",
+                "symfony/phpunit-bridge": "^5.4.30|^6.3|^7.0",
+                "symfony/validator": "^5.4.30|^6.3|^7.0",
+                "vimeo/psalm": "^5.18"
+            },
+            "suggest": {
+                "knplabs/doctrine-behaviors": "For Knp strategy",
+                "prezent/doctrine-translatable-bundle": "For Prezent strategy"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "A2lix\\TranslationFormBundle\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David ALLIX",
+                    "homepage": "http://a2lix.fr"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/a2lix/TranslationFormBundle/contributors"
+                }
+            ],
+            "description": "Translate your doctrine objects easily with some helpers",
+            "homepage": "https://github.com/a2lix/TranslationFormBundle",
+            "keywords": [
+                "doctrine2",
+                "form",
+                "i18n",
+                "internationalization",
+                "knplabs",
+                "prezent",
+                "symfony",
+                "translatable",
+                "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/a2lix/TranslationFormBundle/issues",
+                "source": "https://github.com/a2lix/TranslationFormBundle/tree/3.2.4"
+            },
+            "time": "2024-04-09T14:08:34+00:00"
+        },
         {
             "name": "api-platform/doctrine-common",
             "version": "v4.2.3",
@@ -2675,6 +2841,67 @@
                 }
             ],
             "time": "2025-03-06T22:45:56+00:00"
+        },
+        {
+            "name": "ezyang/htmlpurifier",
+            "version": "v4.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ezyang/htmlpurifier.git",
+                "reference": "b287d2a16aceffbf6e0295559b39662612b77fcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ezyang/htmlpurifier/zipball/b287d2a16aceffbf6e0295559b39662612b77fcf",
+                "reference": "b287d2a16aceffbf6e0295559b39662612b77fcf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.6.0 || ~7.0.0 || ~7.1.0 || ~7.2.0 || ~7.3.0 || ~7.4.0 || ~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0 || ~8.4.0 || ~8.5.0"
+            },
+            "require-dev": {
+                "cerdic/css-tidy": "^1.7 || ^2.0",
+                "simpletest/simpletest": "dev-master"
+            },
+            "suggest": {
+                "cerdic/css-tidy": "If you want to use the filter 'Filter.ExtractStyleBlocks'.",
+                "ext-bcmath": "Used for unit conversion and imagecrash protection",
+                "ext-iconv": "Converts text to and from non-UTF-8 encodings",
+                "ext-tidy": "Used for pretty-printing HTML"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "library/HTMLPurifier.composer.php"
+                ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
+                "exclude-from-classmap": [
+                    "/library/HTMLPurifier/Language/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Edward Z. Yang",
+                    "email": "admin@htmlpurifier.org",
+                    "homepage": "http://ezyang.com"
+                }
+            ],
+            "description": "Standards compliant HTML filter written in PHP",
+            "homepage": "http://htmlpurifier.org/",
+            "keywords": [
+                "html"
+            ],
+            "support": {
+                "issues": "https://github.com/ezyang/htmlpurifier/issues",
+                "source": "https://github.com/ezyang/htmlpurifier/tree/v4.19.0"
+            },
+            "time": "2025-10-17T16:34:55+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",

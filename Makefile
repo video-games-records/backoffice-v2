@@ -39,6 +39,7 @@ db-test: ## Create test database with fixtures
 	@echo "$(YELLOW)Setting up test database...$(RESET)"
 	$(CONSOLE_BIN) doctrine:database:drop --force --env=test --if-exists
 	$(CONSOLE_BIN) doctrine:database:create --env=test
+	$(CONSOLE_BIN) cache:clear --env=test
 	$(CONSOLE_BIN) doctrine:schema:update --force --env=test
 	$(CONSOLE_BIN) doctrine:fixtures:load --no-interaction --env=test
 	@echo "$(GREEN)Test database ready with fixtures!$(RESET)"
@@ -102,6 +103,16 @@ test-user-unit: ## Run User unit tests only
 test-user-integration: ## Run User integration tests only
 	@echo "$(GREEN)Running User integration tests...$(RESET)"
 	$(PHPUNIT_BIN) tests/BoundedContext/User/Integration/ --testdox
+
+test-article: ## Run all Article BoundedContext tests
+	@echo "$(GREEN)Running Article BoundedContext tests...$(RESET)"
+	$(PHPUNIT_BIN) tests/BoundedContext/Article/ --testdox
+
+test-article-api: ## Run Article API tests only
+	@echo "$(GREEN)Running Article API tests...$(RESET)"
+	@echo "$(YELLOW)Clearing rate limiter cache...$(RESET)"
+	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
+	$(PHPUNIT_BIN) tests/BoundedContext/Article/Functional/Api/ --testdox
 
 ##@ Code Quality
 phpstan: ## Run PHPStan static analysis
@@ -195,6 +206,8 @@ tf: test-functional ## Shortcut for test-functional
 tc: test-coverage ## Shortcut for test-coverage
 tu-user: test-user ## Shortcut for test-user
 tu-api: test-user-api ## Shortcut for test-user-api
+ta: test-article ## Shortcut for test-article
+ta-api: test-article-api ## Shortcut for test-article-api
 l: lint ## Shortcut for lint
 f: fix ## Shortcut for fix
 s: serve ## Shortcut for serve

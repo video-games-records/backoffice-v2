@@ -1,0 +1,26 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Doctrine Entity Listeners
+    App\BoundedContext\Article\Infrastructure\Doctrine\Listener\ArticleListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']
+
+    App\BoundedContext\Article\Infrastructure\Doctrine\Listener\CommentListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']
+
+    App\BoundedContext\Article\Infrastructure\Doctrine\Listener\ArticleTranslationListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']
+
+    # Article Normalizer with locale support - DISABLED
+    # App\BoundedContext\Article\Infrastructure\Serializer\ArticleNormalizer:
+    #     arguments:
+    #         $requestStack: '@request_stack'
+    #     tags:
+    #         - { name: serializer.normalizer, priority: 64 }
+
+    # Services applicatifs Article (si nécessaires dans le futur)

@@ -45,7 +45,7 @@ class UserTest extends ApiTestCase
             'language' => 'en',
             'slug' => 'sancho',
         ]);
-        $this->assertEquals('/api/users/me', $response->toArray()['@id']);
+        $this->assertMatchesRegularExpression('~^/api/users/\d+$~', $response->toArray()['@id']);
         $this->assertMatchesResourceItemJsonSchema(
             User::class,
             null,
