@@ -41,6 +41,12 @@ doctrine:
                         dir: '%kernel.project_dir%/src/BoundedContext/Article/Domain'
                         prefix: 'App\BoundedContext\Article\Domain'
                         alias: ArticleDomain
+                    MessageDomain:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/Message/Domain'
+                        prefix: 'App\BoundedContext\Message\Domain'
+                        alias: MessageDomain
                     SharedKernel:
                         type: attribute
                         is_bundle: false

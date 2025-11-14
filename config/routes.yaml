@@ -4,8 +4,18 @@ user_api_controllers:
         namespace: App\BoundedContext\User\Presentation\Api\Controller
     type: attribute
 
+message_api_controllers:
+    resource:
+        path: ../src/BoundedContext/Message/Presentation/Api/Controller/
+        namespace: App\BoundedContext\Message\Presentation\Api\Controller
+    type: attribute
+
 shared_kernel_controllers:
     resource:
         path: ../src/SharedKernel/Presentation/
         namespace: App\SharedKernel\Presentation
     type: attribute
+
+# Import custom message routes (if needed)
+# message_routes:
+#     resource: routes/message.yaml

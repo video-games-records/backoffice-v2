@@ -1,0 +1,36 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Message Domain Services
+    App\BoundedContext\Message\Domain\:
+        resource: '../../src/BoundedContext/Message/Domain/*'
+        exclude: '../../src/BoundedContext/Message/Domain/{Entity,ValueObject,Event,Exception}'
+
+    # Application Layer
+    App\BoundedContext\Message\Application\:
+        resource: '../../src/BoundedContext/Message/Application/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Layer
+    App\BoundedContext\Message\Infrastructure\:
+        resource: '../../src/BoundedContext/Message/Infrastructure/*'
+        autowire: true
+        autoconfigure: true
+
+    # Presentation Layer
+    App\BoundedContext\Message\Presentation\:
+        resource: '../../src/BoundedContext/Message/Presentation/*'
+        autowire: true
+        autoconfigure: true
+
+    # Specific service definitions
+    App\BoundedContext\Message\Infrastructure\Doctrine\Repository\MessageRepository:
+        autowire: true
+        tags: ['doctrine.repository_service']
+
+    App\BoundedContext\Message\Infrastructure\Doctrine\EventListener\MessageListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']

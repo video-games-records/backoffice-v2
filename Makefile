@@ -1,6 +1,6 @@
 # Makefile to automate Symfony project testing and development
 
-.PHONY: help test test-unit test-integration test-functional test-coverage test-dox test-user test-user-api test-user-unit test-user-integration install setup db-setup db-reset lint fix serve clear cache
+.PHONY: help test test-unit test-integration test-functional test-coverage test-dox test-user test-user-api test-user-unit test-user-integration test-article test-article-api test-message test-message-api install setup db-setup db-reset lint fix serve clear cache
 
 # Default configuration
 PHP_BIN := php
@@ -114,6 +114,16 @@ test-article-api: ## Run Article API tests only
 	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
 	$(PHPUNIT_BIN) tests/BoundedContext/Article/Functional/Api/ --testdox
 
+test-message: ## Run all Message BoundedContext tests
+	@echo "$(GREEN)Running Message BoundedContext tests...$(RESET)"
+	$(PHPUNIT_BIN) tests/BoundedContext/Message/ --testdox
+
+test-message-api: ## Run Message API tests only
+	@echo "$(GREEN)Running Message API tests...$(RESET)"
+	@echo "$(YELLOW)Clearing rate limiter cache...$(RESET)"
+	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
+	$(PHPUNIT_BIN) tests/BoundedContext/Message/Functional/Api/ --testdox
+
 ##@ Code Quality
 phpstan: ## Run PHPStan static analysis
 	@echo "$(GREEN)Running PHPStan analysis...$(RESET)"
@@ -208,6 +218,8 @@ tu-user: test-user ## Shortcut for test-user
 tu-api: test-user-api ## Shortcut for test-user-api
 ta: test-article ## Shortcut for test-article
 ta-api: test-article-api ## Shortcut for test-article-api
+tm: test-message ## Shortcut for test-message
+tm-api: test-message-api ## Shortcut for test-message-api
 l: lint ## Shortcut for lint
 f: fix ## Shortcut for fix
 s: serve ## Shortcut for serve
