@@ -124,6 +124,16 @@ test-message-api: ## Run Message API tests only
 	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
 	$(PHPUNIT_BIN) tests/BoundedContext/Message/Functional/Api/ --testdox
 
+test-forum: ## Run all Forum BoundedContext tests
+	@echo "$(GREEN)Running Forum BoundedContext tests...$(RESET)"
+	$(PHPUNIT_BIN) tests/BoundedContext/Forum/ --testdox
+
+test-forum-api: ## Run Forum API tests only
+	@echo "$(GREEN)Running Forum API tests...$(RESET)"
+	@echo "$(YELLOW)Clearing rate limiter cache...$(RESET)"
+	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
+	$(PHPUNIT_BIN) tests/BoundedContext/Forum/Functional/Api/ --testdox
+
 ##@ Code Quality
 phpstan: ## Run PHPStan static analysis
 	@echo "$(GREEN)Running PHPStan analysis...$(RESET)"
@@ -220,6 +230,8 @@ ta: test-article ## Shortcut for test-article
 ta-api: test-article-api ## Shortcut for test-article-api
 tm: test-message ## Shortcut for test-message
 tm-api: test-message-api ## Shortcut for test-message-api
+tf-forum: test-forum ## Shortcut for test-forum
+tf-api: test-forum-api ## Shortcut for test-forum-api
 l: lint ## Shortcut for lint
 f: fix ## Shortcut for fix
 s: serve ## Shortcut for serve

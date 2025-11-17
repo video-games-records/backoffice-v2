@@ -1,0 +1,46 @@
+services:
+    # Forum Domain Services
+    App\BoundedContext\Forum\Domain\:
+        resource: '../../src/BoundedContext/Forum/Domain/*'
+        exclude: '../../src/BoundedContext/Forum/Domain/{Entity,ValueObject,Event,Exception}'
+
+    # Application Layer
+    App\BoundedContext\Forum\Application\:
+        resource: '../../src/BoundedContext/Forum/Application/*'
+        autowire: true
+        autoconfigure: true
+
+    # Infrastructure Layer
+    App\BoundedContext\Forum\Infrastructure\Doctrine\Repository\:
+        resource: '../../src/BoundedContext/Forum/Infrastructure/Doctrine/Repository/*'
+        autowire: true
+        autoconfigure: true
+        tags: ['doctrine.repository_service']
+    
+    App\BoundedContext\Forum\Infrastructure\EventListener\:
+        resource: '../../src/BoundedContext/Forum/Infrastructure/EventListener/*'
+        autowire: true
+        autoconfigure: true
+
+    # Presentation Layer - API Controllers
+    App\BoundedContext\Forum\Presentation\Api\Controller\:
+        resource: '../../src/BoundedContext/Forum/Presentation/Api/Controller/*'
+        autowire: true
+        autoconfigure: true
+        tags: ['controller.service_arguments']
+
+
+    # Presentation Layer - Admin
+    App\BoundedContext\Forum\Presentation\Admin\:
+        resource: '../../src/BoundedContext/Forum/Presentation/Admin/*'
+        autowire: true
+        autoconfigure: true
+
+    # Event Listeners - Entity Listeners
+    App\BoundedContext\Forum\Infrastructure\EventListener\Entity\MessageListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']
+
+    App\BoundedContext\Forum\Infrastructure\EventListener\Entity\TopicListener:
+        autowire: true
+        tags: ['doctrine.orm.entity_listener']
