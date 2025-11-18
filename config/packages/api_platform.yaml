@@ -7,6 +7,7 @@ api_platform:
         - '%kernel.project_dir%/src/BoundedContext/Article/Domain'
         - '%kernel.project_dir%/src/BoundedContext/Message/Domain'
         - '%kernel.project_dir%/src/BoundedContext/Forum/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Igdb/Domain'
         - '%kernel.project_dir%/src/SharedKernel/Domain'
     # Enable GraphQL
     graphql:

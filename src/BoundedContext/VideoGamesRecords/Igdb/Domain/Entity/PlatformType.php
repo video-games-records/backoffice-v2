@@ -1,0 +1,100 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity;
+
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\ORM\Mapping as ORM;
+use App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\PlatformTypeRepository;
+
+#[ORM\Entity(repositoryClass: PlatformTypeRepository::class)]
+#[ORM\Table(name: 'igdb_platform_type')]
+#[ApiResource(
+    shortName: 'IgdbPlatformType',
+    operations: [
+        new GetCollection(),
+        new Get(),
+    ]
+)]
+class PlatformType
+{
+    #[ORM\Id]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $name;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $checksum = null;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $updatedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    public function getChecksum(): ?string
+    {
+        return $this->checksum;
+    }
+
+    public function setChecksum(?string $checksum): void
+    {
+        $this->checksum = $checksum;
+    }
+
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getUpdatedAt(): \DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+}
