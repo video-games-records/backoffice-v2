@@ -1,0 +1,17 @@
+services:
+    # IGDB Client
+    App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Client\IgdbClient:
+        arguments:
+            $clientId: '%env(IGDB_CLIENT_ID)%'
+            $clientSecret: '%env(IGDB_CLIENT_SECRET)%'
+    
+    # Import Service
+    App\BoundedContext\VideoGamesRecords\Igdb\Application\Service\IgdbImportService:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+            $igdbClient: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Client\IgdbClient'
+            $gameRepository: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\GameRepository'
+            $genreRepository: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\GenreRepository'
+            $platformRepository: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\PlatformRepository'
+            $platformTypeRepository: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\PlatformTypeRepository'
+            $platformLogoRepository: '@App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\PlatformLogoRepository'
