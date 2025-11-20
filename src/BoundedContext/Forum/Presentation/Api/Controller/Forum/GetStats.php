@@ -308,7 +308,7 @@ class GetStats extends AbstractController
 
     /**
      * Récupère les utilisateurs les plus actifs dans le forum (dernières 24h)
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getTopActiveUsers(Forum $forum, int $limit = 5): array
     {
@@ -337,7 +337,7 @@ class GetStats extends AbstractController
 
     /**
      * Récupère les topics les plus actifs du forum
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getTopTopics(Forum $forum, int $limit = 5): array
     {
@@ -361,7 +361,7 @@ class GetStats extends AbstractController
 
     /**
      * Récupère l'activité récente du forum
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getRecentActivity(Forum $forum, int $limit = 10): array
     {

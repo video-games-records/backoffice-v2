@@ -1,0 +1,5 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\SerieStatus:
+  attributes:
+    isActive:
+      groups:
+        - 'serie:read'

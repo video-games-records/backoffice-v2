@@ -1,0 +1,677 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\BoundedContext\VideoGamesRecords\Core\Domain\Entity;
+
+use ApiPlatform\Doctrine\Common\Filter\DateFilterInterface;
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Autocomplete;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Friend\AddFriend;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Friend\GetFriends;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Game\GetStats as GameGetStats;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetBadges;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetGamesFromLostPositions;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingBadge;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingCup;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingMedals;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingPointChart;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingPointGame;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingProof;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\LostPosition\GetNbLostPosition;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\OrderMasterBadges;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\LostPosition\GetNbNewLostPosition;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\PlayerChart\GetStats as PlayerChartGetStats;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\ProofRequest\CanAskProof;
+use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Filter\PlayerSearchFilter;
+use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\Repository\PlayerRepository;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\AverageChartRankTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\AverageGameRankTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank0Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank1Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank2Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank3Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank4Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank5Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\GameRank0Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\GameRank1Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\GameRank2Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\GameRank3Trait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\NbChartProvenTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\NbChartTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\NbGameTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\NbMasterBadgeTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\NbVideoTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\Player\PlayerCommunicationDataTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\Player\PlayerPersonalDataTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\PointBadgeTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\PointChartTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\PointGameTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankCupTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankMedalTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointBadgeTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointChartTrait;
+use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointGameTrait;
+use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
+use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
+
+#[ORM\Table(name:'vgr_player')]
+#[ORM\Entity(repositoryClass: PlayerRepository::class)]
+#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\PlayerListener"])]
+#[ORM\Index(name: "idx_point_game", columns: ["point_game"])]
+#[ORM\Index(name: "idx_chart_rank", columns: ["chart_rank0", "chart_rank1", "chart_rank2", "chart_rank3"])]
+#[ORM\Index(name: "idx_game_rank", columns: ["game_rank0", "game_rank1", "game_rank2", "game_rank3"])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new GetCollection(
+            uriTemplate: '/players/autocomplete',
+            controller: Autocomplete::class,
+            normalizationContext: ['groups' => [
+                'player:read:minimal']
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves players by autocompletion',
+                description: 'Retrieves players by autocompletion'
+            ),
+            /*openapiContext: [
+            'parameters' => [
+            [
+            'name' => 'query',
+            'in' => 'query',
+            'type' => 'string',
+            'required' => true
+            ]
+            ]
+            ]*/
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-point-chart',
+            controller: GetRankingPointChart::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-point-game',
+            controller: GetRankingPointGame::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-medal',
+            controller: GetRankingMedals::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-cup',
+            controller: GetRankingCup::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-badge',
+            controller: GetRankingBadge::class,
+        ),
+        new GetCollection(
+            uriTemplate: '/players/ranking-proof',
+            controller: GetRankingProof::class,
+        ),
+        new Get(),
+        new Get(
+            uriTemplate: '/players/{id}/get-nb-lost-position',
+            controller: GetNbLostPosition::class,
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/get-nb-new-lost-position',
+            controller: GetNbNewLostPosition::class,
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/can-ask-proof',
+            controller: CanAskProof::class,
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/player-chart-stats',
+            controller: PlayerChartGetStats::class,
+            normalizationContext: ['groups' => [
+                'player-chart-status:read']
+            ],
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/game-stats',
+            controller: GameGetStats::class,
+            normalizationContext: ['groups' => [
+                'player-game:read', 'player-game:game', 'game:read',
+                'game:platforms', 'platform:read',
+                'player-game.statuses', 'player-chart-status:read']
+            ],
+        ),
+        new Get(
+            uriTemplate: '/players/{id}/games-from-lost-positions',
+            controller: GetGamesFromLostPositions::class,
+            normalizationContext: ['groups' => [
+                'game:read:minimal']
+            ],
+        ),
+        new GetCollection(
+            uriTemplate: '/players/{id}/badges',
+            controller: GetBadges::class,
+            normalizationContext: ['groups' => [
+                'player-badge:read', 'player-badge:badge', 'badge:read',
+                'badge:serie', 'serie:read',
+                'badge:game', 'game:read',
+                'badge:platform', 'platform:read',
+            ]
+            ]
+        ),
+        new GetCollection(
+            uriTemplate: '/players/{id}/friends',
+            controller: GetFriends::class,
+            normalizationContext: ['groups' => ['player:read:minimal']]
+        ),
+        new Post(
+            uriTemplate: '/players/add-friend',
+            status: 200,
+            controller: AddFriend::class,
+            /*openapi: new Model\Operation(
+                responses: [
+                    '200' => [
+                        'description' => 'Friend added successfully',
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'success' => [
+                                            'type' => 'boolean',
+                                            'example' => true
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    '400' => [
+                        'description' => 'Bad request - friend_id is required'
+                    ],
+                    '404' => [
+                        'description' => 'Friend not found'
+                    ]
+                ],
+                summary: 'Add a friend to the current player',
+                description: 'Add a friend to the current player by providing friend_id in request body',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'friend_id' => [
+                                        'type' => 'integer',
+                                        'example' => 0
+                                    ]
+                                ],
+                                'required' => ['friend_id']
+                            ]
+                        ]
+                    ])
+                )
+            ),*/
+            security: 'is_granted("ROLE_USER")',
+            validate: false
+        ),
+        new Post(
+            uriTemplate: '/players/{id}/order-master-badges',
+            controller: OrderMasterBadges::class,
+            security: 'object.getUserId() == user.getId()',
+            openapi: new Model\Operation(
+                summary: 'Order master badges for a player',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'array',
+                                'items' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'id' => ['type' => 'integer'],
+                                        'mbOrder' => ['type' => 'integer']
+                                    ],
+                                    'required' => ['id', 'mbOrder']
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            )
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['player:update']],
+            security: 'is_granted("ROLE_PLAYER") and object.getUserId() == user.getId()'
+        ),
+    ],
+    normalizationContext: ['groups' => [
+        'player:read',
+        'player:team', 'team:read:minimal',
+        'player:country', 'country:read',
+        'player:status', 'player-status:read']
+    ],
+    order: ['pseudo' => 'ASC'],
+)]
+#[ApiResource(
+    uriTemplate: '/teams/{id}/players',
+    uriVariables: [
+        'id' => new Link(fromClass: Team::class, toProperty: 'team'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['player:read:minimal']],
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'pseudo' => 'partial',
+        'user.enabled' => 'exact',
+    ]
+)]
+#[ApiFilter(
+    OrderFilter::class,
+    properties: [
+        'id' => 'ASC',
+        'pseudo' => 'ASC',
+        'createdAt' => 'ASC',
+        'nbConnexion' => 'DESC',
+        'lastLogin' => 'DESC',
+        'nbForumMessage' => 'DESC',
+        'nbChart' => 'DESC',
+        'nbVideo' => 'DESC',
+        'nbGame' => 'DESC',
+        'pointGame' => 'DESC',
+    ]
+)]
+#[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
+#[ApiFilter(RangeFilter::class, properties: ['nbVideo'])]
+#[ApiFilter(BooleanFilter::class, properties: ['hasDonate'])]
+#[ApiFilter(PlayerSearchFilter::class)]
+class Player
+{
+    use TimestampableEntity;
+    use RankCupTrait;
+    use GameRank0Trait;
+    use GameRank1Trait;
+    use GameRank2Trait;
+    use GameRank3Trait;
+    use RankMedalTrait;
+    use ChartRank0Trait;
+    use ChartRank1Trait;
+    use ChartRank2Trait;
+    use ChartRank3Trait;
+    use ChartRank4Trait;
+    use ChartRank5Trait;
+    use RankPointBadgeTrait;
+    use PointBadgeTrait;
+    use RankPointChartTrait;
+    use PointChartTrait;
+    use RankPointGameTrait;
+    use PointGameTrait;
+    use AverageChartRankTrait;
+    use AverageGameRankTrait;
+    use PlayerCommunicationDataTrait;
+    use PlayerPersonalDataTrait;
+    use NbChartTrait;
+    use NbChartProvenTrait;
+    use NbGameTrait;
+    use NbVideoTrait;
+    use NbMasterBadgeTrait;
+
+    #[ORM\Column(nullable: false)]
+    private int $user_id;
+
+    #[ApiProperty(identifier: true)]
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
+    private ?int $id = null;
+
+    #[Assert\Length(min: 3, max: 50)]
+    #[ORM\Column(length: 50, nullable: false, unique: true)]
+    private string $pseudo;
+
+    #[Assert\Length(max: 100)]
+    #[ORM\Column(length: 100, nullable: false, options: ['default' => "default.jpg"])]
+    private string $avatar = 'default.jpg';
+
+    #[Assert\Length(max: 50)]
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $gamerCard = null;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $rankProof = 0;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $rankCountry = 0;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $nbChartMax = 0;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $nbChartWithPlatform = 0;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    private int $nbChartDisabled = 0;
+
+    #[ORM\Column(nullable: true)]
+    protected ?DateTime $lastLogin = null;
+
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    protected int $nbConnexion = 0;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $boolMaj = false;
+
+    #[ORM\Column(nullable: false, options: ['default' => false])]
+    private bool $hasDonate = false;
+
+    #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'players')]
+    #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
+    private ?Team $team;
+
+    #[ORM\Column(nullable: true)]
+    protected ?DateTime $lastDisplayLostPosition;
+
+    #[ORM\ManyToOne(targetEntity: PlayerStatus::class)]
+    #[ORM\JoinColumn(name:'status_id', referencedColumnName:'id', nullable:false)]
+    private PlayerStatus $status;
+
+    #[ORM\Column(length: 128)]
+    #[Gedmo\Slug(fields: ['pseudo'])]
+    protected string $slug;
+
+
+    /**
+     * @var Collection<int, Proof>
+     */
+    #[ORM\OneToMany(targetEntity: Proof::class, mappedBy: 'playerResponding')]
+    private Collection $proofRespondings;
+
+    /**
+     * @var Collection<int, PlayerGame>
+     */
+    #[ORM\OneToMany(targetEntity: PlayerGame::class, mappedBy: 'player')]
+    private Collection $playerGame;
+
+    /**
+     * @var Collection<int, PlayerChart>
+     */
+    #[ORM\OneToMany(targetEntity: PlayerChart::class, mappedBy: 'player')]
+    private Collection $playerCharts;
+
+    /**
+     * @var Collection<int, Player>
+     */
+    #[ORM\ManyToMany(targetEntity: Player::class)]
+    #[ORM\JoinTable(name: 'vgr_friend')]
+    #[ORM\JoinColumn(name: 'player_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'friend_id', referencedColumnName: 'id')]
+    private Collection $friends;
+
+    public function __construct()
+    {
+        $this->playerGame = new ArrayCollection();
+        $this->playerCharts = new ArrayCollection();
+        $this->friends = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return sprintf('%s (%d)', $this->getPseudo(), $this->getId());
+    }
+
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function setPseudo(string $pseudo): void
+    {
+        $this->pseudo = $pseudo;
+    }
+
+    public function getPseudo(): string
+    {
+        return $this->pseudo;
+    }
+
+    public function setAvatar(string $avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    public function getAvatar(): string
+    {
+        return $this->avatar;
+    }
+
+    public function setGamerCard(string $gamerCard): void
+    {
+        $this->gamerCard = $gamerCard;
+    }
+
+    public function getGamerCard(): ?string
+    {
+        return $this->gamerCard;
+    }
+
+
+    public function setRankProof(int $rankProof): void
+    {
+        $this->rankProof = $rankProof;
+    }
+
+    public function getRankProof(): ?int
+    {
+        return $this->rankProof;
+    }
+
+    public function setRankCountry(int $rankCountry): void
+    {
+        $this->rankCountry = $rankCountry;
+    }
+
+    public function getRankCountry(): ?int
+    {
+        return $this->rankCountry;
+    }
+
+    public function setNbChartMax(int $nbChartMax): void
+    {
+        $this->nbChartMax = $nbChartMax;
+    }
+
+    public function getNbChartMax(): int
+    {
+        return $this->nbChartMax;
+    }
+
+    public function setNbChartWithPlatform(int $nbChartWithPlatform): void
+    {
+        $this->nbChartWithPlatform = $nbChartWithPlatform;
+    }
+
+    public function getNbChartWithPlatform(): int
+    {
+        return $this->nbChartWithPlatform;
+    }
+
+    public function setNbChartDisabled(int $nbChartDisabled): void
+    {
+        $this->nbChartDisabled = $nbChartDisabled;
+    }
+
+    public function getNbChartDisabled(): int
+    {
+        return $this->nbChartDisabled;
+    }
+
+    public function getLastLogin(): ?DateTime
+    {
+        return $this->lastLogin;
+    }
+
+    public function setLastLogin(?DateTime $time = null): void
+    {
+        $this->lastLogin = $time;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $userId): Player
+    {
+        $this->user_id = $userId;
+        return $this;
+    }
+
+    public function setTeam(?Team $team = null): void
+    {
+        $this->team = $team;
+    }
+
+    public function getTeam(): ?Team
+    {
+        return $this->team;
+    }
+
+    public function getLastDisplayLostPosition(): ?DateTime
+    {
+        return $this->lastDisplayLostPosition;
+    }
+
+
+    public function setLastDisplayLostPosition(?DateTime $lastDisplayLostPosition = null): void
+    {
+        $this->lastDisplayLostPosition = $lastDisplayLostPosition;
+    }
+
+    public function setBoolMaj(bool $boolMaj): void
+    {
+        $this->boolMaj = $boolMaj;
+    }
+
+    public function getBoolMaj(): bool
+    {
+        return $this->boolMaj;
+    }
+
+    public function getHasDonate(): bool
+    {
+        return $this->hasDonate;
+    }
+
+    public function setHasDonate(bool $hasDonate): void
+    {
+        $this->hasDonate = $hasDonate;
+    }
+
+    public function setStatus(PlayerStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+    public function getStatus(): PlayerStatus
+    {
+        return $this->status;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNbConnexion(): int
+    {
+        return $this->nbConnexion;
+    }
+
+    public function setNbConnexion(int $nbConnexion): void
+    {
+        $this->nbConnexion = $nbConnexion;
+    }
+
+
+    /**
+     * @return array<string>
+     */
+    public function getSluggableFields(): array
+    {
+        return ['pseudo'];
+    }
+
+    public function getInitial(): string
+    {
+        return substr($this->pseudo, 0, 1);
+    }
+
+
+    public function isLeader(): bool
+    {
+        return ($this->getTeam() !== null) && ($this->getTeam()->getLeader()->getId() === $this->getId());
+    }
+
+    public function getPlayerCharts(): Collection
+    {
+        return $this->playerCharts;
+    }
+
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Player $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends->add($friend);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Player $friend): self
+    {
+        $this->friends->removeElement($friend);
+
+        return $this;
+    }
+
+    public function getUrl(): string
+    {
+        return sprintf(
+            '%s-player-p%d/index',
+            $this->getSlug(),
+            $this->getId()
+        );
+    }
+}

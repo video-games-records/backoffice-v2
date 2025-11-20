@@ -1,0 +1,15 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Country:
+  attributes:
+    id:
+      groups:
+        - 'country:read'
+    name:
+      groups:
+        - 'country:read'
+    slug:
+      groups:
+        - 'country:read'
+    codeIso2:
+      groups:
+        - 'country:read'
+

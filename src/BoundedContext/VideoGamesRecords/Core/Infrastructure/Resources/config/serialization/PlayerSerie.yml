@@ -1,0 +1,47 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerSerie:
+  attributes:
+    player:
+      groups:
+        - 'player-serie:player'
+    serie:
+      groups:
+        - 'player-serie:serie'
+    rankPointChart:
+      groups:
+        - 'player-serie:read'
+    rankMedal:
+      groups:
+        - 'player-serie:read'
+    chartRank0:
+      groups:
+        - 'player-serie:read'
+    chartRank1:
+      groups:
+        - 'player-serie:read'
+    chartRank2:
+      groups:
+        - 'player-serie:read'
+    chartRank3:
+      groups:
+        - 'player-serie:read'
+    chartRank4:
+      groups:
+        - 'player-serie:read'
+    chartRank5:
+      groups:
+        - 'player-serie:read'
+    pointChart:
+      groups:
+        - 'player-serie:read'
+    pointChartWithoutDlc:
+      groups:
+        - 'player-serie:read'
+    nbChart:
+      groups:
+        - 'player-serie:read'
+    nbChartProven:
+      groups:
+        - 'player-serie:read'
+    pointGame:
+      groups:
+        - 'player-serie:read'

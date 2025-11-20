@@ -1,0 +1,11 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\ChartLib:
+  attributes:
+    id:
+      groups:
+        - 'chart-lib:read'
+    name:
+      groups:
+        - 'chart-lib:read'
+    type:
+      groups:
+        - 'chart-lib:type'

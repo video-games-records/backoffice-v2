@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace App\Tests\BoundedContext\User\Functional\Api;
 
-use App\BoundedContext\User\Tests\Story\AdminUserStory;
-
 class LoginTest extends AbstractFunctionalTestCase
 {
     public function testLoginOK(): void
     {
-        // Load the AdminUserStory to have consistent test users
-        AdminUserStory::load();
+        // Create a user for authentication
+        $this->createAdminUser();
 
         $response = $this->apiClient->request('POST', '/api/login_check', ['json' => [
             'username' => 'admin',
-            'password' => 'admin',
+            'password' => 'password', // Default password from createAdminUser
         ]]);
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/json');

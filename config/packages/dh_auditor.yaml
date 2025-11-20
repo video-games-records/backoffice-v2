@@ -18,8 +18,6 @@ dh_auditor:
                         - nbConnexion
                         - extraData
                         - avatar
-
-
             storage_services:
                 - '@doctrine.orm.audit_entity_manager'
             auditing_services:

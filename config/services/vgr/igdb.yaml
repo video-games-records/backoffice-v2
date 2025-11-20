@@ -1,0 +1,33 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # IGDB Domain Services
+  App\BoundedContext\VideoGamesRecords\Igdb\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Domain/{Entity,ValueObject,Event,Exception}'
+
+  # Application Layer
+  App\BoundedContext\VideoGamesRecords\Igdb\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Application/*'
+
+  # Infrastructure Layer
+  App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Infrastructure/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Infrastructure/Doctrine/Repository/*'
+  
+  # Doctrine Repositories
+  App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Doctrine\Repository\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Infrastructure/Doctrine/Repository/*'
+    tags: ['doctrine.repository_service']
+
+  # Presentation Layer - Admin
+  App\BoundedContext\VideoGamesRecords\Igdb\Presentation\Admin\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Igdb/Presentation/Admin/*'
+
+  # IGDB Client with explicit configuration
+  App\BoundedContext\VideoGamesRecords\Igdb\Infrastructure\Client\IgdbClient:
+    arguments:
+      $clientId: '%env(IGDB_CLIENT_ID)%'
+      $clientSecret: '%env(IGDB_CLIENT_SECRET)%'

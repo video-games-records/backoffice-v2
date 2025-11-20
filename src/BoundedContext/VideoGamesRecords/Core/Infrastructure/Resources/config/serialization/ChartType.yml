@@ -1,0 +1,15 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\ChartType:
+  attributes:
+    id:
+      groups:
+        - 'chart-type:read'
+    mask:
+      groups:
+        - 'chart-type:read'
+        - 'player-chart.read'
+        - 'player-chart.write'
+    parseMask:
+      groups:
+        - 'chart-type:read'
+        - 'player-chart.read'
+        - 'player-chart.write'

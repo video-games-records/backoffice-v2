@@ -18,7 +18,7 @@ class GetRecentActivity extends AbstractController
     }
 
     /**
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     public function __invoke(): array
     {

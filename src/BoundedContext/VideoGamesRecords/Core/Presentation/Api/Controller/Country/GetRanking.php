@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Country;
+
+use Doctrine\ORM\Exception\ORMException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use App\BoundedContext\VideoGamesRecords\Core\Application\DataProvider\Ranking\PlayerRankingProvider;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Country;
+
+class GetRanking extends AbstractController
+{
+    public function __construct(
+        private readonly PlayerRankingProvider $playerRankingProvider
+    ) {
+    }
+
+    /**
+     * @param Country $country
+     * @param Request $request
+     * @return array<string, mixed>
+     * @throws ORMException
+     */
+    public function __invoke(Country $country, Request $request): array
+    {
+        return $this->playerRankingProvider->getRankingCountry(
+            $country,
+            [
+                'maxRank' => $request->query->get('maxRank', '100'),
+                'idTeam' => $request->query->get('idTeam'),
+                'limit' => $request->query->get('limit')
+            ]
+        );
+    }
+}

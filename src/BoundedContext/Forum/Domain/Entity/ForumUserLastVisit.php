@@ -12,8 +12,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Table(name:'pnf_forum_user_last_visit')]
 #[ORM\Entity(repositoryClass: ForumUserLastVisitRepository::class)]
 #[ORM\UniqueConstraint(name: "uniq_forum_user_visit", columns: ["user_id", "forum_id"])]
-#[ORM\Index(name: "idx_user_last_visited", columns: ["user_id", "last_visited_at"])]
-#[ORM\Index(name: "idx_forum_last_visited", columns: ["forum_id", "last_visited_at"])]
+#[ORM\Index(name: "idx_forum_user_last_visit_user_date", columns: ["user_id", "last_visited_at"])]
+#[ORM\Index(name: "idx_forum_user_last_visit_forum_date", columns: ["forum_id", "last_visited_at"])]
 class ForumUserLastVisit
 {
     #[Groups(['forum-user-visit:read'])]

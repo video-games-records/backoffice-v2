@@ -211,7 +211,7 @@ class IgdbClient
         }
 
         $games = [];
-        
+
         // Get games in batches since we can't use whereIn
         foreach (array_chunk($gameIds, 10) as $batch) {
             foreach ($batch as $gameId) {
@@ -225,7 +225,7 @@ class IgdbClient
                             'created_at', 'updated_at'
                         ]
                     );
-                    
+
                     foreach ($collection as $game) {
                         $games[] = (array) $game;
                     }

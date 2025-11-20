@@ -1,0 +1,44 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerGroup:
+  attributes:
+    player:
+      groups:
+        - 'player-group:player'
+    rankPointChart:
+      groups:
+        - 'player-group:read'
+    rankMedal:
+      groups:
+        - 'player-group:read'
+    chartRank0:
+      groups:
+        - 'player-group:read'
+    chartRank1:
+      groups:
+        - 'player-group:read'
+    chartRank2:
+      groups:
+        - 'player-group:read'
+    chartRank3:
+      groups:
+        - 'player-group:read'
+    chartRank4:
+      groups:
+        - 'player-group:read'
+    chartRank5:
+      groups:
+        - 'player-group:read'
+    pointChart:
+      groups:
+        - 'player-group:read'
+    pointChartWithoutDlc:
+      groups:
+        - 'player-group:read'
+    nbChart:
+      groups:
+        - 'player-group:read'
+    nbChartProven:
+      groups:
+        - 'player-group:read'
+    pointGame:
+      groups:
+        - 'player-group:read'

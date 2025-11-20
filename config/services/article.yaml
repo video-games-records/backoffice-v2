@@ -3,6 +3,32 @@ services:
         autowire: true
         autoconfigure: true
 
+    # Article Domain Services
+    App\BoundedContext\Article\Domain\:
+        resource: '../../src/BoundedContext/Article/Domain/*'
+        exclude: '../../src/BoundedContext/Article/Domain/{Entity,ValueObject,Event,Exception}'
+
+    # Application Layer
+    App\BoundedContext\Article\Application\:
+        resource: '../../src/BoundedContext/Article/Application/*'
+
+    # Infrastructure Layer
+    App\BoundedContext\Article\Infrastructure\:
+        resource: '../../src/BoundedContext/Article/Infrastructure/*'
+        exclude: 
+            - '../../src/BoundedContext/Article/Infrastructure/Doctrine/Repository/*'
+            - '../../src/BoundedContext/Article/Infrastructure/Doctrine/Listener/*'
+    
+    # Doctrine Repositories
+    App\BoundedContext\Article\Infrastructure\Doctrine\Repository\:
+        resource: '../../src/BoundedContext/Article/Infrastructure/Doctrine/Repository/*'
+        tags: ['doctrine.repository_service']
+
+    # Presentation Layer
+    App\BoundedContext\Article\Presentation\:
+        resource: '../../src/BoundedContext/Article/Presentation/*'
+        tags: ['controller.service_arguments']
+
     # Doctrine Entity Listeners
     App\BoundedContext\Article\Infrastructure\Doctrine\Listener\ArticleListener:
         autowire: true
@@ -22,5 +48,3 @@ services:
     #         $requestStack: '@request_stack'
     #     tags:
     #         - { name: serializer.normalizer, priority: 64 }
-
-    # Services applicatifs Article (si nécessaires dans le futur)

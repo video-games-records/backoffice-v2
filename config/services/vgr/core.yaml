@@ -1,0 +1,48 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Doctrine Entity Listeners
+  App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Doctrine/EventListener/*'
+    tags: ['doctrine.orm.entity_listener']
+
+  # Core Domain Services
+  App\BoundedContext\VideoGamesRecords\Core\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Core/Domain/{Entity,ValueObject,Event,Exception}'
+
+  # Application Layer
+  App\BoundedContext\VideoGamesRecords\Core\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Application/*'
+
+  # Infrastructure Layer
+  App\BoundedContext\VideoGamesRecords\Core\Infrastructure\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Infrastructure/*'
+    exclude: 
+      - '../../../src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Doctrine/Repository/*'
+      - '../../../src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Doctrine/EventListener/*'
+
+  # Doctrine Repositories
+  App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\Repository\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Doctrine/Repository/*'
+    tags: ['doctrine.repository_service']
+
+  # Presentation Layer - API Controllers
+  App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Presentation/Api/Controller/*'
+    tags: ['controller.service_arguments']
+
+  # Presentation Layer - Web Admin Controllers
+  App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller\Admin\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Presentation/Web/Controller/Admin/*'
+    tags: ['controller.service_arguments']
+
+  # Sonata Block Services
+  admin.block.service.game.status:
+    class: App\BoundedContext\VideoGamesRecords\Core\Presentation\Block\Service\GameStatusBlockService
+    tags:
+      - { name: "sonata.block" }
+
+

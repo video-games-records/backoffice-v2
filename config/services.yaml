@@ -7,10 +7,21 @@ imports:
     - { resource: services/article.yaml }
     - { resource: services/message.yaml }
     - { resource: services/forum.yaml }
+    - { resource: services/vgr/shared.yaml }
+    - { resource: services/vgr/core.yaml }
+    - { resource: services/vgr/team.yaml }
+    - { resource: services/vgr/badge.yaml }
+    - { resource: services/vgr/proof.yaml }
+    - { resource: services/vgr/igdb.yaml }
+    - { resource: services/dwh.yaml }
     - { resource: admin/user.yml }
     - { resource: admin/article.yml }
     - { resource: admin/message.yml }
     - { resource: admin/forum.yml }
+    - { resource: admin/vgr/core.yml }
+    - { resource: admin/vgr/team.yml }
+    - { resource: admin/vgr/badge.yml }
+    - { resource: admin/vgr/proof.yml }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
@@ -22,17 +33,16 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-    App\:
-        resource: '../src/'
+    # SharedKernel services only - Bounded Contexts are autonomous
+    App\SharedKernel\:
+        resource: '../src/SharedKernel/'
         exclude:
-            - '../src/DependencyInjection/'
-            - '../src/BoundedContext/*/Domain/Entity/'
-            - '../src/BoundedContext/*/Domain/ValueObject/'
             - '../src/SharedKernel/Domain/Entity/'
             - '../src/SharedKernel/Domain/ValueObject/'
-            - '../src/Kernel.php'
+
+    # DataFixtures for testing
+    App\DataFixtures\:
+        resource: '../src/DataFixtures/'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous one
@@ -49,5 +59,12 @@ services:
     App\Shared\EventSubscriber\LoginRateLimiterSubscriber:
         arguments:
             $loginLimiter: '@limiter.login'
+
+    App\SharedKernel\Infrastructure\Messenger\Middleware\UniquenessMiddleware:
+        arguments:
+            $cache: '@cache.app'
+            $ttl: 3600
+        tags:
+            - { name: messenger.middleware }
 
 

@@ -1,0 +1,8 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Rule:
+  attributes:
+    name:
+      groups:
+        - 'rule:read'
+    content:
+      groups:
+        - 'rule:read'
