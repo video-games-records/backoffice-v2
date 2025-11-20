@@ -1,0 +1,11 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Discord:
+  attributes:
+    id:
+      groups:
+        - 'discord:read'
+    name:
+      groups:
+        - 'discord:read'
+    url:
+      groups:
+        - 'discord:read'

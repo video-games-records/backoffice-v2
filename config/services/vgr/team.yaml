@@ -1,0 +1,33 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Team Domain Services
+  App\BoundedContext\VideoGamesRecords\Team\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Team/Domain/{Entity,ValueObject,Event,Exception}'
+
+  # Application Layer
+  App\BoundedContext\VideoGamesRecords\Team\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Application/*'
+
+  # Infrastructure Layer
+  App\BoundedContext\VideoGamesRecords\Team\Infrastructure\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Infrastructure/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Team/Infrastructure/Doctrine/Repository/*'
+  
+  # Doctrine Repositories
+  App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Doctrine\Repository\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Infrastructure/Doctrine/Repository/*'
+    tags: ['doctrine.repository_service']
+
+  # Presentation Layer - API Controllers
+  App\BoundedContext\VideoGamesRecords\Team\Presentation\Api\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Presentation/Api/Controller/*'
+    tags: ['controller.service_arguments']
+
+  # Presentation Layer - Web Controllers
+  App\BoundedContext\VideoGamesRecords\Team\Presentation\Web\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Presentation/Web/Controller/*'
+    tags: ['controller.service_arguments']

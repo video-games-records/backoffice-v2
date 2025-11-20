@@ -1,0 +1,35 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie:
+  attributes:
+    id:
+      groups:
+        - 'serie:read'
+    name:
+      groups:
+        - 'serie:read'
+    slug:
+      groups:
+        - 'serie:read'
+    status:
+      groups:
+        - 'serie:read'
+    nbGame:
+      groups:
+        - 'serie:read'
+    nbPlayer:
+      groups:
+        - 'serie:read'
+    nbTeam:
+      groups:
+        - 'serie:read'
+    description:
+      groups:
+        - 'serie:read'
+    nbChart:
+      groups:
+        - 'serie:read'
+    status.value:
+      groups:
+        - 'serie:read'
+    games:
+      groups:
+        - 'serie:games'

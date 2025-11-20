@@ -6,6 +6,8 @@ twig:
         '%kernel.project_dir%/src/BoundedContext/Article/Presentation/Resources/views': 'Article'
         '%kernel.project_dir%/src/BoundedContext/Message/Presentation/Resources/views': 'Message'
         '%kernel.project_dir%/src/BoundedContext/Forum/Presentation/Resources/views': 'Forum'
+        '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Presentation/Resources/views': 'VideoGamesRecordsCore'
+        '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Presentation/Resources/views': 'VideoGamesRecordsProof'
 
 when@test:
     twig:

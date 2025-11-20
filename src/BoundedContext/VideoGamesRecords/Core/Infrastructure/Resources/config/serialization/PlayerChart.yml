@@ -1,0 +1,47 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart:
+  attributes:
+    id:
+      groups:
+        - 'player-chart:read'
+        - 'playerChart:update'
+    chart:
+      groups:
+        - 'player-chart:chart'
+        - 'player-chart:insert'
+    player:
+      groups:
+        - 'player-chart:insert'
+        - 'player-chart:player'
+    rank:
+      groups:
+        - 'player-chart:read'
+    nbEqual:
+      groups:
+        - 'player-chart:read'
+    pointChart:
+      groups:
+        - 'player-chart:read'
+    status:
+      groups:
+        - 'player-chart:status'
+    proof:
+      groups:
+        - 'player-chart:proof'
+    dateInvestigation:
+      groups:
+        - 'player-chart:read'
+    platform:
+      groups:
+        - 'player-chart:insert'
+        - 'player-chart:update'
+        - 'player-chart:platform'
+    lastUpdate:
+      groups:
+        - 'player-chart:read'
+        - 'player-chart:insert'
+        - 'player-chart:update'
+    libs:
+      groups:
+        - 'player-chart:read'
+        - 'player-chart:insert'
+        - 'player-chart:update'

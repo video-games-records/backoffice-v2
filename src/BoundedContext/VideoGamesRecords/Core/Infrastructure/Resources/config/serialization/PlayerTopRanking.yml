@@ -1,0 +1,17 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerTopRanking:
+  attributes:
+    id:
+      groups:
+        - 'player-top-ranking:read'
+    player:
+      groups:
+        - 'player-top-ranking:player'
+    rank:
+      groups:
+        - 'player-top-ranking:read'
+    nbPost:
+      groups:
+        - 'player-top-ranking:read'
+    positionChange:
+      groups:
+        - 'player-top-ranking:read'

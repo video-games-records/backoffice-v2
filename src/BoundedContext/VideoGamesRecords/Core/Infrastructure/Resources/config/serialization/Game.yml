@@ -1,0 +1,74 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game:
+  attributes:
+    id:
+      groups:
+        - 'game:read'
+        - 'game:read:minimal'
+    name:
+      groups:
+        - 'game:read'
+        - 'game:read:minimal'
+    type:
+      groups:
+        - 'game:type'
+    picture:
+      groups:
+        - 'game:read'
+    groups:
+      groups:
+        - 'game.groups'
+    status:
+      groups:
+        - 'game:read'
+    publishedAt:
+      groups:
+        - 'game:read'
+    isRank:
+      groups:
+        - 'game:read'
+    nbChart:
+      groups:
+        - 'game:read'
+    nbPost:
+      groups:
+        - 'game:read'
+    nbPlayer:
+      groups:
+        - 'game:read'
+    nbTeam:
+      groups:
+        - 'game:read'
+    serie:
+      groups:
+        - 'game:serie'
+    platforms:
+      groups:
+        - 'game:platforms'
+    genres:
+      groups:
+        - 'game:genres'
+    releaseDate:
+      groups:
+        - 'game:read'
+    discords:
+      groups:
+        - 'game:discords'
+    rules:
+      groups:
+        - 'game:rules'
+    slug:
+      groups:
+        - 'game:read'
+        - 'game:read:minimal'
+    forum:
+      groups:
+        - 'game:forum'
+    downloadUrl:
+      groups:
+        - 'game:read'
+    lastUpdate:
+      groups:
+        - 'game:read'
+    lastScore:
+      groups:
+        - 'game:last-score'

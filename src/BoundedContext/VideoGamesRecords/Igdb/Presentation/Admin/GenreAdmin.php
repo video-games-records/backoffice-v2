@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Igdb\Presentation\Admin;
 
 use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\Genre;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
+use App\SharedKernel\Presentation\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -13,9 +13,9 @@ use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 
 /**
- * @extends AbstractAdmin<Genre>
+ * @extends BaseAdmin<Genre>
  */
-final class GenreAdmin extends AbstractAdmin
+final class GenreAdmin extends BaseAdmin
 {
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {

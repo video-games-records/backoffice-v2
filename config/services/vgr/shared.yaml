@@ -1,0 +1,13 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # VideoGamesRecords Shared Domain Services
+  App\BoundedContext\VideoGamesRecords\Shared\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Shared/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Shared/Domain/{Entity,ValueObject,Event,Exception,Traits}'
+
+  # Application Layer - includes Commands, Services, etc.
+  App\BoundedContext\VideoGamesRecords\Shared\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Shared/Application/*'

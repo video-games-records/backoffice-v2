@@ -6,19 +6,13 @@ namespace App\Tests\Presentation\Web\Controller;
 
 use App\BoundedContext\User\Tests\Factory\UserFactory;
 use App\BoundedContext\User\Tests\Story\AdminUserStory;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Zenstruck\Foundry\Test\Factories;
-use Zenstruck\Foundry\Test\ResetDatabase;
 
 /**
  * Test suite for health check endpoints
  */
-class HealthCheckControllerTest extends WebTestCase
+class HealthCheckControllerTest extends AbstractWebTestCase
 {
-    use ResetDatabase;
-    use Factories;
-
     public function testBasicHealthCheck(): void
     {
         $client = static::createClient();

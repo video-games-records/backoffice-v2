@@ -7,7 +7,7 @@ namespace App\BoundedContext\VideoGamesRecords\Igdb\Presentation\Admin;
 use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\Game;
 use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\Genre;
 use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\Platform;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
+use App\SharedKernel\Presentation\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -17,9 +17,9 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
- * @extends AbstractAdmin<Game>
+ * @extends BaseAdmin<Game>
  */
-final class GameAdmin extends AbstractAdmin
+final class GameAdmin extends BaseAdmin
 {
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {

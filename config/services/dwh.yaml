@@ -1,0 +1,42 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Application Layer - Commands
+    App\BoundedContext\VideoGamesRecords\Dwh\Application\Command\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Application/Command/*'
+
+    # Application Layer - Services
+    App\BoundedContext\VideoGamesRecords\Dwh\Application\Service\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Application/Service/*'
+
+    # Application Layer - DataProviders
+    App\BoundedContext\VideoGamesRecords\Dwh\Application\DataProvider\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Application/DataProvider/*'
+
+    # Application Layer - MessageHandlers
+    App\BoundedContext\VideoGamesRecords\Dwh\Application\MessageHandler\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Application/MessageHandler/*'
+
+    # Infrastructure Layer
+    App\BoundedContext\VideoGamesRecords\Dwh\Infrastructure\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Infrastructure/*'
+
+    # Presentation Layer - API Controllers
+    App\BoundedContext\VideoGamesRecords\Dwh\Presentation\Api\Controller\:
+        resource: '../../src/BoundedContext/VideoGamesRecords/Dwh/Presentation/Api/Controller/*'
+        tags: ['controller.service_arguments']
+
+    # Services spécifiques avec alias
+    vgr.dwh.manager.table:
+        alias: App\BoundedContext\VideoGamesRecords\Dwh\Application\Service\TableManager
+        public: true
+
+    vgr.dwh.provider.core:
+        alias: App\BoundedContext\VideoGamesRecords\Dwh\Application\Service\CoreProvider
+        public: true
+
+    vgr.dwh.provider.top:
+        alias: App\BoundedContext\VideoGamesRecords\Dwh\Application\Service\TopProvider
+        public: true

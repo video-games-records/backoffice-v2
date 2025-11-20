@@ -106,7 +106,7 @@ class GetHome extends AbstractController
     /**
      * @param mixed $user
      * @param array<mixed> $forumIds
-     * @return array<mixed>
+     * @return array<string, mixed>
      */
     private function getUnreadTopicsCountByForum($user, array $forumIds): array
     {

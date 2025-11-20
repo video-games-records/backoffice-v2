@@ -8,7 +8,17 @@ api_platform:
         - '%kernel.project_dir%/src/BoundedContext/Message/Domain'
         - '%kernel.project_dir%/src/BoundedContext/Forum/Domain'
         - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Igdb/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Team/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Badge/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Domain'
         - '%kernel.project_dir%/src/SharedKernel/Domain'
+    mapping:
+        paths:
+            # Scan des dossiers Resources pour les configurations API
+            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Presentation/Api/Resources'
+            - '%kernel.project_dir%/src/BoundedContext/User/Presentation/Api/Resource'
     # Enable GraphQL
     graphql:
         enabled: true

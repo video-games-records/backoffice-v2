@@ -1,0 +1,48 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Proof Domain Services
+  App\BoundedContext\VideoGamesRecords\Proof\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Proof/Domain/{Entity,ValueObject,Event,Exception}'
+
+  # Application Layer
+  App\BoundedContext\VideoGamesRecords\Proof\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Application/*'
+
+  # Infrastructure Layer
+  App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Infrastructure/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Proof/Infrastructure/Doctrine/Repository/*'
+  
+  # Doctrine Repositories
+  App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Doctrine\Repository\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Infrastructure/Doctrine/Repository/*'
+    tags: ['doctrine.repository_service']
+
+  # Presentation Layer - API Controllers
+  App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Api/Controller/*'
+    tags: ['controller.service_arguments']
+
+  # Presentation Layer - Web Admin Controllers
+  App\BoundedContext\VideoGamesRecords\Proof\Presentation\Web\Controller\Admin\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Web/Controller/Admin/*'
+    tags: ['controller.service_arguments']
+
+  # Presentation Layer - Admin
+  App\BoundedContext\VideoGamesRecords\Proof\Presentation\Admin\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Admin/*'
+
+  # Sonata Block Services
+  admin.block.service.proof.games:
+    class: App\BoundedContext\VideoGamesRecords\Proof\Presentation\Block\Service\ProofGamesBlockService
+    tags:
+      - { name: "sonata.block" }
+
+  admin.block.service.proof_requests:
+    class: App\BoundedContext\VideoGamesRecords\Proof\Presentation\Block\Service\ProofRequestBlockService
+    tags:
+      - { name: "sonata.block" }

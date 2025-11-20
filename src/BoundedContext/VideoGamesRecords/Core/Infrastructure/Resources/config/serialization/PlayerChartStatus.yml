@@ -1,0 +1,11 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus:
+  attributes:
+    id:
+      groups:
+        - 'player-chart-status:read'
+    class:
+      groups:
+        - 'player-chart-status:read'
+    name:
+      groups:
+        - 'player-chart-status:read'

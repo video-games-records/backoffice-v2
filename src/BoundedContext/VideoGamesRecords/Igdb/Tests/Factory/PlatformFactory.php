@@ -88,13 +88,11 @@ final class PlatformFactory extends PersistentProxyObjectFactory
 
     public function withoutLogo(): static
     {
-        /** @phpstan-ignore-next-line */
-        return $this->without('platformLogo');
+        return $this->with(['platformLogo' => null]);
     }
 
     public function withoutType(): static
     {
-        /** @phpstan-ignore-next-line */
-        return $this->without('platformType');
+        return $this->with(['platformType' => null]);
     }
 }

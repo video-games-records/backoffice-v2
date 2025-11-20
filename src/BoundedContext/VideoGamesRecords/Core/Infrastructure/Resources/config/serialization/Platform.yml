@@ -1,0 +1,14 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform:
+  attributes:
+    id:
+      groups:
+        - 'platform:read'
+    name:
+      groups:
+        - 'platform:read'
+    picture:
+      groups:
+        - 'platform:read'
+    slug:
+      groups:
+        - 'platform:read'

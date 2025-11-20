@@ -16,22 +16,27 @@ class SecurityTest extends AbstractFunctionalTestCase
 
     public function testSendPasswordResetLink(): void
     {
-        // Load the admin user story to have consistent test data
-        AdminUserStory::load();
-
         /** @var InMemoryTransport $transport */
         $transport = $this->getContainer()->get('messenger.transport.async');
         // Clear any existing messages from other tests
         $transport->get(); // This empties the transport
 
+        // Create an admin user for the test
+        $unique = uniqid();
+        $adminEmail = "admin{$unique}@local.fr";
+        $adminUser = $this->createUser(['email' => $adminEmail, 'username' => "admin{$unique}"]);
+
         $response = $this->apiClient->request('POST', '/api/users/reset-password/send-link', ['json' => [
-            'email' => 'admin@local.fr',
+            'email' => $adminEmail,
             'callBackUrl' => ''
         ]]);
         $this->assertResponseIsSuccessful();
 
-        // Get admin user from story
-        $user = AdminUserStory::adminUser()->_real();
+        // Get admin user from database
+        $user = $adminUser->_real();
+        $entityManager = static::getContainer()->get('doctrine.orm.entity_manager');
+        $entityManager->refresh($user);
+
         $this->assertNotNull($user->getConfirmationToken());
         $this->assertNotNull($user->getPasswordRequestedAt());
 
@@ -44,14 +49,15 @@ class SecurityTest extends AbstractFunctionalTestCase
 
     public function testConfirmPassword(): void
     {
-        // Load the admin user story to have consistent test data
-        AdminUserStory::load();
-
         /** @var EntityManagerInterface $em */
         $em = static::getContainer()->get('doctrine.orm.entity_manager');
 
-        // Get admin user from story
-        $user = AdminUserStory::adminUser()->_real();
+        // Create an admin user for the test
+        $unique = uniqid();
+        $adminUser = $this->createUser(['email' => "admin{$unique}@local.fr", 'username' => "admin{$unique}"]);
+
+        // Get admin user from database
+        $user = $adminUser->_real();
         $user->setConfirmationToken($this->token);
         $user->setPasswordRequestedAt(new Datetime());
         $oldHashPassword = $user->getPassword();

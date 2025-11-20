@@ -39,10 +39,13 @@ db-test: ## Create test database with fixtures
 	@echo "$(YELLOW)Setting up test database...$(RESET)"
 	$(CONSOLE_BIN) doctrine:database:drop --force --env=test --if-exists
 	$(CONSOLE_BIN) doctrine:database:create --env=test
+	$(CONSOLE_BIN) doctrine:database:drop --force --env=test --if-exists --connection=audit
+	$(CONSOLE_BIN) doctrine:database:create --env=test --connection=audit
 	$(CONSOLE_BIN) cache:clear --env=test
 	$(CONSOLE_BIN) doctrine:schema:update --force --env=test
-	$(CONSOLE_BIN) doctrine:fixtures:load --no-interaction --env=test
-	@echo "$(GREEN)Test database ready with fixtures!$(RESET)"
+	$(CONSOLE_BIN) doctrine:schema:update --force --env=test --em=audit
+	@echo "$(GREEN)Test database ready!$(RESET)"
+	@echo "$(CYAN)Note: Fixtures loaded automatically by ResetDatabase trait$(RESET)"
 
 db-setup: db-test ## Alias for db-test (backward compatibility)
 
@@ -133,6 +136,16 @@ test-forum-api: ## Run Forum API tests only
 	@echo "$(YELLOW)Clearing rate limiter cache...$(RESET)"
 	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
 	$(PHPUNIT_BIN) tests/BoundedContext/Forum/Functional/Api/ --testdox
+
+test-vgr-core: ## Run all VideoGamesRecords Core BoundedContext tests
+	@echo "$(GREEN)Running VideoGamesRecords Core BoundedContext tests...$(RESET)"
+	$(PHPUNIT_BIN) tests/BoundedContext/VideoGamesRecords/Core/ --testdox
+
+test-vgr-core-api: ## Run VideoGamesRecords Core API tests only
+	@echo "$(GREEN)Running VideoGamesRecords Core API tests...$(RESET)"
+	@echo "$(YELLOW)Clearing rate limiter cache...$(RESET)"
+	$(CONSOLE_BIN) cache:pool:clear cache.rate_limiter --env=test
+	$(PHPUNIT_BIN) tests/BoundedContext/VideoGamesRecords/Core/Functional/Api/ --testdox
 
 ##@ Code Quality
 phpstan: ## Run PHPStan static analysis
@@ -232,6 +245,8 @@ tm: test-message ## Shortcut for test-message
 tm-api: test-message-api ## Shortcut for test-message-api
 tf-forum: test-forum ## Shortcut for test-forum
 tf-api: test-forum-api ## Shortcut for test-forum-api
+tvgr-core: test-vgr-core ## Shortcut for test-vgr-core
+tvgr-api: test-vgr-core-api ## Shortcut for test-vgr-core-api
 l: lint ## Shortcut for lint
 f: fix ## Shortcut for fix
 s: serve ## Shortcut for serve

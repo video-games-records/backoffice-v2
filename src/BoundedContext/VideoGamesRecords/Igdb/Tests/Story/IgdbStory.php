@@ -27,42 +27,34 @@ final class IgdbStory extends Story
         PlatformLogoFactory::new()->animated()->create(['id' => 4]);
 
         // Create platforms with specific IDs to match typical IGDB data
-        PlatformFactory::new()->pc()->withoutLogo()->create(['id' => 6]);
-        PlatformFactory::new()->playstation()->create(['id' => 7]);
-        PlatformFactory::new()->playstation2()->create(['id' => 8]);
-        PlatformFactory::new()->xbox()->create(['id' => 11]);
-        PlatformFactory::new()->nintendo64()->create(['id' => 4]);
+        PlatformFactory::new()->pc()->withoutLogo()->withoutType()->create(['id' => 1]);
+        PlatformFactory::new()->playstation()->withoutLogo()->withoutType()->create(['id' => 2]);
+        PlatformFactory::new()->playstation2()->withoutLogo()->withoutType()->create(['id' => 3]);
+        PlatformFactory::new()->xbox()->withoutLogo()->withoutType()->create(['id' => 4]);
+        PlatformFactory::new()->nintendo64()->withoutLogo()->withoutType()->create(['id' => 5]);
 
         // Create genres with specific IDs to match typical IGDB data
-        GenreFactory::new()->action()->create(['id' => 31]);
-        GenreFactory::new()->rpg()->create(['id' => 12]);
-        GenreFactory::new()->adventure()->create(['id' => 31]);
-        GenreFactory::new()->strategy()->create(['id' => 15]);
+        GenreFactory::new()->action()->create(['id' => 1]);
+        GenreFactory::new()->rpg()->create(['id' => 2]);
+        GenreFactory::new()->adventure()->create(['id' => 3]);
+        GenreFactory::new()->strategy()->create(['id' => 4]);
         GenreFactory::new()->shooter()->create(['id' => 5]);
 
-        // Create some games
+        // Create some simple games without complex relationships
         GameFactory::new()
-            ->actionRpg()
-            ->withMultiplePlatforms()
-            ->create(['id' => 1]);
+            ->withoutGenres()
+            ->withoutPlatforms()
+            ->create(['id' => 1, 'name' => 'Epic Action RPG', 'slug' => 'epic-action-rpg']);
 
         GameFactory::new()
-            ->platformer()
-            ->retro()
-            ->create(['id' => 2]);
+            ->withoutGenres()
+            ->withoutPlatforms()
+            ->create(['id' => 2, 'name' => 'Super Platformer', 'slug' => 'super-platformer']);
 
         GameFactory::new()
-            ->shooter()
-            ->modern()
-            ->create(['id' => 3]);
-
-        // Create a game with version parent
-        GameFactory::new()
-            ->withVersionParent()
-            ->create(['id' => 4]);
-
-        // Create additional random games
-        GameFactory::new()->many(5)->create();
+            ->withoutGenres()
+            ->withoutPlatforms()
+            ->create(['id' => 3, 'name' => 'Space Shooter', 'slug' => 'space-shooter']);
     }
 
     /**

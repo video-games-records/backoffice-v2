@@ -1,0 +1,17 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\LostPosition:
+  attributes:
+    id:
+      groups:
+        - 'lost-position:read'
+    chart:
+      groups:
+        - 'lost-position:chart'
+    oldRank:
+      groups:
+        - 'lost-position:read'
+    newRank:
+      groups:
+        - 'lost-position:read'
+    createdAt:
+      groups:
+        - 'lost-position:read'

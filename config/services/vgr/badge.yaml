@@ -1,0 +1,32 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  # Badge Domain Services
+  App\BoundedContext\VideoGamesRecords\Badge\Domain\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Domain/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Badge/Domain/{Entity,ValueObject,Event,Exception}'
+
+  # Application Layer
+  App\BoundedContext\VideoGamesRecords\Badge\Application\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Application/*'
+
+  # Infrastructure Layer
+  App\BoundedContext\VideoGamesRecords\Badge\Infrastructure\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Infrastructure/*'
+    exclude: '../../../src/BoundedContext/VideoGamesRecords/Badge/Infrastructure/Doctrine/Repository/*'
+
+  # Doctrine Repositories
+  App\BoundedContext\VideoGamesRecords\Badge\Infrastructure\Doctrine\Repository\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Infrastructure/Doctrine/Repository/*'
+    tags: [ 'doctrine.repository_service' ]
+
+  # Presentation Layer - API Controllers
+  App\BoundedContext\VideoGamesRecords\Badge\Presentation\Api\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Api/Controller/*'
+    tags: [ 'controller.service_arguments' ]
+
+  # Presentation Layer - Admin
+  App\BoundedContext\VideoGamesRecords\Badge\Presentation\Admin\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Admin/*'

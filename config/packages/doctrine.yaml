@@ -1,5 +1,6 @@
 doctrine:
     dbal:
+        default_connection: default
         connections:
             default:
                 driver: pdo_mysql
@@ -8,6 +9,13 @@ doctrine:
                 use_savepoints: true
                 mapping_types:
                     enum: string
+            dwh:
+                driver: pdo_mysql
+                url: '%env(resolve:DATABASE_URL_DWH)%'
+                charset: UTF8
+                use_savepoints: true
+                mapping_types:
+                  enum: string
             audit:
                 driver: pdo_mysql
                 url: '%env(resolve:DATABASE_URL_AUDIT)%'
@@ -59,29 +67,56 @@ doctrine:
                         dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Igdb/Domain'
                         prefix: 'App\BoundedContext\VideoGamesRecords\Igdb\Domain'
                         alias: VideoGamesRecordsIgdb
+                    VideoGamesRecordsCore:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Core\Domain'
+                        alias: VideoGamesRecordsCore
+                    VideoGamesRecordsTeam:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Team/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Team\Domain'
+                        alias: VideoGamesRecordsTeam
+                    VideoGamesRecordsBadge:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Badge/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Badge\Domain'
+                        alias: VideoGamesRecordsBadge
+                    VideoGamesRecordsProof:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Proof\Domain'
+                        alias: VideoGamesRecordsProof
+                    VideoGamesRecordsShared:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Shared\Domain'
+                        alias: VideoGamesRecordsShared
                     SharedKernel:
                         type: attribute
                         is_bundle: false
                         dir: '%kernel.project_dir%/src/SharedKernel'
                         prefix: 'App\SharedKernel'
                         alias: SharedKernel
+            dwh:
+                connection: dwh
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    VideoGamesRecordsDwh:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Dwh/Domain'
+                        prefix: 'App\BoundedContext\VideoGamesRecords\Dwh\Domain'
+                        alias: VideoGamesRecordsDwh
             audit:
                 connection: audit
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         resolve_target_entities: ~
-
-when@test:
-    doctrine:
-        dbal:
-            connections:
-                default:
-                    driver: pdo_sqlite
-                    url: 'sqlite:///%kernel.project_dir%/var/test.db'
-                    charset: utf8
-                audit:
-                    driver: pdo_sqlite  
-                    url: 'sqlite:///%kernel.project_dir%/var/test_audit.db'
-                    charset: utf8
 
 when@prod:
     doctrine:

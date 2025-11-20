@@ -1,0 +1,42 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart:
+  attributes:
+    id:
+      groups:
+        - 'chart:read'
+    group:
+      groups:
+        - 'chart:group'
+    libs:
+      groups:
+        - 'chart:libs'
+    nbPost:
+      groups:
+        - 'chart:read'
+    nbPlayer:
+      groups:
+        - 'chart:read'
+    name:
+      groups:
+        - 'chart:read'
+    isDlc:
+      groups:
+        - 'chart:read'
+    isProofVideoOnly:
+      groups:
+        - 'chart:read'
+    slug:
+      groups:
+        - 'chart:read'
+    playerCharts:
+      groups:
+        - 'chart:player-charts'
+    playerChart1:
+      groups:
+        - 'chart:top-score'
+    playerChartP:
+      groups:
+        - 'chart:top-score'
+    createdAt:
+      groups: []
+    updatedAt:
+      groups: []

@@ -1,0 +1,29 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Group:
+  attributes:
+    id:
+      groups:
+        - 'group:read'
+        - 'group:read:minimal'
+    name:
+      groups:
+        - 'group:read'
+        - 'group:read:minimal'
+    game:
+      groups:
+        - 'group:game'
+    isDlc:
+      groups:
+        - 'group:read'
+    nbChart:
+      groups:
+        - 'group:read'
+    nbPost:
+      groups:
+        - 'group:read'
+    nbPlayer:
+      groups:
+        - 'group:read'
+    slug:
+      groups:
+        - 'group:read'
+        - 'group:read:minimal'

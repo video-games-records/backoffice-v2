@@ -1,0 +1,18 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerPlatform:
+  attributes:
+    player:
+      groups:
+        - 'player-platform:player'
+    platform:
+      groups:
+        - 'player-platform:platform'
+    rankPointPlatform:
+      groups:
+        - 'player-platform:read'
+    pointPlatform:
+      groups:
+        - 'player-platform:read'
+    nbChart:
+      groups:
+        - 'player-platform:read'
+

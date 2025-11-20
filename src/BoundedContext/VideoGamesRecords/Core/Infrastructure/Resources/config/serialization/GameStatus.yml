@@ -1,0 +1,5 @@
+App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\GameStatus:
+  attributes:
+    value:
+      groups:
+        - 'game:read'

@@ -34,6 +34,9 @@ class Genre
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $url = null;
 
+    #[ORM\Column(type: 'string', length: 36)]
+    private string $checksum;
+
     #[ORM\Column(type: 'datetime_immutable')]
     private \DateTimeImmutable $createdAt;
 
@@ -84,6 +87,16 @@ class Genre
     public function setUrl(?string $url): void
     {
         $this->url = $url;
+    }
+
+    public function getChecksum(): string
+    {
+        return $this->checksum;
+    }
+
+    public function setChecksum(string $checksum): void
+    {
+        $this->checksum = $checksum;
     }
 
     public function getCreatedAt(): \DateTimeImmutable

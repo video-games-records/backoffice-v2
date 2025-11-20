@@ -1,0 +1,6 @@
+framework:
+    serializer:
+        mapping:
+            paths:
+                # VideoGamesRecords Core Context
+                - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Resources/config/serialization'
