@@ -33,7 +33,7 @@ class TopPlayerProvider extends AbstractTopProvider
 
         /** @var CorePlayerRepository $dwhPlayerRepository */
         $corePlayerRepository = $this->defaultEntityManager->getRepository(
-            'VideoGamesRecords\CoreBundle\Entity\Player'
+            'App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player'
         );
 
         $playerList1 = $dwhPlayerRepository->getTop(

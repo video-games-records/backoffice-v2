@@ -4,6 +4,12 @@ user_api_controllers:
         namespace: App\BoundedContext\User\Presentation\Api\Controller
     type: attribute
 
+user_web_controllers:
+    resource:
+        path: ../src/BoundedContext/User/Presentation/Web/Controller/
+        namespace: App\BoundedContext\User\Presentation\Web\Controller
+    type: attribute
+
 message_api_controllers:
     resource:
         path: ../src/BoundedContext/Message/Presentation/Api/Controller/
@@ -14,6 +20,36 @@ shared_kernel_controllers:
     resource:
         path: ../src/SharedKernel/Presentation/
         namespace: App\SharedKernel\Presentation
+    type: attribute
+
+vgr_core_web_controllers:
+    resource:
+        path: ../src/BoundedContext/VideoGamesRecords/Core/Presentation/Web/Controller/
+        namespace: App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller
+    type: attribute
+
+vgr_team_web_controllers:
+    resource:
+        path: ../src/BoundedContext/VideoGamesRecords/Team/Presentation/Web/Controller/
+        namespace: App\BoundedContext\VideoGamesRecords\Team\Presentation\Web\Controller
+    type: attribute
+
+vgr_team_api_controllers:
+    resource:
+        path: ../src/BoundedContext/VideoGamesRecords/Team/Presentation/Api/Controller/
+        namespace: App\BoundedContext\VideoGamesRecords\Team\Presentation\Api\Controller
+    type: attribute
+
+vgr_core_api_controllers:
+    resource:
+        path: ../src/BoundedContext/VideoGamesRecords/Core/Presentation/Api/Controller/
+        namespace: App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller
+    type: attribute
+
+vgr_shared_api_controllers:
+    resource:
+        path: ../src/BoundedContext/VideoGamesRecords/Shared/Presentation/Api/Controller/
+        namespace: App\BoundedContext\VideoGamesRecords\Shared\Presentation\Api\Controller
     type: attribute
 
 # Import custom message routes (if needed)

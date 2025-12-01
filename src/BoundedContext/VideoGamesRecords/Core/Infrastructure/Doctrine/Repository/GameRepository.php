@@ -14,8 +14,8 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
-use VideoGamesRecords\IgdbBundle\Entity\Game as IgdbGame;
-use VideoGamesRecords\CoreBundle\ValueObject\GameStatus;
+use App\BoundedContext\VideoGamesRecords\igdb\Domain\Entity\Game as IgdbGame;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\GameStatus;
 
 class GameRepository extends DefaultRepository
 {

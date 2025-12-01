@@ -29,10 +29,10 @@ class TopGameProvider extends AbstractTopProvider
         int $limit = 20
     ): array {
         /** @var DwhGameRepository $dwhGameRepository */
-        $dwhGameRepository = $this->dwhEntityManager->getRepository('VideoGamesRecords\DwhBundle\Entity\Game');
+        $dwhGameRepository = $this->dwhEntityManager->getRepository('App\BoundedContext\VideoGamesRecords\Dwh\Domain\Entity\Game');
 
         /** @var CoreGameRepository $coreGameRepository */
-        $coreGameRepository = $this->defaultEntityManager->getRepository('VideoGamesRecords\CoreBundle\Entity\Game');
+        $coreGameRepository = $this->defaultEntityManager->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game');
 
         $gameList1 = $dwhGameRepository->getTop(
             $date1Begin,

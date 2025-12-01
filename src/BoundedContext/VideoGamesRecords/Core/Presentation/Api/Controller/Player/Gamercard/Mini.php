@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Attribute\Route;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
-use VideoGamesRecords\CoreBundle\File\PictureCreatorFactory;
+use App\SharedKernel\Domain\File\PictureCreatorFactory;
 use App\SharedKernel\Domain\Traits\GetOrdinalSuffixTrait;
 use App\SharedKernel\Domain\Traits\NumberFormatTrait;
 

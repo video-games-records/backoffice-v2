@@ -9,8 +9,8 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
-use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Game;
-use VideoGamesRecords\CoreBundle\ValueObject\ProofStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
+use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\ProofStatus;
 
 class ProofRepository extends DefaultRepository
 {

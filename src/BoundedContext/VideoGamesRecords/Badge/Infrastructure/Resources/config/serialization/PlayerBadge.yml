@@ -1,0 +1,22 @@
+App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge:
+  attributes:
+    id:
+      groups:
+        - 'player-badge:read'
+        - 'player-badge:update'
+    badge:
+      groups:
+        - 'player-badge:badge'
+    player:
+      groups:
+        - 'player-badge:player'
+    mbOrder:
+      groups:
+        - 'player-badge:read'
+        - 'player-badge:update'
+    createdAt:
+      groups:
+        - 'player-badge:read'
+    endedAt:
+      groups:
+        - 'player-badge:read'

@@ -1,0 +1,26 @@
+App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\ProofRequest:
+  attributes:
+    id:
+      groups:
+        - 'proof-request:read'
+    playerChart:
+      groups:
+        - 'proof-request:read'
+        - 'proof-request:insert'
+    status:
+      groups:
+        - 'proof-request:read'
+    playerRequesting:
+      groups:
+        - 'proof-request:read'
+        - 'proof-request:insert'
+    playerResponding:
+      groups:
+        - 'proof-request:read'
+    message:
+      groups:
+        - 'proof-request:read'
+        - 'proof-request:insert'
+    dateAcceptance:
+      groups:
+        - 'proof-request:read'

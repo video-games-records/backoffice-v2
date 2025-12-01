@@ -13,7 +13,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\ValueObject\BadgeType;
-use VideoGamesRecords\CoreBundle\Message\Player\UpdatePlayerSerieRank;
+use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerSerieRank;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\SerieStatus;
 
 class SerieListener

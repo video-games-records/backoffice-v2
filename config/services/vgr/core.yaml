@@ -34,9 +34,9 @@ services:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Presentation/Api/Controller/*'
     tags: ['controller.service_arguments']
 
-  # Presentation Layer - Web Admin Controllers
-  App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller\Admin\:
-    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Presentation/Web/Controller/Admin/*'
+  # Presentation Layer - Web Controllers
+  App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Core/Presentation/Web/Controller/*'
     tags: ['controller.service_arguments']
 
   # Sonata Block Services

@@ -17,7 +17,7 @@ api_platform:
     mapping:
         paths:
             # Scan des dossiers Resources pour les configurations API
-            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Presentation/Api/Resources'
+            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Presentation/Api/Resources'
             - '%kernel.project_dir%/src/BoundedContext/User/Presentation/Api/Resource'
     # Enable GraphQL
     graphql:

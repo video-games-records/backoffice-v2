@@ -1,0 +1,21 @@
+App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamRequest:
+  attributes:
+    id:
+      groups:
+        - 'team-request:read'
+        - 'team-request:update'
+    team:
+      groups:
+        - 'team-request:read'
+        - 'team-request:insert'
+    player:
+      groups:
+        - 'team-request:read'
+    status:
+      groups:
+        - 'team-request:read'
+        - 'team-request:update'
+    createdAt:
+      groups:
+        - 'team-request:read'
+
