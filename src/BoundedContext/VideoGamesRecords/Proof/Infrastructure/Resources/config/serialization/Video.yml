@@ -1,0 +1,59 @@
+App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\Video:
+  attributes:
+    id:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    slug:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    status:
+      groups:
+        - 'video:read'
+    type:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    externalId:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    url:
+      groups:
+        - 'video:read'
+        - 'video:insert'
+    tag:
+      groups:
+        - 'video:insert'
+        - 'video:update'
+    title:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    description:
+      groups:
+        - 'video:read'
+    viewCount:
+      groups:
+        - 'video:read'
+    likeCount:
+      groups:
+        - 'video:read'
+    thumbnail:
+      groups:
+        - 'video:read'
+        - 'video:read:minimal'
+    nbComment:
+      groups:
+        - 'video:read'
+    game:
+      groups:
+        - 'video:game'
+        - 'video:insert'
+    player:
+      groups:
+        - 'video:player'
+    createdAt:
+      groups:
+        - 'video:read'

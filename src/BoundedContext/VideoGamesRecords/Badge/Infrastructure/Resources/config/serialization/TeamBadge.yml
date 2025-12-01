@@ -1,0 +1,22 @@
+App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\TeamBadge:
+  attributes:
+    id:
+      groups:
+        - 'team-badge:read'
+        - 'team-badge:update'
+    badge:
+      groups:
+        - 'team-badge:badge'
+    team:
+      groups:
+        - 'team-badge:team'
+    mbOrder:
+      groups:
+        - 'team-badge:read'
+        - 'team-badge:update'
+    createdAt:
+      groups:
+        - 'team-badge:read'
+    endedAt:
+      groups:
+        - 'team-badge:read'

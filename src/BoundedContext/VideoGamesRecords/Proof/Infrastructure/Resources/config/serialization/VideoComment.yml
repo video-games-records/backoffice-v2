@@ -1,0 +1,18 @@
+App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\VideoComment:
+  attributes:
+    id:
+      groups:
+        - 'video-comment:read'
+    video:
+      groups:
+        - 'video-comment:insert'
+    player:
+      groups:
+        - 'video-comment:player'
+    content:
+      groups:
+        - 'video-comment:read'
+        - 'video-comment:insert'
+    createdAt:
+      groups:
+        - 'video-comment:read'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Manager;
+namespace App\SharedKernel\Infrastructure\FileSystem\Manager;
 
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AvatarManager
 {
-    private string $prefix = 'team/';
+    private string $prefix;
 
     private array $extensions = [
         'png' => 'image/png',
@@ -19,9 +19,10 @@ class AvatarManager
 
     private FilesystemOperator $appStorage;
 
-    public function __construct(FilesystemOperator $appStorage)
+    public function __construct(FilesystemOperator $appStorage, string $prefix = 'avatar/')
     {
         $this->appStorage = $appStorage;
+        $this->prefix = rtrim($prefix, '/') . '/';
     }
 
     /**

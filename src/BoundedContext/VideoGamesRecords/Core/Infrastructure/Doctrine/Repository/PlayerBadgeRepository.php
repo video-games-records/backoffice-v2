@@ -13,7 +13,7 @@ use Exception;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge;
-use VideoGamesRecords\CoreBundle\Enum\BadgeType;
+use App\BoundedContext\VideoGamesRecords\Badge\Domain\ValueObject\BadgeType;
 
 class PlayerBadgeRepository extends DefaultRepository
 {

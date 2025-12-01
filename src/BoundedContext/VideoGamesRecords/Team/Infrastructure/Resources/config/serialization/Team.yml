@@ -1,0 +1,113 @@
+App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team:
+  attributes:
+    id:
+      groups:
+        - 'team:read'
+        - 'team:read:minimal'
+        - 'team:update'
+    libTeam:
+      groups:
+        - 'team:read'
+        - 'team:read:minimal'
+        - 'team:insert'
+        - 'team:update'
+    presentation:
+      groups:
+        - 'team:read'
+        - 'team:update'
+    slug:
+      groups:
+        - 'team:read'
+        - 'team:read:minimal'
+    tag:
+      groups:
+        - 'team:read'
+        - 'team:read:minimal'
+        - 'team:insert'
+        - 'team:update'
+    status:
+      groups:
+        - 'team:read'
+        - 'team:update'
+    siteWeb:
+      groups:
+        - 'team:read'
+        - 'team:update'
+    logo:
+      groups:
+        - 'team:read'
+    leader:
+      groups:
+        - 'team:leader'
+    nbPlayer:
+      groups:
+        - 'team:read'
+    rankPointChart:
+      groups:
+        - 'team:read'
+    averageChartRank:
+      groups:
+        - 'team:read'
+    pointChart:
+      groups:
+        - 'team:read'
+    rankPointGame:
+      groups:
+        - 'team:read'
+    pointGame:
+      groups:
+        - 'team:read'
+    nbGame:
+      groups:
+        - 'team:read'
+    rankMedal:
+      groups:
+        - 'team:read'
+    chartRank0:
+      groups:
+        - 'team:read'
+    chartRank1:
+      groups:
+        - 'team:read'
+    chartRank2:
+      groups:
+        - 'team:read'
+    chartRank3:
+      groups:
+        - 'team:read'
+    rankCup:
+      groups:
+        - 'team:read'
+    averageGameRank:
+      groups:
+        - 'team:read'
+    gameRank0:
+      groups:
+        - 'team:read'
+    gameRank1:
+      groups:
+        - 'team:read'
+    gameRank2:
+      groups:
+        - 'team:read'
+    gameRank3:
+      groups:
+        - 'team:read'
+    rankBadge:
+      groups:
+        - 'team:read'
+    pointBadge:
+      groups:
+        - 'team:read'
+    nbMasterBadge:
+      groups:
+        - 'team:read'
+#    teamBadge:
+#      groups:
+#        - 'team:badges'
+#    teamGame:
+#      groups:
+#        - 'team:games'
+    createdAt:
+      groups:
+        - 'team:read'

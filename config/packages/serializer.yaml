@@ -4,3 +4,9 @@ framework:
             paths:
                 # VideoGamesRecords Core Context
                 - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Infrastructure/Resources/config/serialization'
+                # VideoGamesRecords Team Context
+                - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Team/Infrastructure/Resources/config/serialization'
+                # VideoGamesRecords Proof Context
+                - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Infrastructure/Resources/config/serialization'
+                # VideoGamesRecords Badge Context
+                - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Badge/Infrastructure/Resources/config/serialization'

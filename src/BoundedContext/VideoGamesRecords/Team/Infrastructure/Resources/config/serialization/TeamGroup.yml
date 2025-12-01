@@ -1,0 +1,26 @@
+App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamGroup:
+  attributes:
+    team:
+      groups:
+        - 'team-group:team'
+    pointChart:
+      groups:
+        - 'team-group:read'
+    rankPointChart:
+      groups:
+        - 'team-group:read'
+    rankMedal:
+      groups:
+        - 'team-group:read'
+    chartRank0:
+      groups:
+        - 'team-group:read'
+    chartRank1:
+      groups:
+        - 'team-group:read'
+    chartRank2:
+      groups:
+        - 'team-group:read'
+    chartRank3:
+      groups:
+        - 'team-group:read'

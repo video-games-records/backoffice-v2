@@ -31,3 +31,12 @@ services:
   App\BoundedContext\VideoGamesRecords\Team\Presentation\Web\Controller\:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Team/Presentation/Web/Controller/*'
     tags: ['controller.service_arguments']
+
+  # Specific service configuration for Team Avatar services
+  App\BoundedContext\VideoGamesRecords\Team\Presentation\Api\Controller\UploadTeamAvatar:
+    arguments:
+      $teamAvatarManager: '@team_avatar_manager'
+
+  App\BoundedContext\VideoGamesRecords\Team\Presentation\Web\Controller\Avatar\GetTeamAvatar:
+    arguments:
+      $teamAvatarManager: '@team_avatar_manager'

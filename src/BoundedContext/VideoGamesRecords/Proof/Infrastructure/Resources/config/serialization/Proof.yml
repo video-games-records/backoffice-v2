@@ -1,0 +1,16 @@
+App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\Proof:
+  attributes:
+    id:
+      groups:
+        - 'proof:read'
+        - 'proof:update'
+    picture:
+      groups:
+        - 'proof:picture'
+    video:
+      groups:
+        - 'proof:video'
+    status:
+      groups:
+        - 'proof:read'
+        - 'proof:update'

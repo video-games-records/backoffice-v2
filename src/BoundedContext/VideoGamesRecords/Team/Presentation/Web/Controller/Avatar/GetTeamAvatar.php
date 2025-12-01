@@ -8,16 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
-use App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Manager\AvatarManager;
+use App\SharedKernel\Infrastructure\FileSystem\Manager\AvatarManager;
 
 class GetTeamAvatar extends AbstractController
 {
     private AvatarManager $avatarManager;
 
 
-    public function __construct(AvatarManager $avatarManager)
+    public function __construct(AvatarManager $teamAvatarManager)
     {
-        $this->avatarManager = $avatarManager;
+        $this->avatarManager = $teamAvatarManager;
     }
 
     #[Route(

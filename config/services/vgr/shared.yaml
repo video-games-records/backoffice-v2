@@ -11,3 +11,7 @@ services:
   # Application Layer - includes Commands, Services, etc.
   App\BoundedContext\VideoGamesRecords\Shared\Application\:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Shared/Application/*'
+
+  # Presentation Layer - includes Controllers, Admin, Forms, etc.
+  App\BoundedContext\VideoGamesRecords\Shared\Presentation\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Shared/Presentation/*'

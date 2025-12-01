@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Team\Presentation\Api\Controller;
 
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Security\UserProvider;
-use App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Manager\AvatarManager;
+use App\SharedKernel\Infrastructure\FileSystem\Manager\AvatarManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use League\Flysystem\FilesystemException;
@@ -30,12 +30,12 @@ class UploadTeamAvatar extends AbstractController
     ];
 
     public function __construct(
-        AvatarManager $avatarManager,
+        AvatarManager $teamAvatarManager,
         UserProvider $userProvider,
         EntityManagerInterface $em,
         TranslatorInterface $translator
     ) {
-        $this->avatarManager = $avatarManager;
+        $this->avatarManager = $teamAvatarManager;
         $this->userProvider = $userProvider;
         $this->em = $em;
         $this->translator = $translator;
