@@ -32,11 +32,13 @@ class GetLatestScores extends AbstractController
             ->where('pc.lastUpdate >= :date')
             ->andWhere('pc.id > 0')
             ->orderBy('pc.lastUpdate', 'DESC')
-            ->setParameter('date', new \DateTime('-' . $days . ' days'));
+            ->setParameter('date', new \DateTime('-' . $days . ' days'))
+            ->setFirstResult(($page - 1) * $itemsPerPage)
+            ->setMaxResults($itemsPerPage);
 
         $doctrinePaginator = new DoctrinePaginator($queryBuilder->getQuery());
         $doctrinePaginator->setUseOutputWalkers(false);
 
-        return new Paginator($doctrinePaginator, $page, $itemsPerPage);
+        return new Paginator($doctrinePaginator);
     }
 }
