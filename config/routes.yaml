@@ -34,6 +34,12 @@ vgr_team_web_controllers:
         namespace: App\BoundedContext\VideoGamesRecords\Team\Presentation\Web\Controller
     type: attribute
 
+vgr_badge_web_controllers:
+  resource:
+    path: ../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Web/Controller/
+    namespace: App\BoundedContext\VideoGamesRecords\Badge\Presentation\Web\Controller
+  type: attribute
+
 vgr_team_api_controllers:
     resource:
         path: ../src/BoundedContext/VideoGamesRecords/Team/Presentation/Api/Controller/
