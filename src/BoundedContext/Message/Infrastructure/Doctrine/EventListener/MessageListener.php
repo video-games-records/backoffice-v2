@@ -6,8 +6,11 @@ namespace App\BoundedContext\Message\Infrastructure\Doctrine\EventListener;
 
 use App\BoundedContext\Message\Domain\Entity\Message;
 use App\BoundedContext\User\Domain\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Symfony\Bundle\SecurityBundle\Security;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Message::class)]
 readonly class MessageListener
 {
     public function __construct(private Security $security)

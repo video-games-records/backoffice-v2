@@ -57,7 +57,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'vgr_team')]
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Doctrine\EventListener\TeamListener"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

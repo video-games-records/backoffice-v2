@@ -24,7 +24,6 @@ use DateTime;
 #[ORM\Table(name:'pna_article')]
 #[ORM\Entity(repositoryClass: 'App\BoundedContext\Article\Infrastructure\Doctrine\Repository\ArticleRepository')]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\EntityListeners(['App\BoundedContext\Article\Infrastructure\Doctrine\Listener\ArticleListener'])]
 #[ApiResource(
     operations: [
         new GetCollection(),

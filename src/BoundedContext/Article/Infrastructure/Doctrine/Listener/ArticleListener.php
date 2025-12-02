@@ -6,12 +6,17 @@ namespace App\BoundedContext\Article\Infrastructure\Doctrine\Listener;
 
 use App\BoundedContext\Article\Domain\Entity\Article;
 use App\BoundedContext\User\Domain\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Article::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Article::class)]
+#[AsEntityListener(event: Events::postLoad, method: 'postLoad', entity: Article::class)]
 readonly class ArticleListener
 {
     public function __construct(

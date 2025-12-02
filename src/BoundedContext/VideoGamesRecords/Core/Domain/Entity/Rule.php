@@ -14,7 +14,6 @@ use App\SharedKernel\Domain\Traits\Accessor\CurrentLocale;
 
 #[ORM\Table(name:'vgr_rule')]
 #[ORM\Entity(repositoryClass: RuleRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\RuleListener"])]
 class Rule
 {
     use TimestampableEntity;

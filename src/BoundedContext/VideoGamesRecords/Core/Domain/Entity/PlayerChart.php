@@ -37,7 +37,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 
 #[ORM\Table(name:'vgr_player_chart')]
 #[ORM\Entity(repositoryClass: PlayerChartRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\PlayerChartListener"])]
 #[ORM\UniqueConstraint(name: "unq_player_chart", columns: ["player_id", "chart_id"])]
 #[ORM\Index(name: "idx_rank", columns: ["`rank`"])]
 #[ORM\Index(name: "idx_point_chart", columns: ["point_chart"])]

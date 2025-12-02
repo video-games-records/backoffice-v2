@@ -35,7 +35,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\GroupOrderBy;
 
 #[ORM\Table(name:'vgr_group')]
 #[ORM\Entity(repositoryClass: GroupRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\GroupListener"])]
 #[ORM\Index(name: "idx_lib_group_fr", columns: ["lib_group_fr"])]
 #[ORM\Index(name: "idx_lib_group_en", columns: ["lib_group_en"])]
 #[ApiResource(

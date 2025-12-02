@@ -17,7 +17,6 @@ use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\Player\Play
 
 #[ORM\Table(name:'vgr_video_comment')]
 #[ORM\Entity(repositoryClass: VideoCommentRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Doctrine\EventListener\VideoCommentListener"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

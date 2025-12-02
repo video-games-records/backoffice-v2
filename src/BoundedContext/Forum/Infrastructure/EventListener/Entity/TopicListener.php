@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\Forum\Infrastructure\EventListener\Entity;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\BoundedContext\Forum\Domain\Entity\Forum;
@@ -12,6 +14,10 @@ use App\BoundedContext\Forum\Domain\Entity\TopicType;
 use Symfony\Bundle\SecurityBundle\Security;
 use App\BoundedContext\User\Domain\Entity\User;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Topic::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Topic::class)]
+#[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: Topic::class)]
+#[AsEntityListener(event: Events::preRemove, method: 'preRemove', entity: Topic::class)]
 class TopicListener
 {
     /**

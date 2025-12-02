@@ -33,7 +33,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\SerieStatus;
 
 #[ORM\Table(name:'vgr_serie')]
 #[ORM\Entity(repositoryClass: SerieRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\SerieListener"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

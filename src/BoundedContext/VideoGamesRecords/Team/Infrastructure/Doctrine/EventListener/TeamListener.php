@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Doctrine\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Security\UserProvider;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Team::class)]
 class TeamListener
 {
     private UserProvider $userProvider;

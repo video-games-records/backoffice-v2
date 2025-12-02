@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'pnf_message')]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\Forum\Infrastructure\EventListener\Entity\MessageListener"])]
 #[ApiResource(
     shortName: 'ForumMessage',
     order: ['id' => 'ASC'],

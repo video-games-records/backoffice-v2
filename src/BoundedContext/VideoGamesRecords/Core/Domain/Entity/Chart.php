@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'vgr_chart')]
 #[ORM\Entity(repositoryClass: ChartRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\ChartListener"])]
 #[ORM\Index(name: "idx_lib_chart_fr", columns: ["lib_chart_fr"])]
 #[ORM\Index(name: "idx_lib_chart_en", columns: ["lib_chart_en"])]
 #[ApiResource(
