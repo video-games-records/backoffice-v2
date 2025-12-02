@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Doctrine\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
@@ -13,6 +15,8 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Video;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Security\UserProvider;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\VideoType;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Video::class)]
+#[AsEntityListener(event: Events::preRemove, method: 'preRemove', entity: Video::class)]
 class VideoListener
 {
     private UserProvider $userProvider;

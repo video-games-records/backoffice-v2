@@ -9,7 +9,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'pna_article_translation')]
 #[ORM\Entity]
-#[ORM\EntityListeners(['App\BoundedContext\Article\Infrastructure\Doctrine\Listener\ArticleTranslationListener'])]
 #[ORM\UniqueConstraint(name: 'article_translation_unique', columns: ['translatable_id', 'locale'])]
 class ArticleTranslation
 {

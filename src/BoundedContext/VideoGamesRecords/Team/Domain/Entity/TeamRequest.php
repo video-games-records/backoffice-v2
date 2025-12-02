@@ -21,7 +21,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 
 #[ORM\Table(name:'vgr_team_request')]
 #[ORM\Entity(repositoryClass: TeamRequestRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Team\Infrastructure\Doctrine\EventListener\TeamRequestListener"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

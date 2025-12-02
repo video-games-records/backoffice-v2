@@ -9,14 +9,20 @@ use App\SharedKernel\Domain\Security\SecurityEventTypeEnum;
 use App\BoundedContext\User\Domain\Entity\User;
 use App\BoundedContext\User\Domain\Event\EmailChangedEvent;
 use App\BoundedContext\User\Domain\Event\PasswordChangedEvent;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Exception;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: User::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: User::class)]
+#[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: User::class)]
+#[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: User::class)]
 class UserEntityListener
 {
     /** @var array<int, array{oldEmail: string, newEmail: string}> */

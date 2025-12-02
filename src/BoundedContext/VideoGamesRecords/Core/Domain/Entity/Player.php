@@ -77,7 +77,6 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
 
 #[ORM\Table(name:'vgr_player')]
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\PlayerListener"])]
 #[ORM\Index(name: "idx_point_game", columns: ["point_game"])]
 #[ORM\Index(name: "idx_chart_rank", columns: ["chart_rank0", "chart_rank1", "chart_rank2", "chart_rank3"])]
 #[ORM\Index(name: "idx_game_rank", columns: ["game_rank0", "game_rank1", "game_rank2", "game_rank3"])]

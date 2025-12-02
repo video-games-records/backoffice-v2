@@ -6,12 +6,17 @@ namespace App\BoundedContext\Article\Infrastructure\Doctrine\Listener;
 
 use App\BoundedContext\Article\Domain\Entity\Comment;
 use App\BoundedContext\User\Domain\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use HTMLPurifier;
 use HTMLPurifier_Config;
 use Symfony\Bundle\SecurityBundle\Security;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Comment::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Comment::class)]
+#[AsEntityListener(event: Events::preRemove, method: 'preRemove', entity: Comment::class)]
 class CommentListener
 {
     private HTMLPurifier $purifier;

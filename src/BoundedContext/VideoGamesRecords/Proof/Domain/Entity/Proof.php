@@ -20,7 +20,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
 
 #[ORM\Table(name:'vgr_proof')]
 #[ORM\Entity(repositoryClass: ProofRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Doctrine\EventListener\ProofListener"])]
 #[ApiResource(
     shortName: 'Proof',
     operations: [

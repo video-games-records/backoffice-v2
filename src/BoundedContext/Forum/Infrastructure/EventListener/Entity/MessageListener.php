@@ -4,11 +4,16 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\Forum\Infrastructure\EventListener\Entity;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\Forum\Domain\Entity\Message;
 use App\BoundedContext\User\Domain\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Message::class)]
+#[AsEntityListener(event: Events::preRemove, method: 'preRemove', entity: Message::class)]
+#[AsEntityListener(event: Events::postRemove, method: 'postRemove', entity: Message::class)]
 readonly class MessageListener
 {
     public function __construct(

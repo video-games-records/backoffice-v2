@@ -190,7 +190,6 @@ use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Contracts\GameInfoInterface
 #[ApiFilter(GameSearchFilter::class)]
 #[ORM\Table(name:'vgr_game')]
 #[ORM\Entity(repositoryClass: GameRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener\GameListener"])]
 #[ORM\Index(name: "idx_lib_game_fr", columns: ["lib_game_fr"])]
 #[ORM\Index(name: "idx_lib_game_en", columns: ["lib_game_en"])]
 #[ORM\Index(name: "status", columns: ["status"])]

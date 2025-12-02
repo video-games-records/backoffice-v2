@@ -32,7 +32,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Table(name:'pnu_user')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\EntityListeners([UserEntityListener::class])]
 #[DoctrineAssert\UniqueEntity(["email"])]
 #[DoctrineAssert\UniqueEntity(["username"])]
 #[ApiResource(

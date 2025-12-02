@@ -38,7 +38,6 @@ use ApiPlatform\OpenApi\Model;
 
 #[ORM\Table(name:'vgr_video')]
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Doctrine\EventListener\VideoListener"])]
 #[ORM\UniqueConstraint(name: "unq_video", columns: ["type", "external_id"])]
 #[DoctrineAssert\UniqueEntity(fields: ['url'])]
 #[DoctrineAssert\UniqueEntity(fields: ['type', 'externalId'])]

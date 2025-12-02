@@ -30,7 +30,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'pnf_topic')]
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\Forum\Infrastructure\EventListener\Entity\TopicListener"])]
 #[ORM\Index(name: "idx_name", columns: ["name"])]
 #[ApiResource(
     shortName: 'ForumTopic',

@@ -28,7 +28,6 @@ use App\BoundedContext\User\Domain\Entity\User;
 #[ORM\Index(name: "idx_outbox_opened", columns: ["sender_id", "is_deleted_sender", "is_opened"])]
 #[ORM\Table(name:'pnm_message')]
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\Message\Infrastructure\Doctrine\EventListener\MessageListener"])]
 #[ApiResource(
     order: ['id' => 'DESC'],
     operations: [
