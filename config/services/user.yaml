@@ -46,3 +46,13 @@ services:
             $userAvatarManager: '@user_avatar_manager'
         tags: ['controller.service_arguments']
         public: true
+
+    pnu.event.authentication_success_listener:
+      class: App\BoundedContext\User\Infrastructure\Event\Listener\AuthenticationSuccessListener
+      tags:
+        - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
+
+    pnu.event.refresh_token_listener:
+      class: App\BoundedContext\User\Infrastructure\Event\Listener\RefreshTokenListener
+      tags:
+        - { name: kernel.event_listener, event: gesdinet.refresh_token, method: onRefreshToken }
