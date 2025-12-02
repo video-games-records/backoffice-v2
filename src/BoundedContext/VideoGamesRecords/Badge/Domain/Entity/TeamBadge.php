@@ -20,7 +20,6 @@ use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
 
 #[ORM\Table(name:'vgr_team_badge')]
 #[ORM\Entity(repositoryClass: TeamBadgeRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Badge\Infrastructure\Doctrine\EventListener\TeamBadgeListener"])]
 #[ApiResource(
     order: ['badge.type' => 'ASC', 'badge.value' => 'ASC'],
     operations: [

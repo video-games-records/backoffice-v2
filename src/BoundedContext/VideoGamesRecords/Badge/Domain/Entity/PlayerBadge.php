@@ -16,7 +16,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 
 #[ORM\Table(name:'vgr_player_badge')]
 #[ORM\Entity(repositoryClass: PlayerBadgeRepository::class)]
-#[ORM\EntityListeners(["App\BoundedContext\VideoGamesRecords\Badge\Infrastructure\Doctrine\EventListener\PlayerBadgeListener"])]
 #[ApiResource(
     operations: [
         new GetCollection(),

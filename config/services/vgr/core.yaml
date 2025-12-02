@@ -50,4 +50,8 @@ services:
     tags:
       - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }
 
+  App\BoundedContext\VideoGamesRecords\Core\Infrastructure\EventSubscriber\Api\PlayerChartSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }
+
 
