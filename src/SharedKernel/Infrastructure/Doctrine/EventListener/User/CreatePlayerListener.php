@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use App\BoundedContext\User\Domain\Entity\User;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge;
 
 #[AsEntityListener(event: Events::postPersist, method: 'createPlayer', entity: User::class)]
@@ -33,9 +34,7 @@ readonly class CreatePlayerListener
         $player->setId($user->getId());
         $player->setUserId($user->getId());
         $player->setPseudo($user->getUsername());
-
-        $status = $this->em->getReference('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerStatus', 1);
-        $player->setStatus($status);
+        $player->setStatus(PlayerStatusEnum::MEMBER);
 
         $this->em->persist($player);
 

@@ -5,18 +5,13 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Tests\Story;
 
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Factory\PlayerFactory;
-use App\BoundedContext\VideoGamesRecords\Core\Tests\Factory\PlayerStatusFactory;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
 use Zenstruck\Foundry\Story;
 
 final class DefaultPlayerStory extends Story
 {
     public function build(): void
     {
-        // Créer les statuts de joueur par défaut
-        $activeStatus = PlayerStatusFactory::new()->active()->create(['id' => 1]);
-        $bannedStatus = PlayerStatusFactory::new()->banned()->create(['id' => 2]);
-        $inactiveStatus = PlayerStatusFactory::new()->inactive()->create(['id' => 3]);
-
         // Créer quelques joueurs de référence
         PlayerFactory::new()
             ->topPlayer()
@@ -24,7 +19,7 @@ final class DefaultPlayerStory extends Story
             ->withUserId(1)
             ->create([
                 'id' => 1,
-                'status' => $activeStatus,
+                'status' => PlayerStatusEnum::MEMBER,
             ]);
 
         PlayerFactory::new()
@@ -33,7 +28,7 @@ final class DefaultPlayerStory extends Story
             ->withUserId(2)
             ->create([
                 'id' => 2,
-                'status' => $activeStatus,
+                'status' => PlayerStatusEnum::MEMBER,
             ]);
 
         PlayerFactory::new()
@@ -42,7 +37,7 @@ final class DefaultPlayerStory extends Story
             ->withUserId(3)
             ->create([
                 'id' => 3,
-                'status' => $activeStatus,
+                'status' => PlayerStatusEnum::MEMBER,
             ]);
 
         PlayerFactory::new()
@@ -51,30 +46,30 @@ final class DefaultPlayerStory extends Story
             ->withUserId(4)
             ->create([
                 'id' => 4,
-                'status' => $activeStatus,
+                'status' => PlayerStatusEnum::MEMBER,
             ]);
 
         PlayerFactory::new()
-            ->withPseudo('BannedUser')
+            ->withPseudo('AdminUser')
             ->withUserId(5)
             ->create([
                 'id' => 5,
-                'status' => $bannedStatus,
+                'status' => PlayerStatusEnum::ADMINISTRATOR,
             ]);
 
         PlayerFactory::new()
-            ->withPseudo('InactiveUser')
+            ->withPseudo('ModeratorUser')
             ->withUserId(6)
             ->create([
                 'id' => 6,
-                'status' => $inactiveStatus,
+                'status' => PlayerStatusEnum::MODERATOR,
             ]);
 
         // Créer quelques joueurs supplémentaires aléatoires
         PlayerFactory::new()
             ->many(5)
             ->create([
-                'status' => $activeStatus,
+                'status' => PlayerStatusEnum::MEMBER,
             ]);
     }
 
@@ -98,28 +93,13 @@ final class DefaultPlayerStory extends Story
         return PlayerFactory::find(['pseudo' => 'GenerousDonor']);
     }
 
-    public static function bannedUser(): object
+    public static function adminUser(): object
     {
-        return PlayerFactory::find(['pseudo' => 'BannedUser']);
+        return PlayerFactory::find(['pseudo' => 'AdminUser']);
     }
 
-    public static function inactiveUser(): object
+    public static function moderatorUser(): object
     {
-        return PlayerFactory::find(['pseudo' => 'InactiveUser']);
-    }
-
-    public static function activeStatus(): object
-    {
-        return PlayerStatusFactory::find(['class' => 'active']);
-    }
-
-    public static function bannedStatus(): object
-    {
-        return PlayerStatusFactory::find(['class' => 'banned']);
-    }
-
-    public static function inactiveStatus(): object
-    {
-        return PlayerStatusFactory::find(['class' => 'inactive']);
+        return PlayerFactory::find(['pseudo' => 'ModeratorUser']);
     }
 }
