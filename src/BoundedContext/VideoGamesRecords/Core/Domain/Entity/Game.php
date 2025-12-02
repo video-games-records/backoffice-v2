@@ -49,7 +49,11 @@ use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Contracts\GameInfoInterface
 #[ApiResource(
     operations: [
         new GetCollection(
-            normalizationContext: ['groups' => ['game:read', 'game:read:collection', 'game:platforms', 'game:genres', 'game:serie']]
+            normalizationContext: ['groups' => [
+                'game:read',
+                'game:platforms', 'platform:read',
+                'game:serie', 'serie:read',
+                'game:genres', 'genre:read']]
         ),
         new GetCollection(
             uriTemplate: '/games/list-by-letter',
@@ -151,7 +155,11 @@ use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Contracts\GameInfoInterface
             normalizationContext: ['groups' => ['game:read', 'game:form', 'game:platforms', 'game:genres', 'game:serie']]
         ),
         new Get(
-            normalizationContext: ['groups' => ['game:read', 'game:read:item', 'game:platforms', 'game:genres', 'game:serie']]
+            normalizationContext: ['groups' => [
+                'game:read',
+                'game:platforms', 'platform:read',
+                'game:serie', 'serie:read',
+                'game:genres', 'genre:read']]
         )
     ]
 )]
