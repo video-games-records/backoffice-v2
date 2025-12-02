@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Group;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,6 +44,6 @@ class GetFormData extends AbstractFormDataController
             $itemsPerPage
         );
 
-        return $this->setScores($charts, $player);
+        return $this->setScores(new ArrayCollection(iterator_to_array($charts)), $player);
     }
 }

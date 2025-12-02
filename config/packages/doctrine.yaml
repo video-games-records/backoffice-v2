@@ -103,6 +103,13 @@ doctrine:
                         dir: '%kernel.project_dir%/src/SharedKernel'
                         prefix: 'App\SharedKernel'
                         alias: SharedKernel
+                dql:
+                    string_functions:
+                        ifnull: DoctrineExtensions\Query\Mysql\IfNull
+                    numeric_functions:
+                        round: DoctrineExtensions\Query\Mysql\Round
+                    datetime_functions:
+                        date_diff: DoctrineExtensions\Query\Mysql\DateDiff
             dwh:
                 connection: dwh
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Badge\Infrastructure\Doctrine\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\TeamBadge;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Event\TeamBadgeLost;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Event\TeamBadgeObtained;
 
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: TeamBadge::class)]
+#[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: TeamBadge::class)]
+#[AsEntityListener(event: Events::postPersist, method: 'postPersist', entity: TeamBadge::class)]
 class TeamBadgeListener
 {
     /** @var array<string, array<mixed>> */

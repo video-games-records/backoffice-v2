@@ -30,3 +30,4 @@ services:
   # Presentation Layer - Admin
   App\BoundedContext\VideoGamesRecords\Badge\Presentation\Admin\:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Admin/*'
+

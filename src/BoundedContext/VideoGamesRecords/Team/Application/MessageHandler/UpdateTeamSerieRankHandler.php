@@ -109,7 +109,7 @@ readonly class UpdateTeamSerieRankHandler
                 }
             }
 
-            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\TeamBadge')
+            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\TeamBadge')
                 ->updateBadge($firstPlaceTeams, $serie->getBadge());
         }
 

@@ -44,7 +44,7 @@ readonly class UpdatePlayerCountryRankHandler
                 }
             }
 
-            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerBadge')
+            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge')
                 ->updateBadge($firstPlacePlayers, $country->getBadge());
         }
 

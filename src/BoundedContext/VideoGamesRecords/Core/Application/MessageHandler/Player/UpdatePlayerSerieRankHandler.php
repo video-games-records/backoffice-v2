@@ -117,13 +117,13 @@ readonly class UpdatePlayerSerieRankHandler
             $firstPlacePlayers = [];
             foreach ($list as $row) {
                 if ($row['rankMedal'] === 1) {
-                    $firstPlacePlayers[$row['id']] = 0;
+                    $firstPlacePlayers[$row['idPlayer']] = 0;
                 } else {
                     break; // Rankings are ordered, so no more first places
                 }
             }
 
-            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerBadge')
+            $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge')
                 ->updateBadge($firstPlacePlayers, $serie->getBadge());
         }
 
