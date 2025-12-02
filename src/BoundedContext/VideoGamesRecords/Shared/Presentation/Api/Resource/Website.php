@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\VideoGamesRecords\Shared\Presentation\Api\Resources;
+namespace App\BoundedContext\VideoGamesRecords\Shared\Presentation\Api\Resource;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
