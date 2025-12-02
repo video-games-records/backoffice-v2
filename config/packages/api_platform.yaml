@@ -13,12 +13,14 @@ api_platform:
         - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Badge/Domain'
         - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Domain'
         - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Domain'
+        - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Dwh/Domain'
         - '%kernel.project_dir%/src/SharedKernel/Domain'
     mapping:
         paths:
-            # Scan des dossiers Resources pour les configurations API
-            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Presentation/Api/Resources'
+            # Scan des dossiers Resource pour les configurations API
             - '%kernel.project_dir%/src/BoundedContext/User/Presentation/Api/Resource'
+            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Presentation/Api/Resource'
+            - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Dwh/Presentation/Api/Resource'
     # Enable GraphQL
     graphql:
         enabled: true
