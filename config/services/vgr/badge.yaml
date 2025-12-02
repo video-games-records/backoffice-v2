@@ -27,6 +27,11 @@ services:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Api/Controller/*'
     tags: [ 'controller.service_arguments' ]
 
+  # Presentation Layer - Web Controllers
+  App\BoundedContext\VideoGamesRecords\Badge\Presentation\Web\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Web/Controller/*'
+    tags: [ 'controller.service_arguments' ]
+
   # Presentation Layer - Admin
   App\BoundedContext\VideoGamesRecords\Badge\Presentation\Admin\:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Badge/Presentation/Admin/*'
