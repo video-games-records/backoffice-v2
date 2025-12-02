@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Tests\Factory;
 
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
 use DateTime;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
@@ -41,7 +41,7 @@ final class PlayerFactory extends PersistentProxyObjectFactory
             'hasDonate' => false,
             'team' => null,
             'lastDisplayLostPosition' => null,
-            'status' => PlayerStatusFactory::new(),
+            'status' => self::faker()->randomElement(PlayerStatusEnum::cases()),
             // Traits defaults
             'rankCup' => 0,
             'gameRank0' => 0,
@@ -152,9 +152,34 @@ final class PlayerFactory extends PersistentProxyObjectFactory
     /**
      * Override status
      */
-    public function withStatus(PlayerStatus $status): static
+    public function withStatus(PlayerStatusEnum $status): static
     {
         return $this->with(['status' => $status]);
+    }
+
+    /**
+     * Create a player with member status
+     */
+    public function member(): static
+    {
+        return $this->with(['status' => PlayerStatusEnum::MEMBER]);
+    }
+
+    /**
+     * Create a player with admin status
+     */
+    public function admin(): static
+    {
+        $adminStatuses = [
+            PlayerStatusEnum::WEBMASTER,
+            PlayerStatusEnum::ADMINISTRATOR,
+            PlayerStatusEnum::PROOF_ADMIN,
+            PlayerStatusEnum::GAME_AND_PROOF_ADMIN,
+            PlayerStatusEnum::CHIEF_PROOF_ADMIN,
+            PlayerStatusEnum::CHIEF_STAFF,
+        ];
+        
+        return $this->with(['status' => self::faker()->randomElement($adminStatuses)]);
     }
 
     /**

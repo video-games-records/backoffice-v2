@@ -35,7 +35,7 @@ App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player:
         - 'player:read:minimal'
     status:
       groups:
-        - 'player:status'
+        - 'player:read'
     avatar:
       groups:
         - 'player:read'

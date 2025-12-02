@@ -44,8 +44,9 @@ db-test: ## Create test database with fixtures
 	$(CONSOLE_BIN) cache:clear --env=test
 	$(CONSOLE_BIN) doctrine:schema:update --force --env=test
 	$(CONSOLE_BIN) doctrine:schema:update --force --env=test --em=audit
-	@echo "$(GREEN)Test database ready!$(RESET)"
-	@echo "$(CYAN)Note: Fixtures loaded automatically by ResetDatabase trait$(RESET)"
+	@echo "$(YELLOW)Loading fixtures...$(RESET)"
+	$(CONSOLE_BIN) doctrine:fixtures:load --env=test --no-interaction
+	@echo "$(GREEN)Test database ready with fixtures loaded!$(RESET)"
 
 db-setup: db-test ## Alias for db-test (backward compatibility)
 

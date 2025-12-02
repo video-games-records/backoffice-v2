@@ -46,6 +46,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Filter\PlayerSearchFilter;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\Repository\PlayerRepository;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\AverageChartRankTrait;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\AverageGameRankTrait;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank0Trait;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank1Trait;
@@ -264,8 +265,7 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
     normalizationContext: ['groups' => [
         'player:read',
         'player:team', 'team:read:minimal',
-        'player:country', 'country:read',
-        'player:status', 'player-status:read']
+        'player:country', 'country:read']
     ],
     order: ['pseudo' => 'ASC'],
 )]
@@ -387,9 +387,8 @@ class Player
     #[ORM\Column(nullable: true)]
     protected ?DateTime $lastDisplayLostPosition;
 
-    #[ORM\ManyToOne(targetEntity: PlayerStatus::class)]
-    #[ORM\JoinColumn(name:'status_id', referencedColumnName:'id', nullable:false)]
-    private PlayerStatus $status;
+    #[ORM\Column(enumType: PlayerStatusEnum::class)]
+    private PlayerStatusEnum $status;
 
     #[ORM\Column(length: 128)]
     #[Gedmo\Slug(fields: ['pseudo'])]
@@ -591,14 +590,70 @@ class Player
         $this->hasDonate = $hasDonate;
     }
 
-    public function setStatus(PlayerStatus $status): void
+    public function setStatus(PlayerStatusEnum $status): void
     {
         $this->status = $status;
     }
 
-    public function getStatus(): PlayerStatus
+    public function getStatus(): PlayerStatusEnum
     {
         return $this->status;
+    }
+
+    /**
+     * Get status label for display
+     */
+    public function getStatusLabel(): string
+    {
+        return $this->status->getLabel();
+    }
+
+    /**
+     * Get status French label for display
+     */
+    public function getStatusFrenchLabel(): string
+    {
+        return $this->status->getFrenchLabel();
+    }
+
+    /**
+     * Get status CSS class
+     */
+    public function getStatusClass(): string
+    {
+        return $this->status->getClass();
+    }
+
+    /**
+     * Check if player has admin privileges
+     */
+    public function isAdmin(): bool
+    {
+        return $this->status->isAdmin();
+    }
+
+    /**
+     * Check if player has moderation privileges
+     */
+    public function isModerator(): bool
+    {
+        return $this->status->isModerator();
+    }
+
+    /**
+     * Check if player can manage proofs
+     */
+    public function canManageProofs(): bool
+    {
+        return $this->status->canManageProofs();
+    }
+
+    /**
+     * Check if player can manage games
+     */
+    public function canManageGames(): bool
+    {
+        return $this->status->canManageGames();
     }
 
     public function getSlug(): string
