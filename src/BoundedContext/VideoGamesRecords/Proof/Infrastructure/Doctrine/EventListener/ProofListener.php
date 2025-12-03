@@ -11,7 +11,7 @@ use Doctrine\ORM\Events;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Event\ProofAccepted;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Event\ProofRefused;
@@ -54,9 +54,7 @@ class ProofListener
 
         // ACCEPTED
         if ($this->isAccepted()) {
-            $proof->getPlayerChart()->setStatus(
-                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_PROOVED)
-            );
+            $proof->getPlayerChart()->setStatus(PlayerChartStatusEnum::PROVED);
 
             $proof->setPlayerResponding($this->userProvider->getPlayer());
             $proof->setCheckedAt(new DateTime());
@@ -66,14 +64,12 @@ class ProofListener
         // REFUSED
         if ($this->isRefused()) {
             $playerChart = $proof->getPlayerChart();
-            if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
-                $playerChart->setStatus(
-                    $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-                );
+            if ($playerChart->getStatus() === PlayerChartStatusEnum::PROVED) {
+                $playerChart->setStatus(PlayerChartStatusEnum::NONE);
             } else {
-                $idStatus = ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
-                   ? PlayerChartStatus::ID_STATUS_NORMAL : PlayerChartStatus::ID_STATUS_INVESTIGATION;
-                $playerChart->setStatus($em->getReference(PlayerChartStatus::class, $idStatus));
+                $status = ($playerChart->getStatus() === PlayerChartStatusEnum::PROOF_SENT)
+                   ? PlayerChartStatusEnum::NONE : PlayerChartStatusEnum::REQUEST_VALIDATED;
+                $playerChart->setStatus($status);
             }
 
             $proof->setPlayerResponding($this->userProvider->getPlayer());
@@ -86,18 +82,14 @@ class ProofListener
             $playerChart = $proof->getPlayerChart();
             if ($playerChart) {
                 $playerChart->setProof(null);
-                switch ($playerChart->getStatus()->getId()) {
-                    case PlayerChartStatus::ID_STATUS_INVESTIGATION:
-                    case PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF:
-                        $playerChart->setStatus(
-                            $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
-                        );
+                switch ($playerChart->getStatus()) {
+                    case PlayerChartStatusEnum::REQUEST_VALIDATED:
+                    case PlayerChartStatusEnum::REQUEST_PROOF_SENT:
+                        $playerChart->setStatus(PlayerChartStatusEnum::REQUEST_VALIDATED);
                         break;
-                    case PlayerChartStatus::ID_STATUS_PROOVED:
-                    case PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF:
-                        $playerChart->setStatus(
-                            $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-                        );
+                    case PlayerChartStatusEnum::PROVED:
+                    case PlayerChartStatusEnum::PROOF_SENT:
+                        $playerChart->setStatus(PlayerChartStatusEnum::NONE);
                         break;
                 }
                 $em->flush();

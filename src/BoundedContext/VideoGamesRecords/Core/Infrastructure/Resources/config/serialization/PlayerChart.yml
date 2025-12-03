@@ -23,7 +23,7 @@ App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart:
         - 'player-chart:read'
     status:
       groups:
-        - 'player-chart:status'
+        - 'player-chart:read'
     proof:
       groups:
         - 'player-chart:proof'

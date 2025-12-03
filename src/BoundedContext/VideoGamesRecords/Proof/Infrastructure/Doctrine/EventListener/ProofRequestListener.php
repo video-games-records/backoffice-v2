@@ -12,7 +12,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\ProofRequest;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Event\ProofRequestAccepted;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Event\ProofRequestRefused;
@@ -53,9 +53,7 @@ class ProofRequestListener
     {
         $em = $event->getObjectManager();
         $playerChart = $proofRequest->getPlayerChart();
-        $playerChart->setStatus(
-            $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND)
-        );
+        $playerChart->setStatus(PlayerChartStatusEnum::REQUEST_PENDING);
         $em->flush();
     }
 
@@ -70,9 +68,7 @@ class ProofRequestListener
         $em = $event->getObjectManager();
 
         if ($this->isAccepted()) {
-            $proofRequest->getPlayerChart()->setStatus(
-                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_INVESTIGATION)
-            );
+            $proofRequest->getPlayerChart()->setStatus(PlayerChartStatusEnum::REQUEST_VALIDATED);
 
             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
             $proofRequest->setDateAcceptance(new DateTime());
@@ -80,9 +76,7 @@ class ProofRequestListener
         }
 
         if ($this->isRefused()) {
-            $proofRequest->getPlayerChart()->setStatus(
-                $em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL)
-            );
+            $proofRequest->getPlayerChart()->setStatus(PlayerChartStatusEnum::NONE);
 
             $proofRequest->setPlayerResponding($this->userProvider->getPlayer());
             $proofRequest->setDateAcceptance(new DateTime());

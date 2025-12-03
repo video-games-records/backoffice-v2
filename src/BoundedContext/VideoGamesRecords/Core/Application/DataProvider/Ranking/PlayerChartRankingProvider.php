@@ -85,7 +85,8 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
 
         $orderBy = $options['orderBy'] ?? self::ORDER_BY_RANK;
         $queryBuilder = $this->getRankingBaseQuery($chart, $orderBy);
-        $queryBuilder->andWhere('status.boolRanking = 1');
+        $queryBuilder->andWhere('pc.status != :unproved')
+            ->setParameter('unproved', 'unproved');
 
         if (null !== $maxRank && null !== $player) {
             $rank = $this->getRank($player, $chart);
@@ -128,7 +129,8 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
     {
         $queryBuilder = $this->getRankingBaseQuery($chart, self::ORDER_BY_SCORE);
         $queryBuilder
-            ->andWhere('status.boolRanking = 0');
+            ->andWhere('pc.status = :unproved')
+            ->setParameter('unproved', 'unproved');
 
         return $queryBuilder->getQuery()->getResult();
     }
@@ -146,8 +148,6 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
             ->innerJoin('pc.player', 'p')
             ->addSelect('p')
             ->innerJoin('pc.chart', 'c')
-            ->innerJoin('pc.status', 'status')
-            ->addSelect('status')
             ->leftJoin('pc.proof', 'proof')
             ->addSelect('proof')
             ->leftJoin('pc.platform', 'platform')
@@ -157,7 +157,6 @@ class PlayerChartRankingProvider extends AbstractRankingProvider
 
         if (self::ORDER_BY_RANK === $orderBy) {
             $queryBuilder->orderBy('pc.rank', 'ASC')
-                ->addOrderBy('status.sOrder', 'ASC')
                 ->addOrderBy('pc.lastUpdate', 'ASC');
         }
 

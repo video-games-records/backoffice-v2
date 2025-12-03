@@ -11,7 +11,7 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerGameRank;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerGroupRank;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Tools\RankingTools;
@@ -103,13 +103,7 @@ readonly class UpdatePlayerGroupRankHandler
             GROUP BY p.id");
 
         $query->setParameter('group', $group);
-        $query->setParameter(
-            'status',
-            $this->em->getReference(
-                PlayerChartStatus::class,
-                PlayerChartStatus::ID_STATUS_PROOVED
-            )
-        );
+        $query->setParameter('status', 'proved');
 
         $result = $query->getResult();
         foreach ($result as $row) {

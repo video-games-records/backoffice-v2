@@ -201,7 +201,7 @@ class ProofAdminController extends CRUDController
         $playerChart = $proof->getPlayerChart();
         if ($playerChart) {
             // Le statut du PlayerChart sera automatiquement mis à jour par le listener
-            // à PlayerChartStatus::ID_STATUS_PROOVED
+            // à PlayerChartStatusEnum::PROVED
         }
     }
 
