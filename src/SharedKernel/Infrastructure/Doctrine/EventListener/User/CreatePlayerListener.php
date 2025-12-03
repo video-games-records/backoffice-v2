@@ -26,7 +26,8 @@ readonly class CreatePlayerListener
     public function createPlayer(User $user): void
     {
         // Role Player
-        $group = $this->em->getReference('App\BoundedContext\User\Domain\Entity\Group', self::GROUP_PLAYER);
+        $group = $this->em
+            ->getReference('App\BoundedContext\User\Domain\Entity\Group', self::GROUP_PLAYER);
         $user->addGroup($group);
 
         // Player
@@ -39,7 +40,8 @@ readonly class CreatePlayerListener
         $this->em->persist($player);
 
         // Register Badge
-        $badge = $this->em->getReference('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge', self::BADGE_REGISTER);
+        $badge = $this->em
+            ->getReference('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge', self::BADGE_REGISTER);
         $playerBadge = new PlayerBadge();
         $playerBadge->setPlayer($player);
         $playerBadge->setBadge($badge);
