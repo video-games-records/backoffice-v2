@@ -201,7 +201,7 @@
                             </tr>
                             <tr>
                                 <td><strong>{% trans %}proof.filter.playerChartStatus{% endtrans %} :</strong></td>
-                                <td>{{ object.getPlayerChart().getStatus() }}</td>
+                                <td>{{ object.getPlayerChart().getStatus().getLabel() }}</td>
                             </tr>
                         </table>
                     {% else %}

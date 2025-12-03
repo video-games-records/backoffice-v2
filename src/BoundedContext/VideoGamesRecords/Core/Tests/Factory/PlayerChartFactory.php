@@ -8,7 +8,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
 
 /**
@@ -33,7 +33,7 @@ final class PlayerChartFactory extends PersistentProxyObjectFactory
             'rank' => 0,
             'pointChart' => 0,
             'isTopScore' => false,
-            'status' => PlayerChartStatusFactory::new(),
+            'status' => PlayerChartStatusEnum::NONE,
         ];
     }
 
@@ -99,9 +99,9 @@ final class PlayerChartFactory extends PersistentProxyObjectFactory
     }
 
     /**
-     * Set the status relation
+     * Set the status enum
      */
-    public function withStatus($status): static
+    public function withStatus(PlayerChartStatusEnum $status): static
     {
         return $this->with(['status' => $status]);
     }

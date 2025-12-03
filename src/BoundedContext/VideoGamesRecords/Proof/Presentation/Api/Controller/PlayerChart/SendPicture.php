@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\PlayerChart;
 
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Security\UserProvider;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Picture;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
@@ -52,7 +52,7 @@ class SendPicture extends AbstractController
         if ($playerChart->getPlayer() !== $player) {
             throw new AccessDeniedException('ACCESS DENIED');
         }
-        if (!in_array($playerChart->getStatus()->getId(), PlayerChartStatus::getStatusForProving())) {
+        if (!in_array($playerChart->getStatus(), PlayerChartStatusEnum::getStatusForProving())) {
             throw new AccessDeniedException('ACCESS DENIED');
         }
         if ($playerChart->getChart()->getIsProofVideoOnly()) {
@@ -112,16 +112,12 @@ class SendPicture extends AbstractController
 
         //-- PlayerChart
         $playerChart->setProof($proof);
-        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+        if ($playerChart->getStatus() === PlayerChartStatusEnum::NONE) {
             // NORMAL TO NORMAL_SEND_PROOF
-            $playerChart->setStatus(
-                $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_NORMAL_SEND_PROOF)
-            );
+            $playerChart->setStatus(PlayerChartStatusEnum::PROOF_SENT);
         } else {
             // INVESTIGATION TO DEMAND_SEND_PROOF
-            $playerChart->setStatus(
-                $this->em->getReference(PlayerChartStatus::class, PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF)
-            );
+            $playerChart->setStatus(PlayerChartStatusEnum::REQUEST_PROOF_SENT);
         }
         $this->em->flush();
 

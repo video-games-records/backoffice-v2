@@ -29,7 +29,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
         ),
         new Put(
             denormalizationContext: ['groups' => ['proof-request:update']],
-            security: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus().getId() == 1'
+            security: 'is_granted("ROLE_PLAYER") and object.getPlayerChart().getStatus() == "none"'
         ),
     ],
     normalizationContext: ['groups' => ['proof-request:read']],

@@ -11,7 +11,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\ProofRequest;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Manager\ScoreManager;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\ProofStatus;
@@ -34,7 +34,7 @@ class PlayerChartListener
     public function prePersist(PlayerChart $playerChart, LifecycleEventArgs $event): void
     {
         $em = $event->getObjectManager();
-        $playerChart->setStatus($em->getReference('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus', 1));
+        $playerChart->setStatus(PlayerChartStatusEnum::NONE);
         $playerChart->setLastUpdate(new DateTime());
 
         // Chart
@@ -90,14 +90,14 @@ class PlayerChartListener
             $playerChart->setIsTopScore(true);
         }
 
-        if ($playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_NORMAL) {
+        if ($playerChart->getStatus() === PlayerChartStatusEnum::NONE) {
             $proof = $playerChart->getProof();
             $proof?->setStatus(ProofStatus::CLOSED);
             $playerChart->setProof(null);
         }
 
         //-- status
-        if ($playerChart->getStatus()->getId() == PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
+        if ($playerChart->getStatus() === PlayerChartStatusEnum::UNPROVED) {
             $playerChart->setPointChart(0);
             $playerChart->setRank(0);
             $playerChart->setIsTopScore(false);
@@ -113,20 +113,20 @@ class PlayerChartListener
             $oldStatus = $event->getOldValue('status');
             $newStatus = $event->getNewValue('status');
 
-            if ($newStatus->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
+            if ($newStatus === PlayerChartStatusEnum::PROVED) {
                 $player->setNbChartProven($player->getNbChartProven() + 1);
             }
 
-            if ($oldStatus->getId() === PlayerChartStatus::ID_STATUS_PROOVED) {
+            if ($oldStatus === PlayerChartStatusEnum::PROVED) {
                 $player->setNbChartProven($player->getNbChartProven() - 1);
             }
 
-            if ($newStatus->getId() === PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
-                $player->setNbChartProven($player->getNbChartDisabled() + 1);
+            if ($newStatus === PlayerChartStatusEnum::UNPROVED) {
+                $player->setNbChartDisabled($player->getNbChartDisabled() + 1);
             }
 
-            if ($oldStatus->getId() === PlayerChartStatus::ID_STATUS_NOT_PROOVED) {
-                $player->setNbChartProven($player->getNbChartDisabled() - 1);
+            if ($oldStatus === PlayerChartStatusEnum::UNPROVED) {
+                $player->setNbChartDisabled($player->getNbChartDisabled() - 1);
             }
         }
     }
@@ -157,7 +157,7 @@ class PlayerChartListener
     {
         if (
             null === $playerChart->getDateInvestigation()
-            && PlayerChartStatus::ID_STATUS_INVESTIGATION === $playerChart->getStatus()->getId()
+            && PlayerChartStatusEnum::REQUEST_VALIDATED === $playerChart->getStatus()
         ) {
             $playerChart->setDateInvestigation(new DateTime());
         }
@@ -165,8 +165,8 @@ class PlayerChartListener
         if (
             null !== $playerChart->getDateInvestigation()
             && in_array(
-                $playerChart->getStatus()->getId(),
-                [PlayerChartStatus::ID_STATUS_PROOVED, PlayerChartStatus::ID_STATUS_NOT_PROOVED],
+                $playerChart->getStatus(),
+                [PlayerChartStatusEnum::PROVED, PlayerChartStatusEnum::UNPROVED],
                 true
             )
         ) {
@@ -184,7 +184,7 @@ class PlayerChartListener
         if (
             array_key_exists('proof', $this->changeSet)
             && $this->changeSet['proof'][1] !== null
-            && $playerChart->getStatus()->getId() === PlayerChartStatus::ID_STATUS_DEMAND_SEND_PROOF
+            && $playerChart->getStatus() === PlayerChartStatusEnum::REQUEST_PROOF_SENT
         ) {
             /** @var ProofRequest $proofRequest */
             $proofRequest = $em->getRepository('App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\ProofRequest')

@@ -68,18 +68,17 @@ class GetStats extends AbstractController
         $qb = $this->em->createQueryBuilder()
             ->select('gam.id')
             ->from('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game', 'gam')
-            ->addSelect('status.id as idStatus')
+            ->addSelect('pc.status as status')
             ->addSelect('COUNT(pc) as nb')
             ->innerJoin('gam.groups', 'grp')
             ->innerJoin('grp.charts', 'chr')
             ->innerJoin('chr.playerCharts', 'pc')
-            ->innerJoin('pc.status', 'status')
             ->where('pc.player = :player')
             ->setParameter('player', $player)
             ->groupBy('gam.id')
-            ->addGroupBy('status.id')
+            ->addGroupBy('pc.status')
             ->orderBy('gam.id', 'ASC')
-            ->addOrderBy('status.id', 'ASC');
+            ->addOrderBy('pc.status', 'ASC');
 
         $list = $qb->getQuery()->getResult(2);
 
@@ -90,7 +89,7 @@ class GetStats extends AbstractController
                 $games[$idGame] = [];
             }
             $games[$idGame][] = [
-                'status' => $this->em->find('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus', $row['idStatus']),
+                'status' => $row['status'],
                 'nb' => $row['nb'],
             ];
         }

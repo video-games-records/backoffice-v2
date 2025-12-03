@@ -19,7 +19,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Intl\Locale;
-use App\BoundedContext\VideoGamesRecords\Player;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\SharedKernel\Presentation\Form\Type\RichTextEditorType;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\ProofRequestStatus;
 

@@ -23,6 +23,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\PlayerChart\GetLatestScores;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\PlayerChart\GetLatestScoresDifferentGames;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\PlayerChart\UpdatePlatform;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
 use App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\PlayerChart\SendPicture;
 use App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\PlayerChart\SendVideo;
@@ -42,6 +43,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 #[ORM\Index(name: "idx_point_chart", columns: ["point_chart"])]
 #[ORM\Index(name: "idx_top_score", columns: ["is_top_score"])]
 #[ORM\Index(name: "idx_last_update_player", columns: ["last_update", 'player_id'])]
+#[ORM\Index(name: "idx_status", columns: ["status"])]
 #[DoctrineAssert\UniqueEntity(fields: ['chart', 'player'], message: "A score already exists")]
 #[ApiResource(
     operations: [
@@ -82,7 +84,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
                 'player-chart:player', 'player-chart:platform',
                 'player-chart:status', 'player-chart-status:read']
             ],
-            security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and ((object.getStatus().getId() == 1) or (object.getStatus().getId() == 6))'
+            security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and (object.getStatus() == "none" or object.getStatus() == "proved")'
         ),
         new GetCollection(
             uriTemplate: '/player-charts/latest-different-games',
@@ -410,9 +412,8 @@ class PlayerChart
     #[ORM\JoinColumn(name:'proof_id', referencedColumnName:'id', nullable:true, onDelete:'SET NULL')]
     private ?Proof $proof = null;
 
-    #[ORM\ManyToOne(targetEntity: PlayerChartStatus::class, inversedBy: 'playerCharts')]
-    #[ORM\JoinColumn(name:'status_id', referencedColumnName:'id', nullable:false)]
-    private PlayerChartStatus $status;
+    #[ORM\Column(enumType: PlayerChartStatusEnum::class)]
+    private PlayerChartStatusEnum $status = PlayerChartStatusEnum::NONE;
 
     #[ORM\ManyToOne(targetEntity: Platform::class)]
     #[ORM\JoinColumn(name:'platform_id', referencedColumnName:'id', nullable:true)]
@@ -540,12 +541,12 @@ class PlayerChart
         return $this->platform;
     }
 
-    public function setStatus(PlayerChartStatus $status): void
+    public function setStatus(PlayerChartStatusEnum $status): void
     {
         $this->status = $status;
     }
 
-    public function getStatus(): PlayerChartStatus
+    public function getStatus(): PlayerChartStatusEnum
     {
         return $this->status;
     }
