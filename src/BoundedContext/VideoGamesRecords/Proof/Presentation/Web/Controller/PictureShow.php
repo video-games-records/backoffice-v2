@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller;
+namespace App\BoundedContext\VideoGamesRecords\Proof\Presentation\Web\Controller;
 
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +28,7 @@ class PictureShow extends AbstractController
 
     #[Route(
         '/picture/{id}/show',
-        name: 'vgr_core_picture_show',
+        name: 'vgr_proof_picture_show',
         requirements: ['id' => '[1-9]\d*'],
         methods: ['GET']
     )]

@@ -2330,6 +2330,12 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         expired_worker_ttl?: int, // How long to keep expired workers in cache (in seconds). // Default: 3600
  *     },
  * }
+ * @psalm-type DamaDoctrineTestConfig = array{
+ *     enable_static_connection?: mixed, // Default: true
+ *     enable_static_meta_data_cache?: bool, // Default: true
+ *     enable_static_query_cache?: bool, // Default: true
+ *     connection_keys?: list<mixed>,
+ * }
  * @psalm-type ZenstruckFoundryConfig = array{
  *     auto_refresh_proxies?: bool|null, // Deprecated: Since 2.0 auto_refresh_proxies defaults to true and this configuration has no effect. // Whether to auto-refresh proxies by default (https://symfony.com/bundles/ZenstruckFoundryBundle/current/index.html#auto-refresh) // Default: null
  *     enable_auto_refresh_with_lazy_objects?: bool|null, // Enable auto-refresh using PHP 8.4 lazy objects (cannot be enabled if PHP < 8.4). // Default: null
@@ -2373,11 +2379,6 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         default_namespace?: scalar|null, // Default namespace where stories will be created by maker. // Default: "Story"
  *     },
  * }
- * @psalm-type MakerConfig = array{
- *     root_namespace?: scalar|null, // Default: "App"
- *     generate_final_classes?: bool, // Default: true
- *     generate_final_entities?: bool, // Default: false
- * }
  * @psalm-type A2lixAutoFormConfig = array{
  *     excluded_fields?: list<scalar|null>,
  * }
@@ -2389,11 +2390,10 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     templating?: scalar|null, // Set your own template path if required // Default: "@A2lixTranslationForm/bootstrap_4_layout.html.twig"
  * }
  * @psalm-type AwsConfig = mixed
- * @psalm-type DamaDoctrineTestConfig = array{
- *     enable_static_connection?: mixed, // Default: true
- *     enable_static_meta_data_cache?: bool, // Default: true
- *     enable_static_query_cache?: bool, // Default: true
- *     connection_keys?: list<mixed>,
+ * @psalm-type MakerConfig = array{
+ *     root_namespace?: scalar|null, // Default: "App"
+ *     generate_final_classes?: bool, // Default: true
+ *     generate_final_entities?: bool, // Default: false
  * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
