@@ -23,18 +23,18 @@ class GetLatestScores extends AbstractController
     public function __invoke(Request $request): Paginator
     {
         $days = (int) $request->query->get('days', 7);
-        $page = $request->query->getInt('page', 1);
-        $itemsPerPage = $request->query->getInt('itemsPerPage', 10);
 
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('pc')
             ->from(PlayerChart::class, 'pc')
-            ->where('pc.lastUpdate >= :date')
-            ->andWhere('pc.id > 0')
             ->orderBy('pc.lastUpdate', 'DESC')
-            ->setParameter('date', new \DateTime('-' . $days . ' days'))
-            ->setFirstResult(($page - 1) * $itemsPerPage)
-            ->setMaxResults($itemsPerPage);
+            ->setMaxResults(1000); // Set a default max results to avoid the error
+
+        if ($days > 0) {
+            $queryBuilder
+                ->where('pc.lastUpdate >= :date')
+                ->setParameter('date', new \DateTime('-' . $days . ' days'));
+        }
 
         $doctrinePaginator = new DoctrinePaginator($queryBuilder->getQuery());
         $doctrinePaginator->setUseOutputWalkers(false);

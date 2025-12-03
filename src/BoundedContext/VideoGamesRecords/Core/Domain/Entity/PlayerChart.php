@@ -47,19 +47,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
 #[DoctrineAssert\UniqueEntity(fields: ['chart', 'player'], message: "A score already exists")]
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new Get(
-            normalizationContext: ['groups' => [
-                'player-chart:read',
-                'player-chart:libs', 'player-chart-lib:read',
-                'player-chart:status', 'player-chart-status:read',
-                'player-chart:player', 'player:read:minimal',
-                'player-chart:proof', 'proof:read',
-                'proof:picture', 'picture:read',
-                'proof:video', 'video:read:minimal',
-                ]
-            ]
-        ),
         new Post(
             denormalizationContext: ['groups' => ['player-chart:insert', 'player-chart-lib:insert']],
             normalizationContext: ['groups' => [
@@ -87,7 +74,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and (object.getStatus() == "none" or object.getStatus() == "proved")'
         ),
         new GetCollection(
-            uriTemplate: '/player-charts/latest-different-games',
+            uriTemplate: '/player_charts/latest-different-games',
             controller: GetLatestScoresDifferentGames::class,
             normalizationContext: ['groups' => [
                 'player-chart:read',
@@ -119,7 +106,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             ),
         ),
         new GetCollection(
-            uriTemplate: '/player-charts/latest',
+            uriTemplate: '/player_charts/latest',
             controller: GetLatestScores::class,
             normalizationContext: ['groups' => [
                 'player-chart:read',
@@ -163,7 +150,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             ),
         ),
         new Post(
-            uriTemplate: '/player-charts/maj-platform',
+            uriTemplate: '/player_charts/maj-platform',
             controller: UpdatePlatform::class,
             security: 'is_granted("ROLE_USER")',
             openapi: new Model\Operation(
@@ -189,7 +176,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             )
         ),
         new Post(
-            uriTemplate: '/player-charts/{id}/send-picture',
+            uriTemplate: '/player_charts/{id}/send-picture',
             controller: SendPicture::class,
             security: 'is_granted("ROLE_USER")',
             openapi: new Model\Operation(
@@ -213,7 +200,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             )
         ),
         new Post(
-            uriTemplate: '/player-charts/{id}/send-video',
+            uriTemplate: '/player_charts/{id}/send-video',
             controller: SendVideo::class,
             security: 'is_granted("ROLE_USER")',
             openapi: new Model\Operation(
@@ -237,7 +224,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             )
         ),
         new Post(
-            uriTemplate: '/player-charts/bulk',
+            uriTemplate: '/player_charts/bulk',
             controller: BulkUpsert::class,
             security: 'is_granted("ROLE_PLAYER")',
             openapi: new Model\Operation(
@@ -304,6 +291,19 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
                     ])
                 ),
             )
+        ),
+        new GetCollection(),
+        new Get(
+            normalizationContext: ['groups' => [
+                'player-chart:read',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:status', 'player-chart-status:read',
+                'player-chart:player', 'player:read:minimal',
+                'player-chart:proof', 'proof:read',
+                'proof:picture', 'picture:read',
+                'proof:video', 'video:read:minimal',
+            ]
+            ]
         ),
     ],
     normalizationContext: ['groups' => [
