@@ -27,9 +27,9 @@ services:
     resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Api/Controller/*'
     tags: ['controller.service_arguments']
 
-  # Presentation Layer - Web Admin Controllers
-  App\BoundedContext\VideoGamesRecords\Proof\Presentation\Web\Controller\Admin\:
-    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Web/Controller/Admin/*'
+  # Presentation Layer - Web Controllers  
+  App\BoundedContext\VideoGamesRecords\Proof\Presentation\Web\Controller\:
+    resource: '../../../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Web/Controller/*'
     tags: ['controller.service_arguments']
 
   # Presentation Layer - Admin
