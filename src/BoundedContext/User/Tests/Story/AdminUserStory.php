@@ -28,12 +28,6 @@ final class AdminUserStory extends Story
             ->asUser()
             ->withCredentials('user@local.fr', 'user', 'user')
             ->create(['id' => 2]);
-
-        // Create some random users for testing
-        UserFactory::new()
-            ->asUser()
-            ->many(3)
-            ->create();
     }
 
     /**

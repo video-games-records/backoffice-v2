@@ -464,7 +464,7 @@ class Player
         return $this->avatar;
     }
 
-    public function setGamerCard(string $gamerCard): void
+    public function setGamerCard(?string $gamerCard): void
     {
         $this->gamerCard = $gamerCard;
     }

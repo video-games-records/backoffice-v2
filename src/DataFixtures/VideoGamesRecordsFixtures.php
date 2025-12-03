@@ -10,10 +10,13 @@ use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultSerieStory;
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultChartTypeStory;
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultGroupStory;
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultChartStory;
+use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultPlayerChartStatusStory;
+use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultPlayerScoreStory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class VideoGamesRecordsFixtures extends Fixture
+class VideoGamesRecordsFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -23,7 +26,9 @@ class VideoGamesRecordsFixtures extends Fixture
         DefaultGameStory::load();
         DefaultGroupStory::load();
         DefaultChartTypeStory::load();
+        DefaultPlayerChartStatusStory::load();
         DefaultChartStory::load();
+        DefaultPlayerScoreStory::load();
 
         // Références utiles pour d'autres fixtures/tests
         $switch = DefaultPlatformStory::nintendoSwitch();
@@ -82,5 +87,27 @@ class VideoGamesRecordsFixtures extends Fixture
         $this->addReference('chart_hollow_knight_any_percent', DefaultChartStory::hollowKnightAnyPercent()->_real());
         $this->addReference('chart_hollow_knight_112_percent', DefaultChartStory::hollowKnight112Percent()->_real());
         $this->addReference('chart_hollow_knight_steel_soul_any', DefaultChartStory::hollowKnightSteelSoulAny()->_real());
+
+        // PlayerChartStatus references
+        $this->addReference('status_none', DefaultPlayerChartStatusStory::none()->_real());
+        $this->addReference('status_request_pending', DefaultPlayerChartStatusStory::requestPending()->_real());
+        $this->addReference('status_request_validated', DefaultPlayerChartStatusStory::requestValidated()->_real());
+        $this->addReference('status_request_proof_sent', DefaultPlayerChartStatusStory::requestProofSent()->_real());
+        $this->addReference('status_proof_sent', DefaultPlayerChartStatusStory::proofSent()->_real());
+        $this->addReference('status_proved', DefaultPlayerChartStatusStory::proved()->_real());
+        $this->addReference('status_unproved', DefaultPlayerChartStatusStory::unproved()->_real());
+
+        // Player scores references
+        $this->addReference('player1_mario_any_score', DefaultPlayerScoreStory::player1MarioAny()->_real());
+        $this->addReference('player2_mario_any_score', DefaultPlayerScoreStory::player2MarioAny()->_real());
+        $this->addReference('player3_mario_any_score', DefaultPlayerScoreStory::player3MarioAny()->_real());
+    }
+
+    public function getDependencies(): array
+    {
+        return [
+            UserFixtures::class,
+            BadgeFixtures::class,
+        ];
     }
 }

@@ -55,7 +55,7 @@ final class PlayerFactory extends PersistentProxyObjectFactory
             'chartRank3' => 0,
             'chartRank4' => 0,
             'chartRank5' => 0,
-            'rankPointBadge' => 0,
+            'rankBadge' => 0,
             'pointBadge' => 0,
             'rankPointChart' => 0,
             'pointChart' => 0,
@@ -178,7 +178,7 @@ final class PlayerFactory extends PersistentProxyObjectFactory
             PlayerStatusEnum::CHIEF_PROOF_ADMIN,
             PlayerStatusEnum::CHIEF_STAFF,
         ];
-        
+
         return $this->with(['status' => self::faker()->randomElement($adminStatuses)]);
     }
 
