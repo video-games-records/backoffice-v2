@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Tests\Story;
 
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Factory\ChartFactory;
+use App\BoundedContext\VideoGamesRecords\Core\Tests\Factory\ChartLibFactory;
 use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultGroupStory;
+use App\BoundedContext\VideoGamesRecords\Core\Tests\Story\DefaultChartTypeStory;
 use Zenstruck\Foundry\Story;
 
 final class DefaultChartStory extends Story
 {
     public function build(): void
     {
-        // S'assurer que les groupes par défaut existent
+        // S'assurer que les groupes et chart types par défaut existent
         DefaultGroupStory::load();
+        DefaultChartTypeStory::load();
 
         $marioMainGame = DefaultGroupStory::marioMainGame();
         $marioMoonRocks = DefaultGroupStory::marioMoonRocks();
@@ -24,30 +27,58 @@ final class DefaultChartStory extends Story
         $hollowKnightBase = DefaultGroupStory::hollowKnightBase();
         $hollowKnightSteelSoul = DefaultGroupStory::hollowKnightSteelSoul();
 
+        // Récupérer les types de charts
+        $timeType = DefaultChartTypeStory::time();
+        $scoreType = DefaultChartTypeStory::scorePlus();
+
         // Charts pour Super Mario Odyssey - Main Game
-        ChartFactory::new()
+        $marioAnyPercent = ChartFactory::new()
             ->withNames('Any% Speedrun', 'Speedrun Any%')
             ->forGroup($marioMainGame)
             ->videoProofOnly()
             ->create([
                 'id' => 1,
             ]);
+        $this->addState('marioAnyPercent', $marioAnyPercent);
 
-        ChartFactory::new()
+        // Ajouter ChartLib pour Any% (temps)
+        ChartLibFactory::new()
+            ->forChart($marioAnyPercent->_real())
+            ->withType($timeType->_real())
+            ->withName('Time')
+            ->create();
+
+        $mario100Percent = ChartFactory::new()
             ->withNames('100% Speedrun', 'Speedrun 100%')
             ->forGroup($marioMainGame)
             ->videoProofOnly()
             ->create([
                 'id' => 2,
             ]);
+        $this->addState('mario100Percent', $mario100Percent);
 
-        ChartFactory::new()
+        // Ajouter ChartLib pour 100% (temps)
+        ChartLibFactory::new()
+            ->forChart($mario100Percent->_real())
+            ->withType($timeType->_real())
+            ->withName('Time')
+            ->create();
+
+        $marioMostMoons = ChartFactory::new()
             ->withNames('Most Moons', 'Plus de Lunes')
             ->forGroup($marioMainGame)
             ->pictureProofAllowed()
             ->create([
                 'id' => 3,
             ]);
+        $this->addState('marioMostMoons', $marioMostMoons);
+
+        // Ajouter ChartLib pour Most Moons (score)
+        ChartLibFactory::new()
+            ->forChart($marioMostMoons->_real())
+            ->withType($scoreType->_real())
+            ->withName('Moons')
+            ->create();
 
         // Charts pour Super Mario Odyssey - Moon Rocks (DLC)
         ChartFactory::new()
@@ -180,17 +211,17 @@ final class DefaultChartStory extends Story
     // Super Mario Odyssey charts
     public static function marioAnyPercent(): object
     {
-        return ChartFactory::find(['libChartEn' => 'Any% Speedrun', 'group' => DefaultGroupStory::marioMainGame()]);
+        return static::get('marioAnyPercent');
     }
 
     public static function mario100Percent(): object
     {
-        return ChartFactory::find(['libChartEn' => '100% Speedrun', 'group' => DefaultGroupStory::marioMainGame()]);
+        return static::get('mario100Percent');
     }
 
     public static function marioMostMoons(): object
     {
-        return ChartFactory::find(['libChartEn' => 'Most Moons']);
+        return static::get('marioMostMoons');
     }
 
     public static function marioMoonRockCollection(): object

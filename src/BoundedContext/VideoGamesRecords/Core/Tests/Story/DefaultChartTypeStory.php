@@ -12,45 +12,45 @@ final class DefaultChartTypeStory extends Story
     public function build(): void
     {
         // 1. Score (+) -> mask 30~, tri DESC
-        ChartTypeFactory::new()
-            ->withName('Score (+)')
-            ->withMask('30~')
-            ->orderDesc()
-            ->create([
-                'id' => 1,
-            ]);
+        $this->addState('scorePlus', ChartTypeFactory::findOrCreate([
+            'name' => 'Score (+)',
+        ], [
+            'name' => 'Score (+)',
+            'mask' => '30~',
+            'orderBy' => 'DESC',
+        ]));
 
         // 2. Temps (XXX:XX.XX) (-) -> mask 30~:|2~.|2~, tri ASC
-        ChartTypeFactory::new()
-            ->withName('Temps (XXX:XX.XX) (-)')
-            ->withMask('30~:|2~.|2~')
-            ->orderAsc()
-            ->create([
-                'id' => 2,
-            ]);
+        $this->addState('time', ChartTypeFactory::findOrCreate([
+            'name' => 'Temps (XXX:XX.XX) (-)',
+        ], [
+            'name' => 'Temps (XXX:XX.XX) (-)',
+            'mask' => '30~:|2~.|2~',
+            'orderBy' => 'ASC',
+        ]));
 
         // 3. Score (-) -> mask 30~, tri ASC
-        ChartTypeFactory::new()
-            ->withName('Score (-)')
-            ->withMask('30~')
-            ->orderAsc()
-            ->create([
-                'id' => 3,
-            ]);
+        $this->addState('scoreMinus', ChartTypeFactory::findOrCreate([
+            'name' => 'Score (-)',
+        ], [
+            'name' => 'Score (-)',
+            'mask' => '30~',
+            'orderBy' => 'ASC',
+        ]));
     }
 
     public static function scorePlus(): object
     {
-        return ChartTypeFactory::find(['name' => 'Score (+)']);
+        return static::get('scorePlus');
     }
 
     public static function time(): object
     {
-        return ChartTypeFactory::find(['name' => 'Temps (XXX:XX.XX) (-)']);
+        return static::get('time');
     }
 
     public static function scoreMinus(): object
     {
-        return ChartTypeFactory::find(['name' => 'Score (-)']);
+        return static::get('scoreMinus');
     }
 }

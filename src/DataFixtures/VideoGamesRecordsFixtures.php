@@ -21,8 +21,8 @@ class VideoGamesRecordsFixtures extends Fixture
         DefaultPlatformStory::load();
         DefaultSerieStory::load();
         DefaultGameStory::load();
-        DefaultChartTypeStory::load();
         DefaultGroupStory::load();
+        DefaultChartTypeStory::load();
         DefaultChartStory::load();
 
         // Références utiles pour d'autres fixtures/tests
