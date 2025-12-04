@@ -16,7 +16,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
     {
         // Charger les groupes d'utilisateurs
         GroupStory::load();
-        
+
         // Use the AdminUserStory to create consistent users for both fixtures and tests
         AdminUserStory::load();
 

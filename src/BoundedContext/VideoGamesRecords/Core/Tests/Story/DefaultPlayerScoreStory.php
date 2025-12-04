@@ -25,7 +25,7 @@ final class DefaultPlayerScoreStory extends Story
         ]);
 
         // Utiliser les players existants créés par UserFixtures (via CreatePlayerListener)
-        
+
         // Récupérer les players par leur pseudo (plus fiable que par ID)
         $adminPlayer = PlayerFactory::repository()->findOneBy(['pseudo' => 'admin']);
         $userPlayer = PlayerFactory::repository()->findOneBy(['pseudo' => 'user']);
@@ -52,7 +52,7 @@ final class DefaultPlayerScoreStory extends Story
         }
 
         if ($userPlayer) {
-            // Player user - Deuxième temps (2ème place)  
+            // Player user - Deuxième temps (2ème place)
             $player2Chart = PlayerChartFactory::new()
                 ->forPlayer($userPlayer)
                 ->forChart($marioAnyPercent->_real())

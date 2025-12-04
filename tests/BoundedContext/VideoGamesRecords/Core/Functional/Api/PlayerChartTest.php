@@ -30,11 +30,11 @@ class PlayerChartTest extends AbstractFunctionalTestCase
         $collectionResponse = $this->apiClient->request('GET', '/api/player_charts', [
             'query' => ['itemsPerPage' => 1]
         ]);
-        
+
         $this->assertResponseIsSuccessful();
-        
+
         $collectionData = $collectionResponse->toArray();
-        
+
         // Skip the test if no PlayerChart exists
         if (empty($collectionData['hydra:member'])) {
             $this->markTestSkipped('No PlayerChart found in database for testing GetItem');
