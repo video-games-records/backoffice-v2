@@ -1,4 +1,4 @@
-App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\VideoType:
+App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\VideoType:
   attributes:
     value:
       groups:

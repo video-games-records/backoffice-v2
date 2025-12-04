@@ -297,7 +297,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             normalizationContext: ['groups' => [
                 'player-chart:read',
                 'player-chart:libs', 'player-chart-lib:read',
-                'player-chart:status', 'player-chart-status:read',
                 'player-chart:player', 'player:read:minimal',
                 'player-chart:proof', 'proof:read',
                 'proof:picture', 'picture:read',
@@ -309,7 +308,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
     normalizationContext: ['groups' => [
         'player-chart:read',
         'player-chart:libs', 'player-chart-lib:read',
-        'player-chart:status', 'player-chart-status:read',
         'player-chart:player', 'player:read:minimal',
         'player-chart:chart', 'chart:read',
         'player-chart:platform', 'platform:read',

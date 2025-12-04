@@ -1,4 +1,4 @@
-App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\VideoComment:
+App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\VideoComment:
   attributes:
     id:
       groups:

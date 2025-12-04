@@ -8,9 +8,9 @@ use Webmozart\Assert\Assert;
 
 class VideoType
 {
-    public const YOUTUBE = 'Youtube';
-    public const TWITCH = 'Twitch';
-    public const UNKNOWN = 'Unknown';
+    public const string YOUTUBE = 'Youtube';
+    public const string TWITCH = 'Twitch';
+    public const string UNKNOWN = 'Unknown';
 
     public const VALUES = [
         self::YOUTUBE,
