@@ -62,7 +62,7 @@ final class PlayerChartLibFactory extends PersistentProxyObjectFactory
     public function withTimeValue(int $hours, int $minutes, int $seconds): static
     {
         $totalSeconds = ($hours * 3600) + ($minutes * 60) + $seconds;
-        return $this->with(['value' => (string)$totalSeconds]);
+        return $this->with(['value' => (string) $totalSeconds]);
     }
 
     /**
@@ -70,6 +70,6 @@ final class PlayerChartLibFactory extends PersistentProxyObjectFactory
      */
     public function withScoreValue(int $score): static
     {
-        return $this->with(['value' => (string)$score]);
+        return $this->with(['value' => (string) $score]);
     }
 }

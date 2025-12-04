@@ -54,7 +54,7 @@ class BulkUpsert extends AbstractController
         $updatedCount = 0;
 
         try {
-            return $this->entityManager->wrapInTransaction(function() use ($content, &$errors, &$playerCharts, &$chartIds, &$createdCount, &$updatedCount) {
+            return $this->entityManager->wrapInTransaction(function () use ($content, &$errors, &$playerCharts, &$chartIds, &$createdCount, &$updatedCount) {
                 foreach ($content['playerCharts'] as $index => $playerChartData) {
                     $result = $this->processPlayerChartData($playerChartData, $index, $errors);
 
