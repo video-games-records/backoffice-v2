@@ -28,6 +28,12 @@ vgr_core_web_controllers:
         namespace: App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller
     type: attribute
 
+vgr_proof_web_controllers:
+  resource:
+    path: ../src/BoundedContext/VideoGamesRecords/Proof/Presentation/Web/Controller/
+    namespace: App\BoundedContext\VideoGamesRecords\Proof\Presentation\Web\Controller
+  type: attribute
+
 vgr_team_web_controllers:
     resource:
         path: ../src/BoundedContext/VideoGamesRecords/Team/Presentation/Web/Controller/

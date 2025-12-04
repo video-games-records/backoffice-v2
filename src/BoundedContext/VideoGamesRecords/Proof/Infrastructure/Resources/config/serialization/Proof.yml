@@ -1,4 +1,4 @@
-App\BoundedContext\VideoGamesRecords\Picture\Domain\Entity\Proof:
+App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof:
   attributes:
     id:
       groups:

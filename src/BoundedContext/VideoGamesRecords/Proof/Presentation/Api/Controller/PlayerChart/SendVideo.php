@@ -56,7 +56,7 @@ class SendVideo extends AbstractController
 
         $video = new Video();
         $video->setUrl($data['url']);
-        $video->setType(new VideoType($data['type'] ?? VideoType::YOUTUBE));
+        $video->setType((new VideoType(VideoType::YOUTUBE))->getValue());
         $video->setPlayer($player);
         $video->setGame($playerChart->getChart()->getGroup()->getGame());
 
