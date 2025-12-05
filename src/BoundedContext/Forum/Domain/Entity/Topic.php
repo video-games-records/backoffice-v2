@@ -105,8 +105,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => [
         'topic:read',
         'topic:last-message',
-        'message:read',
         'message:user',
+        'user:read:minimal',
         'topic:type',
         'topic-type:read']
     ],

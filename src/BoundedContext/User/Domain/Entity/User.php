@@ -140,6 +140,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: false, options: ['default' => 0])]
     protected int $nbConnexion = 0;
 
+    #[Groups(['user:forum:read'])]
+    #[ORM\Column(nullable: false, options: ['default' => 0])]
+    protected int $nbForumMessage = 0;
 
     #[ORM\Column(length: 255, nullable: false, options: ['default' => 'default.png'])]
     protected string $avatar = 'default.png';
@@ -345,6 +348,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->nbConnexion = $nbConnexion;
     }
 
+    public function getNbForumMessage(): int
+    {
+        return $this->nbForumMessage;
+    }
+
+    public function setNbForumMessage(int $nbForumMessage): void
+    {
+        $this->nbForumMessage = $nbForumMessage;
+    }
 
     public function getAvatar(): string
     {
