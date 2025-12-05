@@ -1,10 +1,10 @@
 twig:
     file_name_pattern: '*.twig'
     paths:
-        '%kernel.project_dir%/src/SharedKernel/Resources/views': 'SharedKernel'
-        '%kernel.project_dir%/src/BoundedContext/User/Resources/views': 'User'
+        '%kernel.project_dir%/src/SharedKernel/Presentation/Resources/views': 'SharedKernel'
+        '%kernel.project_dir%/src/BoundedContext/User/Presentation/Resources/views': 'User'
         '%kernel.project_dir%/src/BoundedContext/Article/Presentation/Resources/views': 'Article'
-        '%kernel.project_dir%/src/BoundedContext/Message/Presentation/Resources/views': 'Message'
+        #'%kernel.project_dir%/src/BoundedContext/Message/Presentation/Resources/views': 'Message'
         '%kernel.project_dir%/src/BoundedContext/Forum/Presentation/Resources/views': 'Forum'
         '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Core/Presentation/Resources/views': 'VideoGamesRecordsCore'
         '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Presentation/Resources/views': 'VideoGamesRecordsProof'
