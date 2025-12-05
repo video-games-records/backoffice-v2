@@ -48,7 +48,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'id' => new Link(fromClass: Topic::class, toProperty: 'topic'),
     ],
     operations: [ new GetCollection() ],
-    normalizationContext: ['groups' => ['message:read', 'message:message', 'message:user', 'user:read:minimal']],
+    normalizationContext: ['groups' => ['message:read', 'message:message', 'message:user', 'user:read:minimal', 'user:forum:read']],
 )]
 #[ApiFilter(
     SearchFilter::class,
