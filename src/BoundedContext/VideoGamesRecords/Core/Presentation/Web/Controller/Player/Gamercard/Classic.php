@@ -84,7 +84,7 @@ class Classic extends AbstractController
             ->write($pointGame, $fontSize, 82, 45);
 
         // Add sprites pictures medals
-        $sprite = PictureCreatorFactory::fromFile('../../../Resources/img/sprite.png');
+        $sprite = PictureCreatorFactory::fromFile('../../../../../../../../SharedKernel/Resources/img/sprite.png');
         $gamercard
             ->copyResized($sprite, 78, 59, 126, 160, 16, 16, 16, 16)
             ->copyResized($sprite, 127, 59, 108, 160, 16, 16, 16, 16)
@@ -135,7 +135,7 @@ class Classic extends AbstractController
      */
     public function getBadge(Badge $badge): string
     {
-        $path = 'badge' . DIRECTORY_SEPARATOR . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture();
+        $path = $badge->getType()->getDirectory() . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
             $path = 'badge' . DIRECTORY_SEPARATOR . 'default.gif';
         }
