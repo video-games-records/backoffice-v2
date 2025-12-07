@@ -14,6 +14,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdateP
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerData;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerRank;
 use App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamChartRank;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 readonly class RankingUpdateDispatcher
 {
@@ -62,7 +63,14 @@ readonly class RankingUpdateDispatcher
      */
     public function updatePlayerRankFromPlayer(Player $player): void
     {
-        $this->bus->dispatch(new UpdatePlayerData($player->getId()));
+        $this->bus->dispatch(
+            new UpdatePlayerData($player->getId()),
+            [
+                new DescriptionStamp(
+                    sprintf('Update player-data for player [%d]', $player->getId())
+                )
+            ]
+        );
         $this->bus->dispatch(new UpdatePlayerRank());
     }
 }
