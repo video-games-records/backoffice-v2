@@ -1,30 +1,149 @@
 framework:
-    messenger:
-        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
-        failure_transport: failed
-
-        transports:
-            # https://symfony.com/doc/current/messenger.html#transport-configuration
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
-            failed: 'doctrine://default?queue_name=failed'
-            sync: 'sync://'
-
-        routing:
-            Symfony\Component\Mailer\Messenger\SendEmailMessage: async
-            #Symfony\Component\Notifier\Message\ChatMessage: async
-            #Symfony\Component\Notifier\Message\SmsMessage: async
+  messenger:
+    # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+    failure_transport: failed
+    
+    transports:
+      # https://symfony.com/doc/current/messenger.html#transport-configuration
+      async: '%env(MESSENGER_TRANSPORT_DSN)%'
+      failed: 'doctrine://default?queue_name=failed'
+      sync: 'sync://'
+      player_chart_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_chart_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 500
+          multiplier: 2
+      player_group_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_group_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      player_game_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_game_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      player_serie_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_serie_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      player_platform_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_platform_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      player_data:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_data
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      player_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: player_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_chart_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_chart_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_group_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_group_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_game_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_game_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_serie_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_serie_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_data:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_data
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+      team_rank:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          queue_name: team_rank
+        retry_strategy:
+          max_retries: 3
+          delay: 1000
+          multiplier: 2
+    
+    routing:
+      Symfony\Component\Mailer\Messenger\SendEmailMessage: async
+      #Symfony\Component\Notifier\Message\ChatMessage: async
+      #Symfony\Component\Notifier\Message\SmsMessage: async
+      #Player Ranking
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerChartRank: player_chart_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerGroupRank: player_group_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerGameRank: player_game_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerSerieRank: player_serie_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerPlatformRank: player_platform_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerData: player_data
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerRank: player_rank
+      #Team Ranking
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamChartRank: team_chart_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamGroupRank: team_group_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamGameRank: team_game_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamSerieRank: team_serie_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamData: team_data
+      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamRank: team_rank
 
 when@dev:
-    framework:
-        messenger:
-            routing:
-                Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
+  framework:
+    messenger:
+      routing:
+        Symfony\Component\Mailer\Messenger\SendEmailMessage: sync
 
 
 when@test:
-   framework:
-       messenger:
-           transports:
-               # replace with your transport name here (e.g., my_transport: 'in-memory://')
-               # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
-               async: 'in-memory://'
+  framework:
+    messenger:
+      transports:
+        # replace with your transport name here (e.g., my_transport: 'in-memory://')
+        # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+        async: 'in-memory://'
