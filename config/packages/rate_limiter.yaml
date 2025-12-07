@@ -36,16 +36,3 @@ framework:
       policy: 'sliding_window'
       limit: 1000
       interval: '1 hour'
-
-# Production environment with Redis storage
-when@prod:
-  framework:
-    rate_limiter:
-      api:
-        storage_service: 'cache.rate_limiter'
-      login:
-        storage_service: 'cache.rate_limiter'
-      admin:
-        storage_service: 'cache.rate_limiter'
-      global:
-        storage_service: 'cache.rate_limiter'
