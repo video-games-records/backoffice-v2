@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\SharedKernel\Infrastructure\Scheduler;
 
+use App\BoundedContext\VideoGamesRecords\Dwh\Application\Message\DailyRanking;
 use App\BoundedContext\VideoGamesRecords\Dwh\Application\Message\UpdateGame;
 use App\BoundedContext\VideoGamesRecords\Dwh\Application\Message\UpdatePlayer;
 use App\BoundedContext\VideoGamesRecords\Dwh\Application\Message\UpdateTeam;
@@ -16,7 +17,6 @@ use Symfony\Component\Scheduler\ScheduleProviderInterface;
 /*use VideoGamesRecords\CoreBundle\Scheduler\Message\DesactivateScore;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\PurgeLostPosition;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdatePlayerBadge;
-use VideoGamesRecords\CoreBundle\Scheduler\Message\DailyRanking;
 use VideoGamesRecords\CoreBundle\Scheduler\Message\UpdateYoutubeData;*/
 
 #[AsSchedule('default')]
@@ -39,8 +39,10 @@ class Scheduler implements ScheduleProviderInterface
             ->add(RecurringMessage::cron('5 0 * * *', new RedispatchMessage(new UpdatePlayer(), 'async')))
             ->add(RecurringMessage::cron('5 0 * * *', new RedispatchMessage(new UpdateTeam(), 'async')))
 
+            ->add(RecurringMessage::cron('00 8 * * *', new DailyRanking()))
+
             // Core Bundle Messages (keeping original schedule)
-        /*    ->add(RecurringMessage::cron('00 8 * * *', new DailyRanking()))
+        /*
             ->add(RecurringMessage::cron('00 8 * * 1', new UpdateYoutubeData()))
             ->add(RecurringMessage::cron('00 22 * * * ', new UpdatePlayerBadge()))
             ->add(RecurringMessage::cron('00 6,12,18 * * * ', new PurgeLostPosition()))

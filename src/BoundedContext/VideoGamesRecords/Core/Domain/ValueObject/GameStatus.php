@@ -8,14 +8,14 @@ use Webmozart\Assert\Assert;
 
 class GameStatus
 {
-    public const ACTIVE = 'ACTIVE';
-    public const INACTIVE = 'INACTIVE';
-    public const CREATED = 'CREATED';
-    public const ADD_PICTURE = 'ADD_PICTURE';
-    public const ADD_SCORE = 'ADD_SCORE';
-    public const COMPLETED = 'COMPLETED';
+    public const string ACTIVE = 'ACTIVE';
+    public const string INACTIVE = 'INACTIVE';
+    public const string CREATED = 'CREATED';
+    public const string ADD_PICTURE = 'ADD_PICTURE';
+    public const string ADD_SCORE = 'ADD_SCORE';
+    public const string COMPLETED = 'COMPLETED';
 
-    public const VALUES = [
+    public const array VALUES = [
         self::CREATED,
         self::ADD_SCORE,
         self::ADD_PICTURE,
