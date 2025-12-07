@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener;
 
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -16,6 +18,10 @@ use App\BoundedContext\VideoGamesRecords\Badge\Domain\ValueObject\BadgeType;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerSerieRank;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\SerieStatus;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Serie::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Serie::class)]
+#[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: Serie::class)]
+#[AsEntityListener(event: Events::postLoad, method: 'postLoad', entity: Serie::class)]
 class SerieListener
 {
     /** @var array<string, array{0: mixed, 1: mixed}> */

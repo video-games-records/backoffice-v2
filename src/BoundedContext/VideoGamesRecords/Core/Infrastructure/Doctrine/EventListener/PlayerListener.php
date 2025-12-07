@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener;
 
 use Doctrine\DBAL\Exception;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Player::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Player::class)]
+#[AsEntityListener(event: Events::postUpdate, method: 'postUpdate', entity: Player::class)]
 class PlayerListener
 {
     /** @var array<string, array{0: mixed, 1: mixed}> */

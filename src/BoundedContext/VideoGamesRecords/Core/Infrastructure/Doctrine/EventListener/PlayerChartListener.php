@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\EventListener;
 
 use DateTime;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart;
@@ -16,6 +18,9 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\ProofRequest;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Manager\ScoreManager;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\ProofStatus;
 
+#[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: PlayerChart::class)]
+#[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: PlayerChart::class)]
+#[AsEntityListener(event: Events::preRemove, method: 'preRemove', entity: PlayerChart::class)]
 class PlayerChartListener
 {
     /** @var array<string, array{0: mixed, 1: mixed}> */
