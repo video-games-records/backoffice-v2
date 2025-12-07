@@ -118,20 +118,20 @@ framework:
       #Symfony\Component\Notifier\Message\ChatMessage: async
       #Symfony\Component\Notifier\Message\SmsMessage: async
       #Player Ranking
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerChartRank: player_chart_rank
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerGroupRank: player_group_rank
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerGameRank: player_game_rank
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerSerieRank: player_serie_rank
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerPlatformRank: player_platform_rank
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerData: player_data
-      App\BoundedContext\VideoGamesRecords\Core\Application\Message\UpdatePlayerRank: player_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerChartRank: player_chart_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerGroupRank: player_group_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerGameRank: player_game_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerSerieRank: player_serie_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerPlatformRank: player_platform_rank
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerData: player_data
+      App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerRank: player_rank
       #Team Ranking
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamChartRank: team_chart_rank
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamGroupRank: team_group_rank
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamGameRank: team_game_rank
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamSerieRank: team_serie_rank
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamData: team_data
-      App\BoundedContext\VideoGamesRecords\Team\Application\UpdateTeamRank: team_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamChartRank: team_chart_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamGroupRank: team_group_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamGameRank: team_game_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamSerieRank: team_serie_rank
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamData: team_data
+      App\BoundedContext\VideoGamesRecords\Team\Application\Message\UpdateTeamRank: team_rank
 
 when@dev:
   framework:
