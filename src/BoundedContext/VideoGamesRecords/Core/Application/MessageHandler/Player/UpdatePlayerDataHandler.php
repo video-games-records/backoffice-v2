@@ -13,6 +13,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerCountryRank;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerData;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerRank;
+use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 #[AsMessageHandler]
 readonly class UpdatePlayerDataHandler
@@ -176,7 +177,14 @@ readonly class UpdatePlayerDataHandler
         $this->em->flush();
 
         if ($player->getCountry()) {
-            $this->bus->dispatch(new UpdatePlayerCountryRank($player->getCountry()->getId()));
+            $this->bus->dispatch(
+                new UpdatePlayerCountryRank($player->getCountry()->getId()),
+                [
+                    new DescriptionStamp(
+                        sprintf('Update country-ranking for country [%d]', $player->getCountry()->getId())
+                    )
+                ]
+            );
         }
 
         return ['success' => true];
