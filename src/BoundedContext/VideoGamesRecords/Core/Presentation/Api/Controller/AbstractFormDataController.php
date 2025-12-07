@@ -9,8 +9,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartLib;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Security\UserProvider;
 
@@ -36,7 +36,7 @@ abstract class AbstractFormDataController extends AbstractController
                 $playerChart->setChart($chart);
                 $playerChart->setPlayer($player);
                 $playerChart->setLastUpdate(new \DateTime());
-                $playerChart->setStatus($this->em->getRepository(PlayerChartStatus::class)->findOneBy(['id' => 1]));
+                $playerChart->setStatus(PlayerChartStatusEnum::NONE);
                 if (count($platforms) == 1) {
                     $playerChart->setPlatform($platforms[0]);
                 }

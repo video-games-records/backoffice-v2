@@ -28,12 +28,11 @@ class GetStats extends AbstractController
         $idGame = $request->query->get('idGame');
 
         $qb = $this->em->createQueryBuilder()
-            ->select('s', 'COUNT(pc) as nb')
-            ->from('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus', 's')
-            ->join('s.playerCharts', 'pc')
+            ->select('pc.status', 'COUNT(pc) as nb')
+            ->from('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart', 'pc')
             ->where('pc.player = :player')
             ->setParameter('player', $player)
-            ->groupBy('s.id');
+            ->groupBy('pc.status');
 
         if ($idGame !== null) {
             $qb->join('pc.chart', 'c')
