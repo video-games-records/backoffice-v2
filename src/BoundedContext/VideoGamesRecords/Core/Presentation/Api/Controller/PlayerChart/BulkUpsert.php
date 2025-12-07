@@ -14,11 +14,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerChartRank;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\ChartLib;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartLib;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
 use Zenstruck\Messenger\Monitor\Stamp\DescriptionStamp;
 
 class BulkUpsert extends AbstractController
@@ -170,13 +170,18 @@ class BulkUpsert extends AbstractController
             }
 
             // Status - gérer les formats API Platform et simples
-            $statusId = $this->extractId($data['status'] ?? null) ?? 1;
-            $status = $this->entityManager->getRepository(PlayerChartStatus::class)->find($statusId);
-            if (!$status) {
-                $errors[$index] = 'Invalid status provided';
-                return null;
+            $statusValue = $data['status'] ?? PlayerChartStatusEnum::NONE;
+            if (is_array($statusValue) || !is_string($statusValue)) {
+                $statusValue = PlayerChartStatusEnum::NONE; // Default fallback
+            } else {
+                // Try to create enum from string value
+                try {
+                    $statusValue = PlayerChartStatusEnum::from($statusValue);
+                } catch (\ValueError) {
+                    $statusValue = PlayerChartStatusEnum::NONE; // Default fallback for invalid values
+                }
             }
-            $playerChart->setStatus($status);
+            $playerChart->setStatus($statusValue);
             $playerChart->setProof();
 
             // Platform optionnelle - gérer les formats API Platform et simples
@@ -241,10 +246,7 @@ class BulkUpsert extends AbstractController
 
             // Mettre à jour lastUpdate avec la date du jour et forcer le statut à 1
             $playerChart->setLastUpdate(new \DateTime());
-            $defaultStatus = $this->entityManager->getRepository(PlayerChartStatus::class)->find(1);
-            if ($defaultStatus) {
-                $playerChart->setStatus($defaultStatus);
-            }
+            $playerChart->setStatus(PlayerChartStatusEnum::NONE);
 
             // Validation de l'entité
             $violations = $this->validator->validate($playerChart);

@@ -7,7 +7,7 @@ namespace App\BoundedContext\VideoGamesRecords\Core\Infrastructure\EventSubscrib
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use Doctrine\ORM\EntityManagerInterface;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChartStatus;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerChartStatusEnum;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerChartRank;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,10 +54,8 @@ class PlayerChartSubscriber implements EventSubscriberInterface
 
         $controllerResult->setLastUpdate(new \DateTime());
         $controllerResult->setProof(null);
-        $defaultStatus = $this->entityManager->getRepository(PlayerChartStatus::class)->find(1);
-        if ($defaultStatus) {
-            // $controllerResult->setStatus($defaultStatus);
-        }
+        // Set default status
+        $controllerResult->setStatus(PlayerChartStatusEnum::NONE);
 
         // Mettre à jour le game.lastScore
         $game = $controllerResult->getChart()->getGroup()->getGame();
