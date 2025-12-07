@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Gamercard;
+namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller\Player\Gamercard;
 
 use Exception;
 use League\Flysystem\FilesystemException;
@@ -62,7 +62,7 @@ class Classic extends AbstractController
             $pseudo = $player->getPseudo();
         }
         $gamercard->addColor('orange', 246, 162, 83)
-            ->addFont('segoeUILight', '../../../Resources/fonts/segoeuil.ttf')
+            ->addFont('segoeUILight', '../../../../../../../../SharedKernel/Resources/fonts/segoeuil.ttf')
             ->write($pseudo, 12.375, 9, 17);
 
         // Ranking
@@ -75,11 +75,11 @@ class Classic extends AbstractController
         $pointGame .= $player->getRankPointGame() . $this->getOrdinalSuffix($player->getRankPointGame());
         $gamercard
             ->addColor('white', 255, 255, 255)
-            ->addFont('segoeUISemiBold', '../../../Resources/fonts/seguisb.ttf')
-            ->write($player->getChartRank0(), $fontSize, 96, 70)
-            ->write($player->getChartRank1(), $fontSize, 145, 70)
-            ->write($player->getChartRank2(), $fontSize, 96, 90)
-            ->write($player->getChartRank3(), $fontSize, 145, 90)
+            ->addFont('segoeUISemiBold', '../../../../../../../../SharedKernel/Resources/fonts/seguisb.ttf')
+            ->write((string) $player->getChartRank0(), $fontSize, 96, 70)
+            ->write((string) $player->getChartRank1(), $fontSize, 145, 70)
+            ->write((string) $player->getChartRank2(), $fontSize, 96, 90)
+            ->write((string) $player->getChartRank3(), $fontSize, 145, 90)
             ->write($rankMedal, $fontSize, 175, 80)
             ->write($pointGame, $fontSize, 82, 45);
 

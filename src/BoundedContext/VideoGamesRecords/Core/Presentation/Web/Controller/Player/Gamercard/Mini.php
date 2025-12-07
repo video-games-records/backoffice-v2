@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Gamercard;
+namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Web\Controller\Player\Gamercard;
 
 use Exception;
 use League\Flysystem\FilesystemException;
@@ -44,7 +44,7 @@ class Mini extends AbstractController
         $fontSize = 8;
         $gamercard
             ->addColor('lightBrown', 255, 218, 176)
-            ->addFont('segoeUISemiBold', '../../../Resources/fonts/seguisb.ttf')
+            ->addFont('segoeUISemiBold', '../../../../../../../../SharedKernel/Resources/fonts/seguisb.ttf')
             ->write($this->numberFormat($player->getPointGame()) . ' Pts', $fontSize, 40, 20)
             ->write('/', $fontSize, 124, 20)
             ->addColor('darkYellow', 255, 191, 1)
@@ -61,17 +61,17 @@ class Mini extends AbstractController
 
         $gamercard->getColor('lightBrown');
         $gamercard
-            ->write($player->getChartRank0(), $fontSize, 180, 20)
-            ->write($player->getChartRank1(), $fontSize, 227, 20)
-            ->write($player->getChartRank2(), $fontSize, 274, 20)
-            ->write($player->getChartRank3(), $fontSize, 321, 20);
+            ->write((string) $player->getChartRank0(), $fontSize, 180, 20)
+            ->write((string) $player->getChartRank1(), $fontSize, 227, 20)
+            ->write((string) $player->getChartRank2(), $fontSize, 274, 20)
+            ->write((string) $player->getChartRank3(), $fontSize, 321, 20);
         $gamercard->write('/', $fontSize, 350, 20);
         $gamercard->getColor('darkYellow');
         $rank = $player->getRankMedal();
         if ($rank <= 99) {
             $rank .= $this->getOrdinalSuffix($rank);
         }
-        $gamercard->write($rank, $fontSize, 356, 20);
+        $gamercard->write((string) $rank, $fontSize, 356, 20);
 
         // Add avatar
         $avatar = PictureCreatorFactory::fromStream($this->getAvatar($player));
