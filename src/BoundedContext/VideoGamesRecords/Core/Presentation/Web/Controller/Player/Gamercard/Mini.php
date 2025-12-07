@@ -38,7 +38,7 @@ class Mini extends AbstractController
     public function __invoke(Player $player): void
     {
         chdir(__DIR__);
-        $gamercard = PictureCreatorFactory::fromFile('../../../Resources/img/gamercard/mini.png');
+        $gamercard = PictureCreatorFactory::fromFile('../../../../../../../../SharedKernel/Resources/img/gamercard/mini.png');
 
         // Ranking Points
         $fontSize = 8;
@@ -52,7 +52,7 @@ class Mini extends AbstractController
 
 
         // Ranking Medals
-        $sprite = PictureCreatorFactory::fromFile('../../../Resources/img/sprite.png');
+        $sprite = PictureCreatorFactory::fromFile('../../../../../../../../SharedKernel/Resources/img/sprite.png');
         $gamercard
             ->copyResized($sprite, 164, 8, 126, 160, 16, 16, 16, 16)
             ->copyResized($sprite, 211, 8, 108, 160, 16, 16, 16, 16)
@@ -117,7 +117,7 @@ class Mini extends AbstractController
      */
     public function getBadge(Badge $badge): string
     {
-        $path = 'badge' . DIRECTORY_SEPARATOR . $badge->getType() . DIRECTORY_SEPARATOR . $badge->getPicture();
+        $path = $badge->getType()->getDirectory() . DIRECTORY_SEPARATOR . $badge->getPicture();
         if (!$this->appStorage->fileExists($path)) {
             $path = 'badge' . DIRECTORY_SEPARATOR . 'default.gif';
         }
