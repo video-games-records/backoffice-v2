@@ -21,6 +21,7 @@ api_platform:
             - '%kernel.project_dir%/src/BoundedContext/User/Presentation/Api/Resource'
             - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Shared/Presentation/Api/Resource'
             - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Dwh/Presentation/Api/Resource'
+            - '%kernel.project_dir%/src/BoundedContext/Forum/Presentation/Api/Resource'
     # Enable GraphQL
     graphql:
         enabled: true
