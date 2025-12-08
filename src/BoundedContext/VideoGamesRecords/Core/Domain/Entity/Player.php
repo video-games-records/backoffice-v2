@@ -382,7 +382,7 @@ class Player
 
     #[ORM\ManyToOne(targetEntity: Team::class, inversedBy: 'players')]
     #[ORM\JoinColumn(name:'team_id', referencedColumnName:'id', nullable:true, onDelete: 'SET NULL')]
-    private ?Team $team;
+    private ?Team $team = null;
 
     #[ORM\Column(nullable: true)]
     protected ?DateTime $lastDisplayLostPosition;
