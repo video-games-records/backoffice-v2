@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\Forum\Infrastructure\EventListener\Entity;
+namespace App\BoundedContext\Forum\Infrastructure\Doctrine\EventListener;
 
-use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
 use App\BoundedContext\Forum\Domain\Entity\Forum;
 use App\BoundedContext\Forum\Domain\Entity\Topic;
 use App\BoundedContext\Forum\Domain\Entity\TopicType;
-use Symfony\Bundle\SecurityBundle\Security;
 use App\BoundedContext\User\Domain\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Topic::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Topic::class)]
@@ -32,7 +32,7 @@ class TopicListener
     }
 
     /**
-     * @param Topic       $topic
+     * @param Topic $topic
      * @param LifecycleEventArgs $event
      */
     public function prePersist(Topic $topic, LifecycleEventArgs $event): void
@@ -62,7 +62,7 @@ class TopicListener
     }
 
     /**
-     * @param Topic        $topic
+     * @param Topic $topic
      * @param PreUpdateEventArgs $event
      */
     public function preUpdate(Topic $topic, PreUpdateEventArgs $event): void

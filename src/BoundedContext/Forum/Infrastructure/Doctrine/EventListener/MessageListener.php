@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\BoundedContext\Forum\Infrastructure\EventListener\Entity;
+namespace App\BoundedContext\Forum\Infrastructure\Doctrine\EventListener;
 
+use App\BoundedContext\Forum\Domain\Entity\Message;
+use App\BoundedContext\User\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use App\BoundedContext\Forum\Domain\Entity\Message;
-use App\BoundedContext\User\Domain\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Message::class)]
@@ -32,6 +32,10 @@ readonly class MessageListener
         if ($user instanceof User) {
             $message->setUser($user);
         }
+
+        // Update user message count
+        $user = $message->getUser();
+        $user->setNbForumMessage($user->getNbForumMessage() + 1);
 
         $topic = $message->getTopic();
         $topic->setNbMessage($topic->getNbMessage() + 1);

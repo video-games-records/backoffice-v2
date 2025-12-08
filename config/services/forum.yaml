@@ -1,4 +1,8 @@
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
     # Forum Domain Services
     App\BoundedContext\Forum\Domain\:
         resource: '../../src/BoundedContext/Forum/Domain/*'
@@ -10,17 +14,25 @@ services:
         autowire: true
         autoconfigure: true
 
+    # Doctrine Entity Listeners
+    App\BoundedContext\Forum\Infrastructure\Doctrine\EventListener\:
+        resource: '../../src/BoundedContext/Forum/Infrastructure/Doctrine/EventListener/*'
+        tags: [ 'doctrine.orm.entity_listener' ]
+
     # Infrastructure Layer
+    App\BoundedContext\Forum\Infrastructure\:
+        resource: '../../src/BoundedContext/Forum/Infrastructure/*'
+        exclude:
+            - '../../src/BoundedContext/Forum/Infrastructure/Doctrine/Repository/*'
+            - '../../src/BoundedContext/Forum/Infrastructure/Doctrine/EventListener/*'
+
+    # Doctrine Repositories
     App\BoundedContext\Forum\Infrastructure\Doctrine\Repository\:
         resource: '../../src/BoundedContext/Forum/Infrastructure/Doctrine/Repository/*'
         autowire: true
         autoconfigure: true
         tags: ['doctrine.repository_service']
     
-    App\BoundedContext\Forum\Infrastructure\EventListener\:
-        resource: '../../src/BoundedContext/Forum/Infrastructure/EventListener/*'
-        autowire: true
-        autoconfigure: true
 
     # Presentation Layer - API Controllers
     App\BoundedContext\Forum\Presentation\Api\Controller\:
@@ -36,11 +48,5 @@ services:
         autowire: true
         autoconfigure: true
 
-    # Event Listeners - Entity Listeners
-    App\BoundedContext\Forum\Infrastructure\EventListener\Entity\MessageListener:
-        autowire: true
-        tags: ['doctrine.orm.entity_listener']
 
-    App\BoundedContext\Forum\Infrastructure\EventListener\Entity\TopicListener:
-        autowire: true
-        tags: ['doctrine.orm.entity_listener']
+
