@@ -1,0 +1,8 @@
+App\BoundedContext\Article\Domain\Entity\Article:
+  attributes:
+    createdAt:
+      groups:
+        - 'article:read'
+    updatedAt:
+      groups:
+        - 'article:read'

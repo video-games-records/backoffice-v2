@@ -1,0 +1,8 @@
+App\BoundedContext\Forum\Domain\Entity\Message:
+  attributes:
+    createdAt:
+      groups:
+        - 'message:read'
+    updatedAt:
+      groups:
+        - 'message:read'

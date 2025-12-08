@@ -1,0 +1,8 @@
+App\BoundedContext\Article\Domain\Entity\Comment:
+  attributes:
+    createdAt:
+      groups:
+        - 'comment:read'
+    updatedAt:
+      groups:
+        - 'comment:read'
