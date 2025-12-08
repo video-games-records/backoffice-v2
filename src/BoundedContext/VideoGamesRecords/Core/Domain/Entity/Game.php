@@ -13,6 +13,7 @@ use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\OpenApi\Model;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Filter\GameSearchFilter;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Game\Autocomplete;
@@ -162,6 +163,24 @@ use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Contracts\GameInfoInterface
                 'game:genres', 'genre:read']]
         )
     ]
+)]
+#[ApiResource(
+    paginationEnabled: false,
+    uriTemplate: '/platforms/{id}/games',
+    uriVariables: [
+        'id' => new Link(fromClass: Platform::class, toProperty: 'platforms'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read']],
+)]
+#[ApiResource(
+    paginationEnabled: false,
+    uriTemplate: '/series/{id}/games',
+    uriVariables: [
+        'id' => new Link(fromClass: Serie::class, toProperty: 'serie'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['game:read', 'game:platforms', 'platform:read']],
 )]
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
