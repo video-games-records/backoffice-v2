@@ -13,7 +13,7 @@ class LoginTest extends AbstractFunctionalTestCase
 
         $response = $this->apiClient->request('POST', '/api/login_check', ['json' => [
             'username' => 'admin',
-            'password' => 'password', // Default password from createAdminUser
+            'password' => 'admin',
         ]]);
         $this->assertResponseIsSuccessful();
         $this->assertResponseHeaderSame('content-type', 'application/json');
