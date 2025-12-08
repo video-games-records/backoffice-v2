@@ -1,0 +1,5 @@
+App\BoundedContext\Message\Domain\Entity\Message:
+  attributes:
+    createdAt:
+      groups:
+        - 'message:read'

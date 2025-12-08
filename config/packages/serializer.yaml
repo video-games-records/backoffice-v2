@@ -10,3 +10,9 @@ framework:
                 - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Proof/Infrastructure/Resources/config/serialization'
                 # VideoGamesRecords Badge Context
                 - '%kernel.project_dir%/src/BoundedContext/VideoGamesRecords/Badge/Infrastructure/Resources/config/serialization'
+                # Forum Context
+                - '%kernel.project_dir%/src/BoundedContext/Forum/Infrastructure/Resources/config/serialization'
+                # Message Context
+                - '%kernel.project_dir%/src/BoundedContext/Message/Infrastructure/Resources/config/serialization'
+                # Message Context
+                - '%kernel.project_dir%/src/BoundedContext/Article/Infrastructure/Resources/config/serialization'
