@@ -36,7 +36,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[DoctrineAssert\UniqueEntity(["username"])]
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new Get(
+            uriTemplate: '/users/me',
+            controller: GetMe::class,
+            openapi: new Model\Operation(
+                responses: [
+                    '200' => new Model\Response(description: 'Current user retrieved successfully')
+                ],
+                summary: 'Get current user',
+                description: 'Get current authenticated user data',
+                security: [['bearerAuth' => []]],
+            ),
+            normalizationContext: ['groups' => ['user:read', 'user:read:email']],
+            read: false,
+        ),
         new GetCollection(
             uriTemplate: '/users/autocomplete',
             controller: Autocomplete::class,
@@ -71,21 +84,9 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_USER") and (object == user)',
             validationContext: ['groups' => ['Default', 'user:update']]
         ),
+
         new Get(),
-        new Get(
-            uriTemplate: '/users/me',
-            controller: GetMe::class,
-            openapi: new Model\Operation(
-                responses: [
-                    '200' => new Model\Response(description: 'Current user retrieved successfully')
-                ],
-                summary: 'Get current user',
-                description: 'Get current authenticated user data',
-                security: [['bearerAuth' => []]],
-            ),
-            normalizationContext: ['groups' => ['user:read', 'user:read:email']],
-            read: false,
-        ),
+        new GetCollection(),
     ],
     normalizationContext: ['groups' => ['user:read']]
 )]
