@@ -106,6 +106,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'topic:read',
         'topic:last-message',
         'message:user',
+        'message:read',
         'user:read:minimal',
         'topic:type',
         'topic-type:read']
