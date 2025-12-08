@@ -10,6 +10,7 @@ use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: Player::class)]
 #[AsEntityListener(event: Events::preUpdate, method: 'preUpdate', entity: Player::class)]
@@ -25,8 +26,7 @@ class PlayerListener
      */
     public function prePersist(Player $player, LifecycleEventArgs $event): void
     {
-        $em = $event->getObjectManager();
-        $player->setStatus($em->getReference('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerStatus', 1));
+        $player->setStatus(PlayerStatusEnum::MEMBER);
     }
 
     /**
