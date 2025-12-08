@@ -25,7 +25,7 @@
                 {% for game in games %}
                     <div class="col-md-6 col-lg-4">
                         <div class="game-card">
-                            <a href="/admin/videogamesrecords/core/proof/list?filter%5Bchart__group__game%5D%5Bvalue%5D={{ game[0].getId }}&filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS"
+                            <a href="{{ path('vgrcorebundle_admin_proof_list', {'filter': {'chart__group__game': {'value': game[0].getId}, 'status': {'value': 'IN PROGRESS'}}}) }}"
                                class="game-link">
                                 <div class="game-info">
                                     <div class="game-name">
@@ -49,7 +49,7 @@
             </div>
 
             <div class="box-footer text-center">
-                <a href="/admin/videogamesrecords/core/proof/list?filter%5Bstatus%5D%5Bvalue%5D=IN+PROGRESS"
+                <a href="{{ path('vgrcorebundle_admin_proof_list', {'filter': {'status': {'value': 'IN PROGRESS'}}}) }}"
                    class="btn btn-primary btn-sm">
                     <i class="fa fa-list"></i>
                     {% trans %}proof.dashboard.view_all{% endtrans %}
