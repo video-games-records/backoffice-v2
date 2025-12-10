@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller;
 
+use ApiPlatform\Doctrine\Orm\Paginator;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +27,7 @@ abstract class AbstractFormDataController extends AbstractController
         $this->em = $em;
     }
 
-    protected function setScores(Collection $charts, Player $player): Collection
+    protected function setScores(Paginator $charts, Player $player): Paginator
     {
         $platforms = $this->game->getPlatforms();
         foreach ($charts as $chart) {
