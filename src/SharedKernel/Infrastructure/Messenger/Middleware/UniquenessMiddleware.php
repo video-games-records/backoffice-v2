@@ -26,10 +26,8 @@ class UniquenessMiddleware implements MiddlewareInterface
         $messageHash = $this->generateMessageHash($message);
         $cacheKey = 'messenger_message_' . $messageHash;
 
-        // Vérifier l'unicité seulement lors du dispatch initial (avant envoi)
-        $isBeingSent = empty($envelope->all(SentStamp::class)) && empty($envelope->all(ConsumedByWorkerStamp::class));
-
-        if ($isBeingSent) {
+        // Vérifier l'unicité seulement lors de l'envoi
+        if (!$envelope->all(SentStamp::class) && !$envelope->all(ConsumedByWorkerStamp::class)) {
             $cacheItem = $this->cache->getItem($cacheKey);
 
             if ($cacheItem->isHit()) {
@@ -37,8 +35,8 @@ class UniquenessMiddleware implements MiddlewareInterface
                 return $envelope;
             }
 
-            // Marquer atomiquement le message comme en cours de traitement
-            $cacheItem->set(time());
+            // Marquer le message comme en cours de traitement
+            $cacheItem->set(true);
             $cacheItem->expiresAfter($this->ttl);
             $this->cache->save($cacheItem);
         }
@@ -47,28 +45,23 @@ class UniquenessMiddleware implements MiddlewareInterface
             // Continuer le traitement
             $result = $stack->next()->handle($envelope, $stack);
 
-            // Nettoyer le cache après traitement réussi
-            $this->cleanupCache($cacheKey, $envelope);
+            // Si le message a été consommé avec succès, nettoyer le cache
+            if ($envelope->all(ConsumedByWorkerStamp::class)) {
+                $this->cache->deleteItem($cacheKey);
+            }
 
             return $result;
         } catch (\Throwable $e) {
-            // En cas d'erreur lors de la consommation, garder le cache temporairement
-            if (!empty($envelope->all(ConsumedByWorkerStamp::class))) {
+            // En cas d'erreur, garder le cache pour éviter les re-tentatives immédiates
+            // mais avec un TTL plus court
+            if ($envelope->all(ConsumedByWorkerStamp::class)) {
                 $cacheItem = $this->cache->getItem($cacheKey);
-                $cacheItem->set(time());
+                $cacheItem->set(true);
                 $cacheItem->expiresAfter(60); // 1 minute au lieu du TTL normal
                 $this->cache->save($cacheItem);
             }
 
             throw $e;
-        }
-    }
-
-    private function cleanupCache(string $cacheKey, Envelope $envelope): void
-    {
-        // Nettoyer si le message a été consommé OU si c'est après l'envoi vers la queue
-        if (!empty($envelope->all(ConsumedByWorkerStamp::class)) || !empty($envelope->all(SentStamp::class))) {
-            $this->cache->deleteItem($cacheKey);
         }
     }
 
