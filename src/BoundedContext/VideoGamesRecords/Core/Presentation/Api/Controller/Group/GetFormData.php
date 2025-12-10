@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Group;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Doctrine\Orm\Paginator;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\HttpFoundation\Request;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Chart;
@@ -24,7 +23,7 @@ class GetFormData extends AbstractFormDataController
      * @param Request $request
      * @throws ORMException
      */
-    public function __invoke(Group $group, Request $request): Collection
+    public function __invoke(Group $group, Request $request): Paginator
     {
         $this->game = $group->getGame();
 
@@ -44,6 +43,6 @@ class GetFormData extends AbstractFormDataController
             $itemsPerPage
         );
 
-        return $this->setScores(new ArrayCollection(iterator_to_array($charts)), $player);
+        return $this->setScores($charts, $player);
     }
 }

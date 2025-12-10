@@ -153,7 +153,15 @@ use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Contracts\GameInfoInterface
         new Get(
             uriTemplate: '/games/{id}/form-data',
             controller: \App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Game\GetFormData::class,
-            normalizationContext: ['groups' => ['game:read', 'game:form', 'game:platforms', 'game:genres', 'game:serie']]
+            normalizationContext: ['groups' => [
+                'chart:read', 'chart:libs', 'chart-lib:read',
+                'chart-lib:type', 'chart-type:read',
+                'chart:group', 'group:read',
+                'chart:player-charts', 'player-chart:read', 'player-chart:chart',
+                'player-chart:libs', 'player-chart-lib:read',
+                'player-chart:player', 'player-chart:platform',
+                'player-chart:status', 'player-chart-status:read']
+            ],
         ),
         new Get(
             normalizationContext: ['groups' => [
