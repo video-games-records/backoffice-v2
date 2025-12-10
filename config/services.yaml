@@ -65,8 +65,6 @@ services:
         arguments:
             $cache: '@cache.app'
             $ttl: 3600
-        tags:
-            - { name: messenger.middleware }
 
     # Avatar Managers for different contexts
     team_avatar_manager:
