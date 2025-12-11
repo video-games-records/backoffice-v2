@@ -9,19 +9,15 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Cache\CacheInterface;
-use Symfony\Contracts\Cache\ItemInterface;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart;
 
 class GetLatestScoresDifferentGames extends AbstractController
 {
     private EntityManagerInterface $em;
-    private CacheInterface $cache;
 
-    public function __construct(EntityManagerInterface $em, CacheInterface $cache)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->cache = $cache;
     }
 
     public function __invoke(Request $request): Paginator
@@ -31,21 +27,24 @@ class GetLatestScoresDifferentGames extends AbstractController
 
         $date = new \DateTime("-{$days} days");
 
+        // Utilisation d'une sous-requête avec MAX pour éviter NOT EXISTS - optimisation principale
+        $subQuery = $this->em->createQueryBuilder()
+            ->select('MAX(pc_sub.lastUpdate)')
+            ->from(PlayerChart::class, 'pc_sub')
+            ->join('pc_sub.chart', 'c_sub')
+            ->join('c_sub.group', 'g_sub')
+            ->where('g_sub.game = g.game')
+            ->andWhere('pc_sub.lastUpdate >= :date')
+            ->getDQL();
+
         $queryBuilder = $this->em->createQueryBuilder()
-            ->select('pc1')
-            ->from(PlayerChart::class, 'pc1')
-            ->join('pc1.chart', 'c')
+            ->select('pc')
+            ->from(PlayerChart::class, 'pc')
+            ->join('pc.chart', 'c')
             ->join('c.group', 'g')
-            ->where('pc1.lastUpdate >= :date')
-            ->andWhere('NOT EXISTS (
-                SELECT 1 
-                FROM App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerChart pc2
-                JOIN pc2.chart c2
-                JOIN c2.group g2
-                WHERE pc2.lastUpdate > pc1.lastUpdate
-                AND g2.game = g.game
-            )')
-            ->orderBy('pc1.lastUpdate', 'DESC')
+            ->where('pc.lastUpdate >= :date')
+            ->andWhere("pc.lastUpdate = ({$subQuery})")
+            ->orderBy('pc.lastUpdate', 'DESC')
             ->setParameter('date', $date)
             ->setMaxResults($limit);
 
