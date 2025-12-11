@@ -28,7 +28,7 @@ class GetLatestScores extends AbstractController
             ->select('pc')
             ->from(PlayerChart::class, 'pc')
             ->orderBy('pc.lastUpdate', 'DESC')
-            ->setMaxResults(1000); // Set a default max results to avoid the error
+            ->setMaxResults(50);
 
         if ($days > 0) {
             $queryBuilder
