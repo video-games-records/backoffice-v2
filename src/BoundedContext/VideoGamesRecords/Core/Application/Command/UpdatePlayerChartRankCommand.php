@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Messenger\MessageBusInterface;
+use DateTime;
 
 #[AsCommand(
     name: 'vgr:update-player-chart-rank',
@@ -51,6 +52,12 @@ class UpdatePlayerChartRankCommand extends Command
                 'G',
                 InputOption::VALUE_OPTIONAL,
                 'Game ID - dispatch for all charts in this game'
+            )
+            ->addOption(
+                'last-update',
+                'l',
+                InputOption::VALUE_OPTIONAL,
+                'Date (YYYYMMDD) - dispatch for charts with player updates after this date'
             );
     }
 
@@ -61,11 +68,12 @@ class UpdatePlayerChartRankCommand extends Command
         $chartId = $input->getOption('chart-id');
         $groupId = $input->getOption('group-id');
         $gameId = $input->getOption('game-id');
+        $lastUpdate = $input->getOption('last-update');
 
         // Validation: exactly one option must be provided
-        $providedOptions = array_filter([$chartId, $groupId, $gameId]);
+        $providedOptions = array_filter([$chartId, $groupId, $gameId, $lastUpdate]);
         if (count($providedOptions) !== 1) {
-            $io->error('You must provide exactly one of: --chart-id, --group-id, or --game-id');
+            $io->error('You must provide exactly one of: --chart-id, --group-id, --game-id, or --last-update');
             return Command::FAILURE;
         }
 
@@ -103,6 +111,23 @@ class UpdatePlayerChartRankCommand extends Command
                 }
             }
             $io->info(sprintf('Found %d charts in game "%s" (ID: %d)', count($chartIds), $game->getDefaultName(), $gameId));
+
+        } elseif ($lastUpdate) {
+            // Validate date format
+            if (!preg_match('/^\d{8}$/', $lastUpdate)) {
+                $io->error('Invalid date format. Please use YYYYMMDD (e.g., 20251201)');
+                return Command::FAILURE;
+            }
+
+            $date = DateTime::createFromFormat('Ymd', $lastUpdate);
+            if (!$date) {
+                $io->error('Invalid date. Please use YYYYMMDD format (e.g., 20251201)');
+                return Command::FAILURE;
+            }
+
+            // Get unique chart IDs from PlayerChart with lastUpdate >= date
+            $chartIds = $this->chartRepository->findChartIdsByLastUpdate($date);
+            $io->info(sprintf('Found %d unique charts with player updates after %s', count($chartIds), $date->format('Y-m-d')));
         }
 
         if (empty($chartIds)) {
