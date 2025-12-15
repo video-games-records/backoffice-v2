@@ -1,5 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        app_front_url: '%env(APP_FRONT_URL)%'
     paths:
         '%kernel.project_dir%/src/SharedKernel/Presentation/Resources/views': 'SharedKernel'
         '%kernel.project_dir%/src/BoundedContext/User/Presentation/Resources/views': 'User'
