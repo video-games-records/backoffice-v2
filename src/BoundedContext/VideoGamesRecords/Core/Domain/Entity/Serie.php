@@ -17,6 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Serie\GetLatestScores;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Serie\GetPlayerRankingMedals;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Serie\GetPlayerRankingPoints;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Serie\GetTeamRankingMedals;
@@ -87,6 +88,23 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\SerieStatus;
             openapi: new Model\Operation(
                 summary: 'Retrieves the team medals leaderboard',
                 description: 'Retrieves the team medals leaderboard'
+            ),
+        ),
+        new Get(
+            uriTemplate: '/series/{id}/latest-scores',
+            controller: GetLatestScores::class,
+            normalizationContext: ['groups' => [
+                'player-chart:read',
+                'player-chart:player', 'player:read:minimal',
+                'player-chart:chart', 'chart:read',
+                'chart:group', 'group:read',
+                'group:game', 'game:read',
+                'player-chart:libs', 'player-chart-lib:read'
+]
+            ],
+            openapi: new Model\Operation(
+                summary: 'Retrieves the latest scores for a series',
+                description: 'Retrieves the latest scores for a series with optional days and limit parameters'
             ),
         ),
     ],

@@ -45,3 +45,12 @@ App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerSerie:
     pointGame:
       groups:
         - 'player-serie:read'
+    nbChartWithoutDlc:
+      groups:
+        - 'player-serie:read'
+    nbChartProvenWithoutDlc:
+      groups:
+        - 'player-serie:read'
+    nbGame:
+      groups:
+        - 'player-serie:read'
