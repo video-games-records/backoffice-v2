@@ -6,6 +6,7 @@ namespace App\BoundedContext\VideoGamesRecords\Core\Domain\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -56,11 +57,13 @@ class PlayerSerie
     use NbChartProvenWithoutDlcTrait;
     use NbGameTrait;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Player::class)]
     #[ORM\JoinColumn(name:'player_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
     private Player $player;
 
+    #[ApiProperty(identifier: false)]
     #[ORM\Id]
     #[ORM\ManyToOne(targetEntity: Serie::class)]
     #[ORM\JoinColumn(name:'serie_id', referencedColumnName:'id', nullable:false, onDelete:'CASCADE')]
