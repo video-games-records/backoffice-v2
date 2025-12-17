@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Domain\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\Repository\PlayerSerieRepository;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\ChartRank0Trait;
@@ -23,6 +28,17 @@ use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointCh
 
 #[ORM\Table(name:'vgr_player_serie')]
 #[ORM\Entity(repositoryClass: PlayerSerieRepository::class)]
+#[ApiResource(
+    operations: [
+        new GetCollection(
+            normalizationContext: ['groups' => ['player-serie:read']]
+        ),
+        new Get(
+            normalizationContext: ['groups' => ['player-serie:read']]
+        ),
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: ['player' => 'exact', 'serie' => 'exact'])]
 class PlayerSerie
 {
     use RankMedalTrait;
