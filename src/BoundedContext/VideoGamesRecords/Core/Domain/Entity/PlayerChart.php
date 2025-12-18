@@ -75,38 +75,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints as DoctrineAssert;
             security: 'is_granted("ROLE_PLAYER") and (object.getPlayer().getUserId() == user.getId()) and (object.getStatus() == "none" or object.getStatus() == "proved")'
         ),
         new GetCollection(
-            uriTemplate: '/player_charts/latest-different-games',
-            controller: GetLatestScoresDifferentGames::class,
-            normalizationContext: ['groups' => [
-                'player-chart:read',
-                'player-chart:chart', 'chart:read',
-                'chart:group', 'group:read:minimal',
-                'group:game', 'game:read:minimal',
-                'player-chart:player', 'player:read:minimal',
-            ]],
-            openapi: new Model\Operation(
-                summary: 'Récupère les N derniers scores postés avec des jeux différents',
-                description: 'Retourne les derniers scores en s\'assurant qu\'un seul score par jeu est retourné. Utile pour afficher les activités récentes avec une diversité de jeux.',
-                parameters: [
-                    new Model\Parameter(
-                        name: 'limit',
-                        in: 'query',
-                        description: 'Nombre maximum de scores à retourner (entre 1 et 100, défaut: 10)',
-                        required: false,
-                        schema: ['type' => 'integer', 'minimum' => 1, 'maximum' => 100, 'default' => 10]
-                    ),
-                    new Model\Parameter(
-                        name: 'refresh',
-                        in: 'query',
-                        description: 'Force le rafraîchissement du cache en vidant le cache existant',
-                        required: false,
-                        schema: ['type' => 'boolean', 'default' => false],
-                        example: 'true'
-                    )
-                ]
-            ),
-        ),
-        new GetCollection(
             uriTemplate: '/player_charts/latest',
             controller: GetLatestScores::class,
             normalizationContext: ['groups' => [
