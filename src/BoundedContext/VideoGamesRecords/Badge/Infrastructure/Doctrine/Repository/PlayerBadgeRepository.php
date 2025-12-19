@@ -50,20 +50,17 @@ class PlayerBadgeRepository extends DefaultRepository
             $qb->andWhere('b.type = :badgeType')
                 ->setParameter('badgeType', $badgeType);
 
-            // Si le type est Master, on ajoute la jointure avec game
+            // Jointures pour optimiser les requêtes mais sans addSelect pour éviter les problèmes de type
             if ($badgeType === BadgeType::MASTER->value) {
-                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game', 'g', 'WITH', 'g.badge = b')
-                    ->addSelect('g');
+                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game', 'g', 'WITH', 'g.badge = b');
             }
 
             if ($badgeType === BadgeType::SERIE->value) {
-                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie', 's', 'WITH', 's.badge = b')
-                    ->addSelect('s');
+                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie', 's', 'WITH', 's.badge = b');
             }
 
             if ($badgeType === BadgeType::PLATFORM->value) {
-                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform', 'p', 'WITH', 'p.badge = b')
-                    ->addSelect('p');
+                $qb->leftJoin('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform', 'p', 'WITH', 'p.badge = b');
             }
         }
 

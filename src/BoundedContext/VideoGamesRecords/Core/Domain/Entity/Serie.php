@@ -100,7 +100,7 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\SerieStatus;
                 'chart:group', 'group:read',
                 'group:game', 'game:read',
                 'player-chart:libs', 'player-chart-lib:read'
-]
+            ]
             ],
             openapi: new Model\Operation(
                 summary: 'Retrieves the latest scores for a series',

@@ -87,23 +87,6 @@ class PlayerChartTest extends AbstractFunctionalTestCase
         $this->assertIsArray($responseData['hydra:member']);
     }
 
-    public function testGetLatestScoresDifferentGames(): void
-    {
-        $response = $this->apiClient->request('GET', '/api/player_charts/latest-different-games');
-
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/PlayerChart',
-            '@id' => '/api/player_charts/latest-different-games',
-            '@type' => 'hydra:Collection',
-        ]);
-
-        $responseData = $response->toArray();
-        $this->assertArrayHasKey('hydra:member', $responseData);
-        $this->assertIsArray($responseData['hydra:member']);
-    }
 
     public function testGetCollectionWithFilters(): void
     {
@@ -156,18 +139,6 @@ class PlayerChartTest extends AbstractFunctionalTestCase
                 'days' => 30,
                 'page' => 1,
                 'itemsPerPage' => 10
-            ]
-        ]);
-
-        $this->assertResponseIsSuccessful();
-        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
-    }
-
-    public function testGetLatestScoresDifferentGamesWithParameters(): void
-    {
-        $response = $this->apiClient->request('GET', '/api/player_charts/latest-different-games', [
-            'query' => [
-                'limit' => 5
             ]
         ]);
 

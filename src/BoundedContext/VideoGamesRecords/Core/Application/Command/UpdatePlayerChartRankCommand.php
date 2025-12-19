@@ -87,7 +87,6 @@ class UpdatePlayerChartRankCommand extends Command
             }
             $chartIds = [(int) $chartId];
             $io->info(sprintf('Found 1 chart (ID: %d)', $chartId));
-
         } elseif ($groupId) {
             $group = $this->groupRepository->find((int) $groupId);
             if (!$group) {
@@ -97,7 +96,6 @@ class UpdatePlayerChartRankCommand extends Command
             $charts = $group->getCharts();
             $chartIds = $charts->map(fn($chart) => $chart->getId())->toArray();
             $io->info(sprintf('Found %d charts in group "%s" (ID: %d)', count($chartIds), $group->getDefaultName(), $groupId));
-
         } elseif ($gameId) {
             $game = $this->gameRepository->find((int) $gameId);
             if (!$game) {
@@ -111,7 +109,6 @@ class UpdatePlayerChartRankCommand extends Command
                 }
             }
             $io->info(sprintf('Found %d charts in game "%s" (ID: %d)', count($chartIds), $game->getDefaultName(), $gameId));
-
         } elseif ($lastUpdate) {
             // Validate date format
             if (!preg_match('/^\d{8}$/', $lastUpdate)) {

@@ -15,9 +15,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -26,24 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Autocomplete;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Friend\AddFriend;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Friend\GetFriends;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\Game\GetStats as GameGetStats;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetBadges;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetGamesFromLostPositions;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingBadge;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingCup;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingMedals;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingPointChart;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingPointGame;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\GetRankingProof;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\LostPosition\GetNbLostPosition;
 use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\OrderMasterBadges;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\LostPosition\GetNbNewLostPosition;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\PlayerChart\GetStats as PlayerChartGetStats;
-use App\BoundedContext\VideoGamesRecords\Core\Presentation\Api\Controller\Player\ProofRequest\CanAskProof;
-use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Filter\PlayerSearchFilter;
 use App\BoundedContext\VideoGamesRecords\Core\Infrastructure\Doctrine\Repository\PlayerRepository;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\AverageChartRankTrait;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\ValueObject\PlayerStatusEnum;
@@ -73,8 +54,8 @@ use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankMedalTr
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointBadgeTrait;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointChartTrait;
 use App\BoundedContext\VideoGamesRecords\Shared\Domain\Traits\Entity\RankPointGameTrait;
-use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
+use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
 
 #[ORM\Table(name:'vgr_player')]
 #[ORM\Entity(repositoryClass: PlayerRepository::class)]
@@ -83,155 +64,6 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
 #[ORM\Index(name: "idx_game_rank", columns: ["game_rank0", "game_rank1", "game_rank2", "game_rank3"])]
 #[ApiResource(
     operations: [
-        new GetCollection(),
-        new GetCollection(
-            uriTemplate: '/players/autocomplete',
-            controller: Autocomplete::class,
-            normalizationContext: ['groups' => [
-                'player:read:minimal']
-            ],
-            openapi: new Model\Operation(
-                summary: 'Retrieves players by autocompletion',
-                description: 'Retrieves players by autocompletion'
-            ),
-            /*openapiContext: [
-            'parameters' => [
-            [
-            'name' => 'query',
-            'in' => 'query',
-            'type' => 'string',
-            'required' => true
-            ]
-            ]
-            ]*/
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-point-chart',
-            controller: GetRankingPointChart::class,
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-point-game',
-            controller: GetRankingPointGame::class,
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-medal',
-            controller: GetRankingMedals::class,
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-cup',
-            controller: GetRankingCup::class,
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-badge',
-            controller: GetRankingBadge::class,
-        ),
-        new GetCollection(
-            uriTemplate: '/players/ranking-proof',
-            controller: GetRankingProof::class,
-        ),
-        new Get(),
-        new Get(
-            uriTemplate: '/players/{id}/get-nb-lost-position',
-            controller: GetNbLostPosition::class,
-        ),
-        new Get(
-            uriTemplate: '/players/{id}/get-nb-new-lost-position',
-            controller: GetNbNewLostPosition::class,
-        ),
-        new Get(
-            uriTemplate: '/players/{id}/can-ask-proof',
-            controller: CanAskProof::class,
-        ),
-        new Get(
-            uriTemplate: '/players/{id}/player-chart-stats',
-            controller: PlayerChartGetStats::class,
-            normalizationContext: ['groups' => [
-                'player-chart-status:read']
-            ],
-        ),
-        new Get(
-            uriTemplate: '/players/{id}/game-stats',
-            controller: GameGetStats::class,
-            normalizationContext: ['groups' => [
-                'player-game:read', 'player-game:game', 'game:read',
-                'game:platforms', 'platform:read',
-                'player-game.statuses', 'player-chart-status:read']
-            ],
-        ),
-        new Get(
-            uriTemplate: '/players/{id}/games-from-lost-positions',
-            controller: GetGamesFromLostPositions::class,
-            normalizationContext: ['groups' => [
-                'game:read:minimal']
-            ],
-        ),
-        new GetCollection(
-            uriTemplate: '/players/{id}/badges',
-            controller: GetBadges::class,
-            normalizationContext: ['groups' => [
-                'player-badge:read', 'player-badge:badge', 'badge:read',
-                'badge:serie', 'serie:read',
-                'badge:game', 'game:read',
-                'badge:platform', 'platform:read',
-            ]
-            ]
-        ),
-        new GetCollection(
-            uriTemplate: '/players/{id}/friends',
-            controller: GetFriends::class,
-            normalizationContext: ['groups' => ['player:read:minimal']]
-        ),
-        new Post(
-            uriTemplate: '/players/add-friend',
-            status: 200,
-            controller: AddFriend::class,
-            /*openapi: new Model\Operation(
-                responses: [
-                    '200' => [
-                        'description' => 'Friend added successfully',
-                        'content' => [
-                            'application/json' => [
-                                'schema' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'success' => [
-                                            'type' => 'boolean',
-                                            'example' => true
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ],
-                    '400' => [
-                        'description' => 'Bad request - friend_id is required'
-                    ],
-                    '404' => [
-                        'description' => 'Friend not found'
-                    ]
-                ],
-                summary: 'Add a friend to the current player',
-                description: 'Add a friend to the current player by providing friend_id in request body',
-                requestBody: new Model\RequestBody(
-                    content: new \ArrayObject([
-                        'application/json' => [
-                            'schema' => [
-                                'type' => 'object',
-                                'properties' => [
-                                    'friend_id' => [
-                                        'type' => 'integer',
-                                        'example' => 0
-                                    ]
-                                ],
-                                'required' => ['friend_id']
-                            ]
-                        ]
-                    ])
-                )
-            ),*/
-            security: 'is_granted("ROLE_USER")',
-            validate: false
-        ),
         new Post(
             uriTemplate: '/players/{id}/order-master-badges',
             controller: OrderMasterBadges::class,
@@ -257,10 +89,6 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
                 )
             )
         ),
-        new Put(
-            denormalizationContext: ['groups' => ['player:update']],
-            security: 'is_granted("ROLE_PLAYER") and object.getUserId() == user.getId()'
-        ),
     ],
     normalizationContext: ['groups' => [
         'player:read',
@@ -268,14 +96,6 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
         'player:country', 'country:read']
     ],
     order: ['pseudo' => 'ASC'],
-)]
-#[ApiResource(
-    uriTemplate: '/teams/{id}/players',
-    uriVariables: [
-        'id' => new Link(fromClass: Team::class, toProperty: 'team'),
-    ],
-    operations: [ new GetCollection() ],
-    normalizationContext: ['groups' => ['player:read:minimal']],
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -302,7 +122,6 @@ use App\BoundedContext\VideoGamesRecords\Proof\Domain\Entity\Proof;
 #[ApiFilter(DateFilter::class, properties: ['lastLogin' => DateFilterInterface::EXCLUDE_NULL])]
 #[ApiFilter(RangeFilter::class, properties: ['nbVideo'])]
 #[ApiFilter(BooleanFilter::class, properties: ['hasDonate'])]
-#[ApiFilter(PlayerSearchFilter::class)]
 class Player
 {
     use TimestampableEntity;

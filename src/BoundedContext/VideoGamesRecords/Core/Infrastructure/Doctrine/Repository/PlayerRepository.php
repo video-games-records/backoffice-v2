@@ -35,6 +35,26 @@ class PlayerRepository extends DefaultRepository
     }
 
     /**
+     * @param string $search
+     * @param int $limit
+     * @param int $offset
+     * @return array<Player>
+     */
+    public function findBySearch(string $search, int $limit = 30, int $offset = 0): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb
+            ->where('LOWER(p.pseudo) LIKE LOWER(:search)')
+            ->setParameter('search', '%' . $search . '%')
+            ->orderBy('p.pseudo', 'ASC')
+            ->setMaxResults($limit)
+            ->setFirstResult($offset);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * @param $user
      * @return Player
      * @throws NonUniqueResultException

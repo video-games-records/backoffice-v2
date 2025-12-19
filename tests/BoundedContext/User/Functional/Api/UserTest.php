@@ -49,11 +49,11 @@ class UserTest extends AbstractFunctionalTestCase
     {
         $user = $this->createUser();
         $this->authenticateUser($user);
-        
+
         $unique = uniqid();
         $newUsername = "updated_user_{$unique}";
         $newEmail = "updated_user_{$unique}@example.com";
-        
+
         $response = $this->apiClient->request('PUT', '/api/users/' . $user->getId(), [
             'json' => [
                 'username' => $newUsername,
