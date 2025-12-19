@@ -35,16 +35,6 @@ use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
                 summary: 'Retrieves the country leaderboard',
                 description: 'Retrieves the country leaderboard'
             ),
-            /*openapiContext: [
-            'parameters' => [
-            [
-            'name' => 'maxRank',
-            'in' => 'query',
-            'type' => 'integer',
-            'required' => false
-            ],
-            ]
-            ]*/
         ),
     ],
     normalizationContext: ['groups' => ['country:read']]
@@ -56,14 +46,14 @@ class Country
     private const string DEFAULT_LOCALE = 'en';
 
     #[Assert\Length(max: 2)]
-    #[ORM\Column(length: 2, nullable: false)]
+    #[ORM\Column(name: 'code_iso2', length: 2, nullable: false)]
     private string $codeIso2;
 
     #[Assert\Length(max: 3)]
-    #[ORM\Column(length: 3, nullable: false)]
+    #[ORM\Column(name: 'code_iso3', length: 3, nullable: false)]
     private string $codeIso3;
 
-    #[ORM\Column(nullable: false)]
+    #[ORM\Column(name: 'code_iso_numeric', nullable: false)]
     private int $codeIsoNumeric;
 
     #[Assert\Length(max: 100)]
@@ -76,9 +66,6 @@ class Country
     #[ORM\OneToOne(targetEntity: Badge::class, cascade: ['persist'], inversedBy: 'country')]
     #[ORM\JoinColumn(name:'badge_id', referencedColumnName:'id', nullable:true)]
     private ?Badge $badge;
-
-    #[ORM\Column(nullable: false, options: ['default' => false])]
-    private bool $boolMaj = false;
 
     /** @var Collection<CountryTranslation> */
     #[ORM\OneToMany(
@@ -147,15 +134,6 @@ class Country
         return $this->badge;
     }
 
-    public function setBoolMaj(bool $boolMaj): void
-    {
-        $this->boolMaj = $boolMaj;
-    }
-
-    public function getBoolMaj(): bool
-    {
-        return $this->boolMaj;
-    }
 
     public function getSlug(): string
     {
