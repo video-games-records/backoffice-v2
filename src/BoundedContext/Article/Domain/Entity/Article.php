@@ -63,7 +63,7 @@ class Article
     #[Groups(['article:author'])]
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'author_id', referencedColumnName:'id', nullable:false)]
-    private User $author;
+    private ?User $author = null;
 
     #[Groups(['article:read'])]
     #[ORM\Column(nullable: true)]
