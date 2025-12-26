@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\SharedKernel\Infrastructure\EventSubscriber\Notify\Badge;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
 use App\SharedKernel\Infrastructure\EventSubscriber\Notify\AbstractNotifySubscriberInterface;
 use Doctrine\ORM\Exception\ORMException;
 use App\BoundedContext\User\Domain\Entity\User;
@@ -54,11 +55,11 @@ final class NotifyTeamBadgeLostSubscriber extends AbstractNotifySubscriberInterf
     }
 
     /**
-     * @param $user_id
-     * @param $game
+     * @param int $user_id
+     * @param Game $game
      * @return void
      */
-    private function sendMessage($user_id, $game): void
+    private function sendMessage(int $user_id, Game $game): void
     {
         /** @var User $recipient */
         $recipient = $this->em->getRepository('App\BoundedContext\User\Domain\Entity\User')->find($user_id);

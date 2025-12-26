@@ -19,14 +19,13 @@ readonly class UpdateTeamRankHandler
     }
 
 
-    public function __invoke(UpdateTeamRank $updateTeamRank): array
+    public function __invoke(UpdateTeamRank $updateTeamRank): void
     {
         $this->majRankPointChart();
         $this->majRankPointGame();
         $this->majRankMedal();
         $this->majRankBadge();
         $this->majRankCup();
-        return ['success' => true];
     }
 
 

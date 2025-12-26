@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -33,16 +34,16 @@ readonly class UpdatePlayerChartRankHandler
 
     /**
      * @throws ORMException
-     * @throws ExceptionInterface
-     * @return array<string, mixed>
+     * @throws ExceptionInterface|EntityNotFoundException
      */
-    public function __invoke(UpdatePlayerChartRank $updatePlayerChartRank): array
+    public function __invoke(UpdatePlayerChartRank $updatePlayerChartRank): void
     {
         /** @var Chart $chart */
         $chart = $this->em->getRepository(Chart::class)
             ->find($updatePlayerChartRank->getChartId());
+
         if (null == $chart) {
-            return ['error' => 'chart not found'];
+            throw new EntityNotFoundException('Chart', $updatePlayerChartRank->getChartId());
         }
 
         $ranking = $this->playerChartRankingProvider->getRanking(
@@ -191,8 +192,6 @@ readonly class UpdatePlayerChartRankHandler
                 )
             ]
         );
-
-        return ['success' => true];
     }
 
     /**

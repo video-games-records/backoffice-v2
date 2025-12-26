@@ -27,7 +27,7 @@ abstract class AbstractNotifySubscriberInterface implements EventSubscriberInter
     /**
      * @throws ORMException
      */
-    protected function getDefaultSender()
+    protected function getDefaultSender(): object|null
     {
         return $this->em->getReference('App\BoundedContext\User\Domain\Entity\User', 0);
     }
