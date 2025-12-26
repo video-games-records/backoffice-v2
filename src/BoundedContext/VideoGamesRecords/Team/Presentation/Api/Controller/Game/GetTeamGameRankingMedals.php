@@ -22,6 +22,7 @@ class GetTeamGameRankingMedals extends AbstractController
         $this->rankingProvider = $rankingProvider;
     }
 
+    /** @return array<mixed> */
     public function __invoke(Game $game, Request $request): array
     {
         return $this->rankingProvider->getRankingMedals(

@@ -8,7 +8,9 @@ use DateTime;
 
 interface CoreDataProviderInterface
 {
+    /** @return array<object> */
     public function getData(): array;
 
+    /** @return array<int, int> */
     public function getNbPostDay(DateTime $date1, DateTime $date2): array;
 }

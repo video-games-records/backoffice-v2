@@ -16,9 +16,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-/**
- * @extends BaseAdmin<Game>
- */
 final class GameAdmin extends BaseAdmin
 {
     protected function configureRoutes(RouteCollectionInterface $collection): void

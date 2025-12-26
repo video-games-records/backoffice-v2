@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Group;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -26,17 +28,14 @@ readonly class UpdatePlayerGroupRankHandler
     ) {
     }
 
-    /**
-     * @throws ORMException
-     * @throws ExceptionInterface
-     * @return array<string, mixed>
-     */
     public function __invoke(UpdatePlayerGroupRank $updatePlayerGroupRank): array
     {
+        /** @var Group|null $group */
         $group = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Group')
             ->find($updatePlayerGroupRank->getGroupId());
+
         if (null === $group) {
-            return ['error' => 'group not found'];
+            throw new EntityNotFoundException('Group', $updatePlayerGroupRank->getGroupId());
         }
 
         //----- delete

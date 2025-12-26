@@ -36,6 +36,7 @@ class Game
         return $this->id;
     }
 
+    /** @param array<string, mixed> $row */
     public function setFromArray(array $row): void
     {
         foreach ($row as $key => $value) {

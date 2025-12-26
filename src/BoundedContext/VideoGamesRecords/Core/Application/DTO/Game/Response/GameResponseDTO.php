@@ -37,8 +37,11 @@ class GameResponseDTO
         public readonly string $slug,
         public readonly ?string $downloadUrl,
         public readonly ?\DateTimeInterface $lastUpdate,
+        /** @var array{id: int, name: string, slug: string}|null */
         public readonly ?array $serie,
+        /** @var array<array{id: int, name: string, slug: string}> */
         public readonly array $platforms,
+        /** @var array<array{id: int, name: string, slug: string}> */
         public readonly array $genres
     ) {
     }

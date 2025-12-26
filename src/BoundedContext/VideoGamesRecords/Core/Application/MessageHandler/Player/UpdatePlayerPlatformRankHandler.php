@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -21,18 +23,15 @@ readonly class UpdatePlayerPlatformRankHandler
     ) {
     }
 
-    /**
-     * @throws ORMException
-     * @throws ExceptionInterface
-     * @return array<string, mixed>
-     */
-    public function __invoke(UpdatePlayerPlatformRank $updatePlayerPlatformRank): array
+    public function __invoke(UpdatePlayerPlatformRank $updatePlayerPlatformRank): void
     {
+        /** @var Platform|null $platform */
         $platform = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Platform')->find(
             $updatePlayerPlatformRank->getPlatformId()
         );
+
         if (null === $platform) {
-            return ['error' => 'platform not found'];
+            throw new EntityNotFoundException('Platform', $updatePlayerPlatformRank->getPlatformId());
         }
 
         // Delete old data
@@ -96,7 +95,5 @@ readonly class UpdatePlayerPlatformRankHandler
             $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge')
                 ->updateBadge($firstPlacePlayers, $platform->getBadge());
         }
-
-        return ['success' => true];
     }
 }

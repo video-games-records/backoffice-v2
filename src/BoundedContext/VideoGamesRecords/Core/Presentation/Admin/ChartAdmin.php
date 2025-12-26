@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Presentation\Admin;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\ChartLib;
 use App\SharedKernel\Presentation\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -17,7 +18,6 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
-use App\BoundedContext\VideoGamesRecords\ChartLib;
 
 class ChartAdmin extends BaseAdmin
 {

@@ -19,7 +19,7 @@ class GetMedalsByTime extends AbstractController
 
     /**
      * @param Player $player
-     * @return array
+     * @return array<string, array<mixed>>
      */
     public function __invoke(Player $player): array
     {

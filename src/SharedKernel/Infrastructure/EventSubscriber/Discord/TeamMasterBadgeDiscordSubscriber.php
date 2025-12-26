@@ -10,7 +10,7 @@ use Symfony\Component\Notifier\Message\ChatMessage;
 use Psr\Log\LoggerInterface;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\Badge;
 use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
-use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Team;
+use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Event\TeamBadgeObtained;
 
 final readonly class TeamMasterBadgeDiscordSubscriber implements EventSubscriberInterface

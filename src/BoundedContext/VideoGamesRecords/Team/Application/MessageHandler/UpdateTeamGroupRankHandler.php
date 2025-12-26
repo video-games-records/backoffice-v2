@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Team\Application\MessageHandler;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Group;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -27,14 +29,16 @@ readonly class UpdateTeamGroupRankHandler
 
     /**
      * @throws ORMException
-     * @throws ExceptionInterface
+     * @throws ExceptionInterface|EntityNotFoundException
      */
-    public function __invoke(UpdateTeamGroupRank $updateTeamGroupRank): array
+    public function __invoke(UpdateTeamGroupRank $updateTeamGroupRank): void
     {
+        /** @var Group|null $group */
         $group = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Group')
             ->find($updateTeamGroupRank->getGroupId());
+
         if (null === $group) {
-            return ['error' => 'group not found'];
+            throw new EntityNotFoundException('Group', $updateTeamGroupRank->getGroupId());
         }
 
         //----- delete
@@ -92,7 +96,9 @@ readonly class UpdateTeamGroupRankHandler
                 $row,
                 'App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamGroup'
             );
-            $teamGroup->setTeam($this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['id']));
+            $teamGroup->setTeam(
+                $this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['id'])
+            );
             $teamGroup->setGroup($group);
 
             $this->em->persist($teamGroup);
@@ -107,6 +113,5 @@ readonly class UpdateTeamGroupRankHandler
                 )
             ]
         );
-        return ['success' => true];
     }
 }

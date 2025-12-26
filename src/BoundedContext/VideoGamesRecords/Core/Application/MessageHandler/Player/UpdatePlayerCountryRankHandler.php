@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use App\BoundedContext\VideoGamesRecords\Core\Application\Message\Player\UpdatePlayerCountryRank;
@@ -19,13 +20,15 @@ readonly class UpdatePlayerCountryRankHandler
     ) {
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function __invoke(UpdatePlayerCountryRank $updatePlayerCountryRank): array
+    public function __invoke(UpdatePlayerCountryRank $updatePlayerCountryRank): void
     {
+        /** @var Country|null $country */
         $country = $this->em->getRepository(Country::class)
             ->find($updatePlayerCountryRank->getCountryId());
+
+        if (null === $country) {
+            throw new EntityNotFoundException('Country', $updatePlayerCountryRank->getCountryId());
+        }
 
         $players = $this->em->getRepository(Player::class)
             ->findBy(['country' => $country], ['rankPointChart' => 'ASC']);
@@ -47,7 +50,5 @@ readonly class UpdatePlayerCountryRankHandler
             $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge')
                 ->updateBadge($firstPlacePlayers, $country->getBadge());
         }
-
-        return ['success' => true];
     }
 }

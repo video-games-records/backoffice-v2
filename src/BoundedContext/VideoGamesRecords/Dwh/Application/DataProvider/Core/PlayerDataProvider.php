@@ -11,6 +11,7 @@ class PlayerDataProvider extends AbstractCoreDataProvider
 {
     /**
      * @throws Exception
+     * @return array<array<string, mixed>>
      */
     public function getData(): array
     {
@@ -35,7 +36,7 @@ class PlayerDataProvider extends AbstractCoreDataProvider
     }
 
     /**
-     * @return array
+     * @return array<int, array<int, int>>
      */
     public function getDataRank(): array
     {
@@ -60,7 +61,7 @@ class PlayerDataProvider extends AbstractCoreDataProvider
     /**
      * @param DateTime $date1
      * @param DateTime $date2
-     * @return array
+     * @return array<int, int>
      */
     public function getNbPostDay(DateTime $date1, DateTime $date2): array
     {

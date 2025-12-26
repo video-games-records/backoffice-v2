@@ -18,6 +18,7 @@ class GetStats extends AbstractController
         $this->em = $em;
     }
 
+    /** @return array<string, int> */
     public function __invoke(): array
     {
         /** @var PlayerRepository $playerRepository */

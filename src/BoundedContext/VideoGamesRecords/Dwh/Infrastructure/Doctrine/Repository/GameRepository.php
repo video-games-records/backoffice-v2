@@ -22,7 +22,7 @@ class GameRepository extends ServiceEntityRepository
      * @param DateTime $begin
      * @param DateTime $end
      * @param integer  $limit
-     * @return array
+     * @return array<array<string, mixed>>
      */
     public function getTop(DateTime $begin, DateTime $end, int $limit = 20): array
     {

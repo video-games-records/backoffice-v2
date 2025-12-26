@@ -31,7 +31,7 @@ class AddFriendDataProvider implements ProviderInterface
 
         $friendId = $addFriendRequest->friendId;
 
-        /** @var Player $friend */
+        /** @var Player|null $friend */
         $friend = $this->playerRepository->find($friendId);
         if (!$friend) {
             throw new NotFoundHttpException('Friend not found');

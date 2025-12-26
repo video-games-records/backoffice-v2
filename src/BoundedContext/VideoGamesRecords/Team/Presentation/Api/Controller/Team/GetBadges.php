@@ -16,6 +16,7 @@ class GetBadges extends AbstractController
     ) {
     }
 
+    /** @return array<string, mixed> */
     public function __invoke(Team $team): array
     {
         $result = [];

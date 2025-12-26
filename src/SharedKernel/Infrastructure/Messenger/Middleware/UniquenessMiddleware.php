@@ -65,7 +65,7 @@ class UniquenessMiddleware implements MiddlewareInterface
         }
     }
 
-    private function generateMessageHash($message): string
+    private function generateMessageHash(object $message): string
     {
         // Pour votre cas spécifique : entité + id
         if (method_exists($message, 'getEntityClass') && method_exists($message, 'getEntityId')) {

@@ -9,7 +9,7 @@ class ScoreTools
     /**
      * Parse a type of a libRecord
      * @param string $mask
-     * @return array
+     * @return array<array<string, mixed>>
      */
     public static function parseChartMask(string $mask): array
     {
@@ -27,7 +27,7 @@ class ScoreTools
      * Transform a value for the form
      * @param string $mask
      * @param int|string|null $value
-     * @return array
+     * @return array<array<string, string>>
      */
     public static function getValues(string $mask, int|string|null $value): array
     {
@@ -68,7 +68,7 @@ class ScoreTools
     /**
      * Transform values to insert database
      * @param string $mask
-     * @param array  $values
+     * @param array<array<string, string>>  $values
      * @return string|null
      */
     public static function formToBdd(string $mask, array $values): ?string

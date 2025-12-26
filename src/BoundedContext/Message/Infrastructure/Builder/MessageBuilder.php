@@ -6,14 +6,15 @@ namespace App\BoundedContext\Message\Infrastructure\Builder;
 
 use Doctrine\ORM\EntityManagerInterface;
 use App\BoundedContext\Message\Domain\Entity\Message;
+use App\BoundedContext\User\Domain\Entity\User;
 
 class MessageBuilder
 {
     private string $type = 'DEFAULT';
     private string $object;
     private string $message;
-    private $sender;
-    private $recipient;
+    private ?User $sender = null;
+    private ?User $recipient = null;
 
     private EntityManagerInterface $em;
 
@@ -40,13 +41,13 @@ class MessageBuilder
         return $this;
     }
 
-    public function setSender($sender): MessageBuilder
+    public function setSender(?User $sender): MessageBuilder
     {
         $this->sender = $sender;
         return $this;
     }
 
-    public function setRecipient($recipient): MessageBuilder
+    public function setRecipient(?User $recipient): MessageBuilder
     {
         $this->recipient = $recipient;
         return $this;

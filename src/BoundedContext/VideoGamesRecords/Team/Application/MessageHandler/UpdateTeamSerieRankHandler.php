@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Team\Application\MessageHandler;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -18,26 +19,29 @@ use App\BoundedContext\VideoGamesRecords\Shared\Domain\Tools\RankingTools;
 readonly class UpdateTeamSerieRankHandler
 {
     public function __construct(
-        private EntityManagerInterface $em,
-        private EventDispatcherInterface $eventDispatcher,
+        private EntityManagerInterface $em
     ) {
     }
 
     /**
      * @throws ORMException
-     * @throws ExceptionInterface
+     * @throws ExceptionInterface|EntityNotFoundException
      */
-    public function __invoke(UpdateTeamSerieRank $updateTeamSerieRank): array
+    public function __invoke(UpdateTeamSerieRank $updateTeamSerieRank): void
     {
+        /** @var Serie|null $serie */
         $serie = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie')
             ->find($updateTeamSerieRank->getSerieId());
+
         if (null === $serie) {
-            return ['error' => 'serie not found'];
+            throw new EntityNotFoundException('Serie', $updateTeamSerieRank->getSerieId());
         }
 
         // Delete old data
         $query = $this->em
-            ->createQuery('DELETE App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamSerie us WHERE us.serie = :serie');
+            ->createQuery(
+                'DELETE App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamSerie us WHERE us.serie = :serie'
+            );
         $query->setParameter('serie', $serie);
         $query->execute();
 
@@ -89,7 +93,9 @@ readonly class UpdateTeamSerieRankHandler
                 $row,
                 'App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamSerie'
             );
-            $teamSerie->setTeam($this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['idTeam']));
+            $teamSerie->setTeam(
+                $this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['idTeam'])
+            );
             $teamSerie->setSerie($serie);
 
             $this->em->persist($teamSerie);
@@ -112,7 +118,5 @@ readonly class UpdateTeamSerieRankHandler
             $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\TeamBadge')
                 ->updateBadge($firstPlaceTeams, $serie->getBadge());
         }
-
-        return ['success' => true];
     }
 }

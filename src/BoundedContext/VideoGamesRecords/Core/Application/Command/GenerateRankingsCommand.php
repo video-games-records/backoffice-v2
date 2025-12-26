@@ -117,6 +117,9 @@ Examples:
         return Command::SUCCESS;
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function generateGameRankings(SymfonyStyle $io, string $period, ?int $year, ?int $month, ?int $week): array
     {
         switch ($period) {
@@ -143,6 +146,9 @@ Examples:
         }
     }
 
+    /**
+     * @return array<mixed>
+     */
     private function generatePlayerRankings(SymfonyStyle $io, string $period, ?int $year, ?int $month, ?int $week): array
     {
         switch ($period) {
@@ -179,6 +185,9 @@ Examples:
         };
     }
 
+    /**
+     * @param array<mixed> $rankings
+     */
     private function displayTopRankings(SymfonyStyle $io, array $rankings, string $type): void
     {
         $io->section("Top 10 {$type} Rankings");

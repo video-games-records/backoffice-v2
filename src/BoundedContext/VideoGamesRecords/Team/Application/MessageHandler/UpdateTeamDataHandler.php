@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Team\Application\MessageHandler;
 
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
+use Exception;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team;
@@ -20,15 +22,16 @@ readonly class UpdateTeamDataHandler
     }
 
     /**
-     * @throws ORMException|ExceptionInterface
+     * @throws ORMException|Exception
      */
-    public function __invoke(UpdateTeamData $updateTeamData): array
+    public function __invoke(UpdateTeamData $updateTeamData): void
     {
-        /** @var Team $team */
+        /** @var Team|null $team */
         $team = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team')
             ->find($updateTeamData->getTeamId());
+
         if (null == $team) {
-            return ['error' => 'team not found'];
+            throw new EntityNotFoundException('Team', $updateTeamData->getTeamId());
         }
 
         $query = $this->em->createQuery("
@@ -140,6 +143,5 @@ readonly class UpdateTeamDataHandler
         }
 
         $this->em->flush();
-        return ['success' => true];
     }
 }

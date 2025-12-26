@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Team\Application\MessageHandler;
 
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -29,22 +29,22 @@ readonly class UpdateTeamGameRankHandler
 
     public function __construct(
         private EntityManagerInterface $em,
-        private MessageBusInterface $bus,
-        private EventDispatcherInterface $eventDispatcher,
+        private MessageBusInterface $bus
     ) {
     }
 
     /**
      * @throws ORMException
-     * @throws ExceptionInterface
+     * @throws ExceptionInterface|EntityNotFoundException
      */
-    public function __invoke(UpdateTeamGameRank $updateTeamGameRank): array
+    public function __invoke(UpdateTeamGameRank $updateTeamGameRank): void
     {
-        /** @var Game $game */
+        /** @var Game|null $game */
         $game = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game')
         ->find($updateTeamGameRank->getGameId());
+
         if (null == $game) {
-            return ['error' => 'game not found'];
+            throw new EntityNotFoundException('Game', $updateTeamGameRank->getGameId());
         }
 
         //----- delete
@@ -106,7 +106,9 @@ readonly class UpdateTeamGameRankHandler
                     $row,
                     'App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\TeamGame'
                 );
-                $teamGame->setTeam($this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['id']));
+                $teamGame->setTeam(
+                    $this->em->getReference('App\BoundedContext\VideoGamesRecords\Team\Domain\Entity\Team', $row['id'])
+                );
                 $teamGame->setGame($game);
 
                 $this->em->persist($teamGame);
@@ -152,7 +154,5 @@ readonly class UpdateTeamGameRankHandler
             $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\TeamBadge')
                 ->updateBadge($firstPlaceTeams, $game->getBadge());
         }
-
-        return ['success' => true];
     }
 }

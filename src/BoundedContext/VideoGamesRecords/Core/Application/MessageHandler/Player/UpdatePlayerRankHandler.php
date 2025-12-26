@@ -19,10 +19,7 @@ readonly class UpdatePlayerRankHandler
     ) {
     }
 
-    /**
-     * @return array<string, mixed>
-     */
-    public function __invoke(UpdatePlayerRank $updatePlayerChartRank): array
+    public function __invoke(UpdatePlayerRank $updatePlayerChartRank): void
     {
         $this->majRankPointChart();
         $this->majRankPointGame();
@@ -30,7 +27,6 @@ readonly class UpdatePlayerRankHandler
         $this->majRankMedal();
         $this->majRankBadge();
         $this->majRankProof();
-        return ['success' => true];
     }
 
     public function majRankPointChart(): void

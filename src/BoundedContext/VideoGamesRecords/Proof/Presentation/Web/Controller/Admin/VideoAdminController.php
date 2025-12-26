@@ -10,21 +10,21 @@ use App\BoundedContext\VideoGamesRecords\Proof\Application\Handler\YoutubeDataHa
 
 class VideoAdminController extends CRUDController
 {
-    private YoutubeDataHandler $youtubeDataHandler;
+    //private YoutubeDataHandler $youtubeDataHandler;
 
     public function __construct(/* YoutubeDataHandler $youtubeDataHandler */)
     {
-        $this->youtubeDataHandler = $youtubeDataHandler;
+        //$this->youtubeDataHandler = $youtubeDataHandler;
     }
 
 
     /**
-     * @param $id
+     * @param int $id
      * @return RedirectResponse
      */
     public function majAction(int $id): RedirectResponse
     {
-        $this->youtubeDataHandler->process($this->admin->getSubject());
+        //$this->youtubeDataHandler->process($this->admin->getSubject());
         $this->addFlash('sonata_flash_success', 'Video data maj successfully - Handler to be implemented');
         return new RedirectResponse($this->admin->generateUrl('list'));
     }

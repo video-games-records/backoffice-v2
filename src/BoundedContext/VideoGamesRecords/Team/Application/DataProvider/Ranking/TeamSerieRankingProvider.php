@@ -55,7 +55,7 @@ class TeamSerieRankingProvider extends AbstractRankingProvider
      */
     public function getRankingMedals(?int $id = null, array $options = []): array
     {
-        /** @var Serie $serie */
+        /** @var Serie|null $serie */
         $serie = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie')->find($id);
         if (null === $serie) {
             return [];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
 use App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use DateMalformedStringException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
@@ -38,18 +39,13 @@ readonly class UpdatePlayerGameRankHandler
     ) {
     }
 
-    /**
-     * @throws ORMException
-     * @throws ExceptionInterface|DateMalformedStringException
-     * @return array<string, mixed>
-     */
-    public function __invoke(UpdatePlayerGameRank $updatePlayerGameRank): array
+    public function __invoke(UpdatePlayerGameRank $updatePlayerGameRank): void
     {
-        /** @var Game $game */
+        /** @var Game|null $game */
         $game = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game')
             ->find($updatePlayerGameRank->getGameId());
-        if (null == $game) {
-            return ['error' => 'game not found'];
+        if (null === $game) {
+            throw new EntityNotFoundException('Player', $updatePlayerGameRank->getGameId());
         }
 
         //----- delete
@@ -246,7 +242,5 @@ readonly class UpdatePlayerGameRankHandler
             $this->em->getRepository(PlayerBadge::class)
                 ->updateBadge($firstPlacePlayers, $game->getBadge());
         }
-
-        return ['success' => true];
     }
 }

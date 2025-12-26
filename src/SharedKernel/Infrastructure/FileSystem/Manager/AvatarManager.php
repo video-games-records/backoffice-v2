@@ -12,6 +12,9 @@ class AvatarManager
 {
     private string $prefix;
 
+    /**
+     * @var array<string, string>
+     */
     private array $extensions = [
         'png' => 'image/png',
         'jpg' => 'image/jpeg'
@@ -54,6 +57,9 @@ class AvatarManager
     }
 
 
+    /**
+     * @return array<string>
+     */
     public function getAllowedMimeType(): array
     {
         return array_values($this->extensions);

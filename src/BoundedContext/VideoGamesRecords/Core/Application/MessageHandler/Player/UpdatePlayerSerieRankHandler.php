@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie;
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -22,17 +24,18 @@ readonly class UpdatePlayerSerieRankHandler
     }
 
     /**
+     * @param UpdatePlayerSerieRank $updatePlayerSerieRank
+     * @throws EntityNotFoundException
      * @throws ORMException
-     * @throws ExceptionInterface
-     * @return array<string, mixed>
      */
-    public function __invoke(UpdatePlayerSerieRank $updatePlayerSerieRank): array
+    public function __invoke(UpdatePlayerSerieRank $updatePlayerSerieRank): void
     {
+        /** @var Serie|null $serie */
         $serie = $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Serie')->find(
             $updatePlayerSerieRank->getSerieId()
         );
         if (null === $serie) {
-            return ['error' => 'serie not found'];
+            throw new EntityNotFoundException('Serie', $updatePlayerSerieRank->getSerieId());
         }
 
         // Delete old data
@@ -103,7 +106,10 @@ readonly class UpdatePlayerSerieRankHandler
                 'App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\PlayerSerie'
             );
             $playerSerie->setPlayer(
-                $this->em->getReference('App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player', $row['idPlayer'])
+                $this->em->getReference(
+                    'App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player',
+                    $row['idPlayer']
+                )
             );
             $playerSerie->setSerie($serie);
 
@@ -126,7 +132,5 @@ readonly class UpdatePlayerSerieRankHandler
             $this->em->getRepository('App\BoundedContext\VideoGamesRecords\Badge\Domain\Entity\PlayerBadge')
                 ->updateBadge($firstPlacePlayers, $serie->getBadge());
         }
-
-        return ['success' => true];
     }
 }

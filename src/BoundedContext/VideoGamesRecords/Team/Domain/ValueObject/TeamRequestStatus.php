@@ -66,7 +66,7 @@ class TeamRequestStatus
     }
 
     /**
-     * @return array
+     * @return array<string, string>
      */
     public static function getStatusChoices(): array
     {

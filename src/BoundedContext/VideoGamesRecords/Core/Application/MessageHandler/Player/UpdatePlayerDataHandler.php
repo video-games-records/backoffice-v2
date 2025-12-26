@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Core\Application\MessageHandler\Player;
 
+use App\SharedKernel\Domain\Exception\EntityNotFoundException;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -24,15 +25,15 @@ readonly class UpdatePlayerDataHandler
     ) {
     }
 
-    /**
-     * @throws ORMException|ExceptionInterface
-     * @return array<string, mixed>
-     */
-    public function __invoke(UpdatePlayerData $updatePlayerData): array
+    public function __invoke(UpdatePlayerData $updatePlayerData): void
     {
-        /** @var Player $player */
+        /** @var Player|null $player */
         $player = $this->em->getRepository(Player::class)
             ->find($updatePlayerData->getPlayerId());
+
+        if (null === $player) {
+            throw new EntityNotFoundException('Player', $updatePlayerData->getPlayerId());
+        }
 
         $query = $this->em->createQuery("
             SELECT
@@ -171,7 +172,6 @@ readonly class UpdatePlayerDataHandler
 
         $nb = $query->getSingleScalarResult();
         $player->setNbChartWithPlatform($nb);
-        $player->getCountry()?->setBoolMaj(true);
 
         $this->em->persist($player);
         $this->em->flush();
@@ -186,7 +186,5 @@ readonly class UpdatePlayerDataHandler
                 ]
             );
         }
-
-        return ['success' => true];
     }
 }

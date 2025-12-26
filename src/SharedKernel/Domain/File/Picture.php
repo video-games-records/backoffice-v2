@@ -10,7 +10,7 @@ use GdImage;
 
 class Picture implements PictureInterface
 {
-    protected $image = null;
+    protected ?GdImage $image = null;
 
     /** @var array<string, string> */
     protected array $fonts = [];

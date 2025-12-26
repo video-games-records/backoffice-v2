@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\SharedKernel\Infrastructure\EventSubscriber\Notify;
 
+use App\BoundedContext\User\Domain\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use App\BoundedContext\Message\Infrastructure\Builder\MessageBuilder;
@@ -27,7 +28,7 @@ abstract class AbstractNotifySubscriberInterface implements EventSubscriberInter
     /**
      * @throws ORMException
      */
-    protected function getDefaultSender()
+    protected function getDefaultSender(): object|null
     {
         return $this->em->getReference('App\BoundedContext\User\Domain\Entity\User', 0);
     }

@@ -7,7 +7,7 @@ namespace App\BoundedContext\VideoGamesRecords\Dwh\Application\DataProvider\Core
 class GameDataProvider extends AbstractCoreDataProvider
 {
     /**
-     * @return array
+     * @return array<object>
      */
     public function getData(): array
     {
@@ -18,7 +18,7 @@ class GameDataProvider extends AbstractCoreDataProvider
     /**
      * @param $date1
      * @param $date2
-     * @return array
+     * @return array<int, int>
      */
     public function getNbPostDay($date1, $date2): array
     {

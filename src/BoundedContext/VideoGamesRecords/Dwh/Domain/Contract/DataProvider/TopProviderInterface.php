@@ -8,6 +8,7 @@ use DateTime;
 
 interface TopProviderInterface
 {
+    /** @return array<array<string, mixed>> */
     public function getTop(
         DateTime $date1Begin,
         DateTime $date1End,

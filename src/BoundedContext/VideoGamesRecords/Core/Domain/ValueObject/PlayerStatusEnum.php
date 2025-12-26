@@ -141,7 +141,7 @@ enum PlayerStatusEnum: string
 
     /**
      * Get all available status cases
-     * @return array<PlayerStatusEnum>
+     * @return array<int, PlayerStatusEnum>
      */
     public static function getAllStatuses(): array
     {

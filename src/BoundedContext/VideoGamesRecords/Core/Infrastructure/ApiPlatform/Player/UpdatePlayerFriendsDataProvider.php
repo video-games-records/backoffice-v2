@@ -32,7 +32,7 @@ class UpdatePlayerFriendsDataProvider implements ProcessorInterface
 
         $playerId = $uriVariables['id'] ?? throw new BadRequestHttpException('Player ID is required');
 
-        /** @var Player $player */
+        /** @var Player|null $player */
         $player = $this->playerRepository->find($playerId);
         if (!$player) {
             throw new NotFoundHttpException('Player not found');

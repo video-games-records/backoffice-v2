@@ -18,7 +18,7 @@ class AbstractCoreDataProvider implements CoreDataProviderInterface
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function getData(): array
     {
@@ -28,7 +28,7 @@ class AbstractCoreDataProvider implements CoreDataProviderInterface
     /**
      * @param DateTime $date1
      * @param DateTime $date2
-     * @return array
+     * @return array<mixed>
      */
     public function getNbPostDay(DateTime $date1, DateTime $date2): array
     {

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\BoundedContext\VideoGamesRecords\Igdb\Presentation\Admin;
 
-use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\Platform;
 use App\BoundedContext\VideoGamesRecords\Igdb\Domain\Entity\PlatformType;
 use App\SharedKernel\Presentation\Admin\BaseAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -15,9 +14,6 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-/**
- * @extends BaseAdmin<Platform>
- */
 final class PlatformAdmin extends BaseAdmin
 {
     protected function configureRoutes(RouteCollectionInterface $collection): void

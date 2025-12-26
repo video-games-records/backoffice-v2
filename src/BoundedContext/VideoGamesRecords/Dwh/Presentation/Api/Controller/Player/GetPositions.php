@@ -19,7 +19,7 @@ class GetPositions extends AbstractController
 
     /**
      * @param Player $player
-     * @return array
+     * @return array<int>
      */
     public function __invoke(Player $player): array
     {

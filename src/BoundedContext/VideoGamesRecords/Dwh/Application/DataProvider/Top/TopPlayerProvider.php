@@ -19,7 +19,7 @@ class TopPlayerProvider extends AbstractTopProvider
      * @param DateTime $date2Begin
      * @param DateTime $date2End
      * @param integer  $limit
-     * @return array
+     * @return array<string, mixed>
      */
     public function getTop(
         DateTime $date1Begin,
