@@ -103,6 +103,11 @@ class BulkUpsert extends AbstractController
         }
     }
 
+    /**
+     * @param array<string, mixed> $data
+     * @param array<int|string, string> $errors
+     * @return array{playerChart: PlayerChart, isUpdate: bool}|null
+     */
     private function processPlayerChartData(array $data, int $index, array &$errors): ?array
     {
         try {
@@ -286,6 +291,10 @@ class BulkUpsert extends AbstractController
         return null;
     }
 
+    /**
+     * @param array<int, array<string, mixed>> $libsData
+     * @param array<int|string, string> $errors
+     */
     private function updatePlayerChartLibs(PlayerChart $playerChart, array $libsData, int $index, array &$errors): void
     {
         // Créer un index des libs existantes par chartLibId
@@ -338,6 +347,9 @@ class BulkUpsert extends AbstractController
         }
     }
 
+    /**
+     * @param array<int> $chartIds
+     */
     private function dispatchRankingMessages(array $chartIds): void
     {
         // Envoyer un message par chart unique pour éviter la duplication

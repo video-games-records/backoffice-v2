@@ -43,6 +43,9 @@ class GetStats extends AbstractController
     /**
      * Récupère les statistiques du forum avec mise en cache
      */
+    /**
+     * @return array<string, mixed>
+     */
     public function getStats(bool $forceRefresh = false): array
     {
         if (!$this->cache || $forceRefresh) {
@@ -57,6 +60,9 @@ class GetStats extends AbstractController
 
     /**
      * Calcule les statistiques du forum
+     */
+    /**
+     * @return array<string, mixed>
      */
     private function calculateStats(): array
     {
@@ -219,6 +225,9 @@ class GetStats extends AbstractController
     /**
      * Récupère des statistiques étendues avec plus de détails
      */
+    /**
+     * @return array<string, mixed>
+     */
     public function getExtendedStats(bool $forceRefresh = false): array
     {
         if (!$this->cache || $forceRefresh) {
@@ -234,6 +243,9 @@ class GetStats extends AbstractController
     /**
      * Calcule les statistiques étendues
      */
+    /**
+     * @return array<string, mixed>
+     */
     private function calculateExtendedStats(): array
     {
         $baseStats = $this->calculateStats();
@@ -247,6 +259,9 @@ class GetStats extends AbstractController
 
     /**
      * Récupère l'activité de la semaine
+     */
+    /**
+     * @return array<string, int>
      */
     private function getWeekActivity(): array
     {
@@ -287,6 +302,9 @@ class GetStats extends AbstractController
     /**
      * Récupère les utilisateurs les plus actifs (dernières 24h)
      */
+    /**
+     * @return array<int, array<string, mixed>>
+     */
     private function getTopActiveUsers(int $limit = 5): array
     {
         $yesterday = (new \DateTime())->modify('-1 day');
@@ -316,6 +334,9 @@ class GetStats extends AbstractController
 
     /**
      * Récupère une répartition par forum
+     */
+    /**
+     * @return array<int, array<string, mixed>>
      */
     private function getForumBreakdown(): array
     {

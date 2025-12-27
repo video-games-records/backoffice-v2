@@ -52,6 +52,9 @@ enum PlayerChartStatusEnum: string
     /**
      * Get statuses that allow proving
      */
+    /**
+     * @return array<self>
+     */
     public static function getStatusForProving(): array
     {
         return [
