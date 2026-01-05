@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Player;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,7 +34,6 @@ use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\Game;
 use App\BoundedContext\VideoGamesRecords\Proof\Domain\ValueObject\VideoType;
 use App\BoundedContext\VideoGamesRecords\Proof\Infrastructure\Filter\VideoSearchFilter;
 use App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\Video\GetRelatedVideos;
-use App\BoundedContext\VideoGamesRecords\Proof\Presentation\Api\Controller\Video\GetRelatedVideosDebug;
 use ApiPlatform\OpenApi\Model;
 
 #[ORM\Table(name:'vgr_video')]
