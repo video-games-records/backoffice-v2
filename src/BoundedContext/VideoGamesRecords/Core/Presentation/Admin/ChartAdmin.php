@@ -17,7 +17,7 @@ use Sonata\Form\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Intl\Locale;
-use App\BoundedContext\VideoGamesRecords\ChartLib;
+use App\BoundedContext\VideoGamesRecords\Core\Domain\Entity\ChartLib;
 
 class ChartAdmin extends BaseAdmin
 {
