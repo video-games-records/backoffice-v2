@@ -60,7 +60,7 @@ class Comment
     #[Groups(['comment:read', 'comment:user'])]
     #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EAGER')]
     #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable:false)]
-    private User $user;
+    private ?User $user = null;
 
     #[Groups(['comment:read', 'comment:insert', 'comment:update'])]
     #[ORM\Column(type: 'text', nullable: false)]
