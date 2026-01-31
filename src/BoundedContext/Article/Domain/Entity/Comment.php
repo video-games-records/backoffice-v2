@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table(name:'pna_comment')]
 #[ORM\Entity(repositoryClass: 'App\BoundedContext\Article\Infrastructure\Doctrine\Repository\CommentRepository')]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     shortName: 'ArticleComment',
     operations: [
